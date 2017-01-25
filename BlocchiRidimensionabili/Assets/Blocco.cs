@@ -1,0 +1,129 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Blocco : MonoBehaviour {
+
+	public string testo;
+	public UnityEngine.UI.Text campoTesto;
+	protected Mesh mesh;
+	protected float dongExt;
+	protected int lunghezzaTesto;
+	protected float deformConst = 1;
+	protected Vector3[] originaryVertices;
+	public bool lastBlock = false;
+
+	protected virtual void extendToMatchText(){
+		campoTesto.text = testo;
+		dongExt = lunghezzaTesto * deformConst;
+		if (dongExt < 1)
+			dongExt = 1;
+
+
+		List<int> verticesToEdit = new List<int> ();
+
+		int maxX = int.MinValue;
+		for (int i = 0; i < originaryVertices.Length; i++) {
+			var vertex = originaryVertices [i];
+			if (Mathf.RoundToInt (vertex.x) > maxX)
+				maxX = Mathf.RoundToInt (vertex.x);
+		}
+
+		for (int i = 0; i < originaryVertices.Length; i++) {
+			var vertex = originaryVertices [i];
+			if (Mathf.RoundToInt(vertex.x) == maxX)
+				verticesToEdit.Add (i);
+		}
+
+		var levert = mesh.vertices;
+		foreach (var i in verticesToEdit)
+			levert[i] = new Vector3 (levert[i].x + dongExt, levert[i].y, levert[i].z);
+		mesh.SetVertices (new List<Vector3>(levert));
+	}
+
+	protected virtual void loadOriginaryMesh(){
+		mesh = GetComponent<MeshFilter> ().mesh;
+		originaryVertices = mesh.vertices;
+	}
+
+
+	protected virtual int calcolaLunghezzaTesto(){
+		return testo.Length;
+	}
+
+	public GameObject bucoVarPrefab, bucoVarAngPrefab, bucoVarCircPrefab, bucoVarDDPrefab;
+
+	protected virtual void evaluateVars(string testo, int posBaseX, int posBaseY){
+		Bucovar curBucoVar = null;
+		int inizioBucoVar = 0;
+		for (int i = 0; i < testo.Length; i++) {
+			if (testo [i].Equals ('[')) {
+				curBucoVar = GameObject.Instantiate (bucoVarPrefab).GetComponent<Bucovar> ();
+				curBucoVar.transform.position = this.transform.position + new Vector3 (posBaseX + i, posBaseY, 0);
+				inizioBucoVar = i;
+			} else if (testo [i].Equals (']')) {
+				curBucoVar.lunghezza = (i - inizioBucoVar + 1);
+				curBucoVar.extend ();
+			} else if (testo [i].Equals ('<')) {
+				curBucoVar = GameObject.Instantiate (bucoVarAngPrefab).GetComponent<Bucovar> ();
+				curBucoVar.transform.position = this.transform.position + new Vector3 (posBaseX + i, posBaseY, 0);
+				inizioBucoVar = i;
+			} else if (testo [i].Equals ('>')) {
+				curBucoVar.lunghezza = (i - inizioBucoVar + 1);
+				curBucoVar.extend ();
+			} else if (testo [i].Equals ('(')) {
+				curBucoVar = GameObject.Instantiate (bucoVarCircPrefab).GetComponent<Bucovar> ();
+				curBucoVar.transform.position = this.transform.position + new Vector3 (posBaseX + i, posBaseY, 0);
+				inizioBucoVar = i;
+			} else if (testo [i].Equals (')')) {
+				curBucoVar.lunghezza = (i - inizioBucoVar + 1);
+				curBucoVar.extend ();
+			}else if (testo [i].Equals ('|') && curBucoVar == null) {
+				curBucoVar = GameObject.Instantiate (bucoVarDDPrefab).GetComponent<Bucovar> ();
+				curBucoVar.transform.position = this.transform.position + new Vector3 (posBaseX + i, posBaseY, 0);
+				inizioBucoVar = i;
+			} else if (testo [i].Equals ('|') && curBucoVar != null) {
+				curBucoVar.lunghezza = (i - inizioBucoVar + 1);
+				curBucoVar.extend ();
+			}
+		}
+	}
+
+	protected virtual void evaluateLastBlock(){
+		List<int> verticesToEdit = new List<int> ();
+
+		int minZ = int.MaxValue;
+		for (int i = 0; i < originaryVertices.Length; i++) {
+			var vertex = originaryVertices [i];
+			if (Mathf.RoundToInt (vertex.z) < minZ)
+				minZ = Mathf.RoundToInt (vertex.z);
+		}
+			
+		for (int i = 0; i < originaryVertices.Length; i++) {
+			var vertex = originaryVertices [i];
+			if (Mathf.RoundToInt(vertex.z) == minZ)
+				verticesToEdit.Add (i);
+		}
+
+		var levert = mesh.vertices;
+		foreach (var i in verticesToEdit)
+			levert[i] = new Vector3 (levert[i].x, levert[i].y, levert[i].z + 1);
+		mesh.SetVertices (new List<Vector3>(levert));
+	}
+
+	protected int offsetTestoBaseX = 1;
+
+	// Use this for initialization
+	protected virtual void Start () {
+		lunghezzaTesto = calcolaLunghezzaTesto ();
+		loadOriginaryMesh ();
+		extendToMatchText ();
+		if (lastBlock) evaluateLastBlock ();
+		evaluateVars (testo, offsetTestoBaseX, 0); 
+	}
+	
+	// Update is called once per frame
+	void Update () {
+		
+	}
+}
