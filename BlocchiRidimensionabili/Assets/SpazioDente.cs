@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class SpazioDente : MonoBehaviour {
 
-	public delegate void SetPrevious(Blocco prevBlocco);
+	public delegate void SetPrevious(Dente prevDente);
 	public SetPrevious setPrevious;
 	public GameObject highlight;
 	public GameObject passiveHighlight;
 	public bool receiving = true;
+    public bool searching = false;
 	public bool Receiving {
 		get { return receiving; }
 		set {
@@ -29,7 +30,7 @@ public class SpazioDente : MonoBehaviour {
 	public Dente currentlyHighlighted;
 
 	void OnTriggerEnter (Collider collider){
-		if (Selector.instance.selected && Selector.instance.selected.gameObject != this.transform.parent.gameObject)
+		if (!searching)
 			return;
 		var dente = collider.GetComponent<Dente> ();
 		if (dente && dente.Receiving) {

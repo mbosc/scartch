@@ -7,11 +7,12 @@ public class Dente : MonoBehaviour {
 	public SpazioDente currentlyHighlighted;
 	public delegate void SetNext(Blocco prevBlocco);
 	public SetNext setNext;
-	public delegate void UnsetNext();
+    public bool searching = false;
+    public delegate void UnsetNext();
 	public UnsetNext unsetNext;
 
 	void OnTriggerEnter (Collider collider){
-		if (Selector.instance.selected && Selector.instance.selected.gameObject != this.transform.parent.gameObject)
+		if (!searching)
 			return;
 		var spazioDente = collider.GetComponent<SpazioDente> ();
 		if (spazioDente && spazioDente.Receiving) {

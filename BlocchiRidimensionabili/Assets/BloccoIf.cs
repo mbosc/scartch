@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class BloccoIf : Blocco {
 
@@ -12,10 +13,18 @@ public class BloccoIf : Blocco {
 	public virtual void setNextInterno(Blocco candidateNext){
 		Debug.Log (testo + ".setNextInterno(" + candidateNext.testo + ")");
 
-		candidateNext.gameObject.transform.position = this.transform.position + new Vector3 (nextBlockInternoOffsetX, nextBlockInternoOffsetY, 0);
-		candidateNext.gameObject.transform.rotation = this.transform.rotation;
 
-		var oldNext = internalNext;
+        var selectionList = new Dictionary<GameObject, Vector2>();
+        candidateNext.linkedBlocks.ForEach(s => selectionList.Add(s.gameObject, new Vector2(candidateNext.gameObject.transform.position.x - s.gameObject.transform.position.x, candidateNext.gameObject.transform.position.y - s.gameObject.transform.position.y)));
+        selectionList.Add(candidateNext.gameObject, new Vector2(0, 0));
+
+        selectionList.Keys.ToList().ForEach(k =>
+        {
+            k.transform.position = this.transform.position + new Vector3(nextBlockInternoOffsetX - selectionList[k].x, nextBlockInternoOffsetY - selectionList[k].y, 0);
+            k.transform.rotation = this.transform.rotation;
+        });
+
+        var oldNext = internalNext;
 		internalNext = candidateNext;
 		AumentaLunghezza (internalNext);
 		candidateNext.spazioDente.Receiving = false;
@@ -55,9 +64,17 @@ public class BloccoIf : Blocco {
 	public override List<Blocco> linkedBlocks {
 		get {
 			var ex = new List<Blocco> ();
-			ex.Add (next);
-			ex.Add (internalNext);
-			return ex;
+            if (internalNext)
+            {
+                internalNext.linkedBlocks.ForEach(ex.Add);
+                ex.Add(internalNext);
+            }
+            if (next)
+            {
+                next.linkedBlocks.ForEach(ex.Add);
+                ex.Add(next);
+            }
+            return ex;
 		}
 	}
 
