@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Blocco : MonoBehaviour {
 
+	public Blocco next;
+	public bool first = true;
 	public string testo;
 	public UnityEngine.UI.Text campoTesto;
 	protected Mesh mesh;
@@ -12,6 +14,81 @@ public class Blocco : MonoBehaviour {
 	protected float deformConst = 1;
 	protected Vector3[] originaryVertices;
 	public bool lastBlock = false;
+
+	public void setNext(Blocco candidateNext){
+		Debug.Log (testo + ".setNext(" + candidateNext.testo + ")");
+		candidateNext.gameObject.transform.position = this.transform.position + new Vector3 (0, -2, 0);
+		candidateNext.gameObject.transform.rotation = this.transform.rotation;
+		{
+			var denti = candidateNext.GetComponentsInChildren<Dente> ();
+			var spaziDenti = candidateNext.GetComponentsInChildren<SpazioDente> ();
+			foreach (var dente in denti) {
+				if (dente.currentlyHighlighted) {
+					dente.ExitTrigger (dente.currentlyHighlighted.gameObject.GetComponent<Collider> ());
+				}
+			}
+			foreach (var spazioDente in spaziDenti) {
+				if (spazioDente.currentlyHighlighted) {
+					spazioDente.ExitTrigger (spazioDente.currentlyHighlighted.gameObject.GetComponent<Collider> ());
+				}
+			}
+		}
+		var oldNext = next;
+		next = candidateNext;
+		candidateNext.first = false;
+		if (oldNext) {
+			next.setNext (oldNext);
+			var denti = oldNext.GetComponentsInChildren<Dente> ();
+			var spaziDenti = oldNext.GetComponentsInChildren<SpazioDente> ();
+			foreach (var dente in denti) {
+				if (dente.currentlyHighlighted) {
+					dente.ExitTrigger (dente.currentlyHighlighted.gameObject.GetComponent<Collider> ());
+				}
+			}
+			foreach (var spazioDente in spaziDenti) {
+				if (spazioDente.currentlyHighlighted) {
+					spazioDente.ExitTrigger (spazioDente.currentlyHighlighted.gameObject.GetComponent<Collider> ());
+				}
+			}
+		}
+		var dentix = gameObject.GetComponentsInChildren<Dente> ();
+		var spaziDentix = gameObject.GetComponentsInChildren<SpazioDente> ();
+		foreach (var dente in dentix) {
+			if (dente.currentlyHighlighted) {
+				dente.ExitTrigger (dente.currentlyHighlighted.gameObject.GetComponent<Collider> ());
+			}
+		}
+		foreach (var spazioDente in spaziDentix) {
+			if (spazioDente.currentlyHighlighted) {
+				spazioDente.ExitTrigger (spazioDente.currentlyHighlighted.gameObject.GetComponent<Collider> ());
+			}
+		}
+	}
+
+	public void unsetNext(){
+		next.first = true;
+		next = null;
+	}
+
+	public void setPrevious(Blocco candidatePrevious){
+		first = false;
+		Debug.Log (testo + ".setPrevious(" + candidatePrevious.testo + ")");
+		candidatePrevious.next = this;
+		candidatePrevious.transform.position = this.transform.position + new Vector3 (0, 2, 0);
+		candidatePrevious.transform.rotation = this.transform.rotation;
+		var denti = candidatePrevious.gameObject.GetComponentsInChildren<Dente> ();
+		var spaziDenti = candidatePrevious.gameObject.GetComponentsInChildren<SpazioDente> ();
+		foreach (var dente in denti) {
+			if (dente.currentlyHighlighted) {
+				dente.ExitTrigger (dente.currentlyHighlighted.gameObject.GetComponent<Collider> ());
+			}
+		}
+		foreach (var spazioDente in spaziDenti) {
+			if (spazioDente.currentlyHighlighted) {
+				spazioDente.ExitTrigger (spazioDente.currentlyHighlighted.gameObject.GetComponent<Collider> ());
+			}
+		}
+	}
 
 	protected virtual void extendToMatchText(){
 		campoTesto.text = testo;
@@ -64,6 +141,7 @@ public class Blocco : MonoBehaviour {
 			} else if (testo [i].Equals (']')) {
 				curBucoVar.lunghezza = (i - inizioBucoVar + 1);
 				curBucoVar.extend ();
+				curBucoVar.transform.SetParent (this.transform);
 			} else if (testo [i].Equals ('<')) {
 				curBucoVar = GameObject.Instantiate (bucoVarAngPrefab).GetComponent<Bucovar> ();
 				curBucoVar.transform.position = this.transform.position + new Vector3 (posBaseX + i, posBaseY, 0);
@@ -71,6 +149,7 @@ public class Blocco : MonoBehaviour {
 			} else if (testo [i].Equals ('>')) {
 				curBucoVar.lunghezza = (i - inizioBucoVar + 1);
 				curBucoVar.extend ();
+				curBucoVar.transform.SetParent (this.transform);
 			} else if (testo [i].Equals ('(')) {
 				curBucoVar = GameObject.Instantiate (bucoVarCircPrefab).GetComponent<Bucovar> ();
 				curBucoVar.transform.position = this.transform.position + new Vector3 (posBaseX + i, posBaseY, 0);
@@ -78,6 +157,7 @@ public class Blocco : MonoBehaviour {
 			} else if (testo [i].Equals (')')) {
 				curBucoVar.lunghezza = (i - inizioBucoVar + 1);
 				curBucoVar.extend ();
+				curBucoVar.transform.SetParent (this.transform);
 			}else if (testo [i].Equals ('|') && curBucoVar == null) {
 				curBucoVar = GameObject.Instantiate (bucoVarDDPrefab).GetComponent<Bucovar> ();
 				curBucoVar.transform.position = this.transform.position + new Vector3 (posBaseX + i, posBaseY, 0);
@@ -85,6 +165,7 @@ public class Blocco : MonoBehaviour {
 			} else if (testo [i].Equals ('|') && curBucoVar != null) {
 				curBucoVar.lunghezza = (i - inizioBucoVar + 1);
 				curBucoVar.extend ();
+				curBucoVar.transform.SetParent (this.transform);
 			}
 		}
 	}
@@ -121,9 +202,14 @@ public class Blocco : MonoBehaviour {
 		if (lastBlock) evaluateLastBlock ();
 		evaluateVars (testo, offsetTestoBaseX, 0); 
 	}
-	
+
+
+	protected bool initialised = false;
 	// Update is called once per frame
-	void Update () {
-		
+	protected virtual void Update () {
+		if (!initialised) {
+			initialised = true;
+			this.gameObject.AddComponent<MeshCollider> ();
+		}
 	}
 }

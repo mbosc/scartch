@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class BloccoIf : Blocco {
 
+	public Blocco internalBlock;
+
+
+
 	public int stretchSize = 1;
 
 	protected virtual void extendToMatchContent(){
@@ -31,9 +35,5 @@ public class BloccoIf : Blocco {
 		extendToMatchContent ();
 
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
 }

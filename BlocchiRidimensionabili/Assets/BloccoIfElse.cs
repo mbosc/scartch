@@ -9,6 +9,10 @@ public class BloccoIfElse : Blocco {
 	public string secondoTesto;
 	public UnityEngine.UI.Text secondoCampoTesto;
 
+	public Blocco firstInternalBlock;
+	public Blocco secondInternalBlock;
+
+
 	protected virtual void extendToMatchContent(){
 		secondoCampoTesto.text = secondoTesto;
 		if (firstStretchSize < 1)
@@ -47,9 +51,5 @@ public class BloccoIfElse : Blocco {
 		extendToMatchContent ();
 		evaluateVars (secondoTesto, offsetTestoBaseX, (-firstStretchSize - 1)*2); 
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
 }
