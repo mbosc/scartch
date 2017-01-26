@@ -5,15 +5,16 @@ using UnityEngine;
 public class Dente : MonoBehaviour {
 
 	public SpazioDente currentlyHighlighted;
+	public delegate void SetNext(Blocco prevBlocco);
+	public SetNext setNext;
+	public delegate void UnsetNext();
+	public UnsetNext unsetNext;
 
 	void OnTriggerEnter (Collider collider){
 		if (Selector.instance.selected && Selector.instance.selected.gameObject != this.transform.parent.gameObject)
 			return;
 		var spazioDente = collider.GetComponent<SpazioDente> ();
-		if (spazioDente && spazioDente.free) {
-			var Blocco = spazioDente.transform.parent.GetComponent<Blocco>();
-			if (!Blocco.first)
-				return;
+		if (spazioDente && spazioDente.Receiving) {
 			if (currentlyHighlighted)
 				currentlyHighlighted.setHighlightVisible (false);
 			currentlyHighlighted = spazioDente;
@@ -24,8 +25,8 @@ public class Dente : MonoBehaviour {
 	void OnTriggerExit (Collider collider)
 	{
 		var spazioDente = collider.GetComponent<SpazioDente> ();
-		if (spazioDente && spazioDente.transform.parent.gameObject.GetComponent<Blocco>() == transform.parent.gameObject.GetComponent<Blocco>().next)
-			transform.parent.GetComponent<Blocco> ().unsetNext();
+		if (spazioDente && transform.parent.gameObject.GetComponent<Blocco> ().linkedBlocks.Contains(spazioDente.transform.parent.gameObject.GetComponent<Blocco> ()))
+			unsetNext ();
 		ExitTrigger (collider);
 	}
 
@@ -38,8 +39,22 @@ public class Dente : MonoBehaviour {
 	}
 
 	public GameObject highlight;
+	public GameObject passiveHighlight;
+	public bool receiving = true;
+	public bool Receiving {
+		get { return receiving; }
+		set {
+			passiveHighlight.SetActive (value);
+			if (value == false) {
+				highlight.SetActive (false);
+				currentlyHighlighted = null;
+			}
+			receiving = value;
+		}
+	}
 
 	public void setHighlightVisible (bool v){
 		highlight.SetActive (v);
+		passiveHighlight.SetActive(!v && Receiving);
 	}
 }

@@ -4,12 +4,26 @@ using UnityEngine;
 
 public class SpazioDente : MonoBehaviour {
 
-	public bool free = true;
-
+	public delegate void SetPrevious(Blocco prevBlocco);
+	public SetPrevious setPrevious;
 	public GameObject highlight;
+	public GameObject passiveHighlight;
+	public bool receiving = true;
+	public bool Receiving {
+		get { return receiving; }
+		set {
+			passiveHighlight.SetActive (value);
+			if (value == false) {
+				highlight.SetActive (false);
+				currentlyHighlighted = null;
+			}
+			receiving = value;
+		}
+	}
 
 	public void setHighlightVisible (bool v){
 		highlight.SetActive (v);
+		passiveHighlight.SetActive(!v && Receiving);
 	}
 
 	public Dente currentlyHighlighted;
@@ -18,8 +32,7 @@ public class SpazioDente : MonoBehaviour {
 		if (Selector.instance.selected && Selector.instance.selected.gameObject != this.transform.parent.gameObject)
 			return;
 		var dente = collider.GetComponent<Dente> ();
-		if (dente) {
-			var Blocco = dente.transform.parent.GetComponent<Blocco>();
+		if (dente && dente.Receiving) {
 			if (currentlyHighlighted)
 				currentlyHighlighted.setHighlightVisible (false);
 			currentlyHighlighted = dente;

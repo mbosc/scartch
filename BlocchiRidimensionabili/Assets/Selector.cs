@@ -17,23 +17,35 @@ public class Selector : MonoBehaviour {
 	void Update () {
 		if (Input.GetMouseButtonDown (0) && hovered && selected == null) {
 			selected = hovered;
-		}
-		if (Input.GetMouseButtonUp (0) && selected) {
 			var denti = selected.gameObject.GetComponentsInChildren<Dente> ();
 			var spaziDenti = selected.gameObject.GetComponentsInChildren<SpazioDente> ();
 			foreach (var dente in denti) {
+				dente.Receiving = false;
+			}
+			foreach (var spazioDente in spaziDenti) {
+				spazioDente.Receiving = false;
+			}
+		}
+		if (Input.GetMouseButtonUp (0) && selected) {
+			var oldSelected = selected;
+			selected = null;
+			var denti = oldSelected.gameObject.GetComponentsInChildren<Dente> ();
+			var spaziDenti = oldSelected.gameObject.GetComponentsInChildren<SpazioDente> ();
+			foreach (var dente in denti) {
+				dente.Receiving = true;
 				if (dente.currentlyHighlighted) {
-					dente.currentlyHighlighted.transform.parent.gameObject.GetComponent<Blocco> ().setPrevious (selected.gameObject.GetComponent<Blocco> ());
-//					dente.ExitTrigger (dente.currentlyHighlighted.gameObject.GetComponent<Collider> ());
+					dente.currentlyHighlighted.setPrevious (oldSelected.gameObject.GetComponent<Blocco> ());
+
 				}
 			}
 			foreach (var spazioDente in spaziDenti) {
+				spazioDente.Receiving = true;
 				if (spazioDente.currentlyHighlighted) {
-					spazioDente.currentlyHighlighted.transform.parent.gameObject.GetComponent<Blocco> ().setNext (selected.gameObject.GetComponent<Blocco> ());
-//					spazioDente.ExitTrigger (spazioDente.currentlyHighlighted.gameObject.GetComponent<Collider> ());
+					spazioDente.currentlyHighlighted.setNext (oldSelected.gameObject.GetComponent<Blocco> ());
+
 				}
 			}
-			selected = null;
+
 		}
 		if (selected) {
 			var mousePos = Camera.main.ScreenToWorldPoint (Input.mousePosition);

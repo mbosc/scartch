@@ -5,89 +5,58 @@ using UnityEngine;
 public class Blocco : MonoBehaviour {
 
 	public Blocco next;
+	public Dente dente;
+	public SpazioDente spazioDente;
 	public bool first = true;
 	public string testo;
 	public UnityEngine.UI.Text campoTesto;
 	protected Mesh mesh;
+	protected float nextBlockOffsetX = 0;
+	protected float nextBlockOffsetY = -2;
+	protected float prevBlockOffsetX = 0;
+	protected float prevBlockOffsetY = 2;
 	protected float dongExt;
 	protected int lunghezzaTesto;
 	protected float deformConst = 1;
 	protected Vector3[] originaryVertices;
 	public bool lastBlock = false;
 
-	public void setNext(Blocco candidateNext){
+	public virtual void setNext(Blocco candidateNext){
 		Debug.Log (testo + ".setNext(" + candidateNext.testo + ")");
-		candidateNext.gameObject.transform.position = this.transform.position + new Vector3 (0, -2, 0);
+	
+		candidateNext.gameObject.transform.position = this.transform.position + new Vector3 (nextBlockOffsetX, nextBlockOffsetY, 0);
 		candidateNext.gameObject.transform.rotation = this.transform.rotation;
-		{
-			var denti = candidateNext.GetComponentsInChildren<Dente> ();
-			var spaziDenti = candidateNext.GetComponentsInChildren<SpazioDente> ();
-			foreach (var dente in denti) {
-				if (dente.currentlyHighlighted) {
-					dente.ExitTrigger (dente.currentlyHighlighted.gameObject.GetComponent<Collider> ());
-				}
-			}
-			foreach (var spazioDente in spaziDenti) {
-				if (spazioDente.currentlyHighlighted) {
-					spazioDente.ExitTrigger (spazioDente.currentlyHighlighted.gameObject.GetComponent<Collider> ());
-				}
-			}
-		}
+
 		var oldNext = next;
 		next = candidateNext;
-		candidateNext.first = false;
+		candidateNext.spazioDente.Receiving = false;
+		dente.Receiving = false;
+		dente.Receiving = true;
 		if (oldNext) {
 			next.setNext (oldNext);
-			var denti = oldNext.GetComponentsInChildren<Dente> ();
-			var spaziDenti = oldNext.GetComponentsInChildren<SpazioDente> ();
-			foreach (var dente in denti) {
-				if (dente.currentlyHighlighted) {
-					dente.ExitTrigger (dente.currentlyHighlighted.gameObject.GetComponent<Collider> ());
-				}
-			}
-			foreach (var spazioDente in spaziDenti) {
-				if (spazioDente.currentlyHighlighted) {
-					spazioDente.ExitTrigger (spazioDente.currentlyHighlighted.gameObject.GetComponent<Collider> ());
-				}
-			}
-		}
-		var dentix = gameObject.GetComponentsInChildren<Dente> ();
-		var spaziDentix = gameObject.GetComponentsInChildren<SpazioDente> ();
-		foreach (var dente in dentix) {
-			if (dente.currentlyHighlighted) {
-				dente.ExitTrigger (dente.currentlyHighlighted.gameObject.GetComponent<Collider> ());
-			}
-		}
-		foreach (var spazioDente in spaziDentix) {
-			if (spazioDente.currentlyHighlighted) {
-				spazioDente.ExitTrigger (spazioDente.currentlyHighlighted.gameObject.GetComponent<Collider> ());
-			}
 		}
 	}
 
-	public void unsetNext(){
-		next.first = true;
+	public virtual List<Blocco> linkedBlocks{
+		get {
+			var ex = new List<Blocco> ();
+			ex.Add (next);
+			return ex;
+		}
+	}
+
+	public virtual void unsetNext(){
+		next.spazioDente.Receiving = true;
 		next = null;
 	}
 
-	public void setPrevious(Blocco candidatePrevious){
-		first = false;
+	public virtual void setPrevious(Blocco candidatePrevious){
 		Debug.Log (testo + ".setPrevious(" + candidatePrevious.testo + ")");
+
 		candidatePrevious.next = this;
-		candidatePrevious.transform.position = this.transform.position + new Vector3 (0, 2, 0);
+		candidatePrevious.transform.position = this.transform.position + new Vector3 (prevBlockOffsetX, prevBlockOffsetY, 0);
 		candidatePrevious.transform.rotation = this.transform.rotation;
-		var denti = candidatePrevious.gameObject.GetComponentsInChildren<Dente> ();
-		var spaziDenti = candidatePrevious.gameObject.GetComponentsInChildren<SpazioDente> ();
-		foreach (var dente in denti) {
-			if (dente.currentlyHighlighted) {
-				dente.ExitTrigger (dente.currentlyHighlighted.gameObject.GetComponent<Collider> ());
-			}
-		}
-		foreach (var spazioDente in spaziDenti) {
-			if (spazioDente.currentlyHighlighted) {
-				spazioDente.ExitTrigger (spazioDente.currentlyHighlighted.gameObject.GetComponent<Collider> ());
-			}
-		}
+		spazioDente.Receiving = false;
 	}
 
 	protected virtual void extendToMatchText(){
@@ -196,6 +165,9 @@ public class Blocco : MonoBehaviour {
 
 	// Use this for initialization
 	protected virtual void Start () {
+		dente.setNext = setNext;
+		dente.unsetNext = unsetNext;
+		spazioDente.setPrevious = setPrevious;
 		lunghezzaTesto = calcolaLunghezzaTesto ();
 		loadOriginaryMesh ();
 		extendToMatchText ();
