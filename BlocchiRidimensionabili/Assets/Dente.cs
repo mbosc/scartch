@@ -8,7 +8,7 @@ public class Dente : MonoBehaviour {
 	public delegate void SetNext(Blocco prevBlocco);
 	public SetNext setNext;
     public bool searching = false;
-    public delegate void UnsetNext();
+    public delegate void UnsetNext(Blocco curBlocco);
 	public UnsetNext unsetNext;
 
 	void OnTriggerEnter (Collider collider){
@@ -26,8 +26,8 @@ public class Dente : MonoBehaviour {
 	void OnTriggerExit (Collider collider)
 	{
 		var spazioDente = collider.GetComponent<SpazioDente> ();
-		if (spazioDente && transform.parent.gameObject.GetComponent<Blocco> ().linkedBlocks.Contains(spazioDente.transform.parent.gameObject.GetComponent<Blocco> ()))
-			unsetNext ();
+		if (spazioDente && transform.parent.gameObject.GetComponent<Blocco> ().directlyLinkedBlocks.Contains(spazioDente.transform.parent.gameObject.GetComponent<Blocco> ()))
+			unsetNext (spazioDente.transform.parent.gameObject.GetComponent<Blocco>());
 		ExitTrigger (collider);
 	}
 

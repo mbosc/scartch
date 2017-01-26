@@ -23,6 +23,11 @@ public class Blocco : MonoBehaviour
     protected Vector3[] originaryVertices;
     public bool lastBlock = false;
 
+    public override string ToString()
+    {
+        return testo;
+    }
+
     public virtual void setNext(Blocco candidateNext)
     {
         Debug.Log(testo + ".setNext(" + candidateNext.testo + ")");
@@ -39,12 +44,16 @@ public class Blocco : MonoBehaviour
         
         var oldNext = next;
         next = candidateNext;
+
         candidateNext.spazioDente.Receiving = false;
         dente.Receiving = false;
         dente.Receiving = true;
         if (oldNext)
         {
-            next.setNext(oldNext);
+            var blocchi = new List<Blocco>();
+            blocchi.Add(next);
+            next.linkedBlocks.ForEach(blocchi.Add);
+            blocchi.Last().setNext(oldNext);
         }
     }
 
@@ -61,9 +70,18 @@ public class Blocco : MonoBehaviour
             return ex;
         }
     }
-
-    public virtual void unsetNext()
+    public virtual List<Blocco> directlyLinkedBlocks
     {
+        get
+        {
+            var ex = new List<Blocco>();
+            ex.Add(next);
+            return ex;
+        }
+    }
+    public virtual void unsetNext(Blocco thisBlocco)
+    {
+        Debug.Log(testo + ".unsetNext()");
         if (next)
             next.spazioDente.Receiving = true;
         next = null;
@@ -206,12 +224,15 @@ public class Blocco : MonoBehaviour
 
     protected int offsetTestoBaseX = 1;
 
+
+
     // Use this for initialization
     protected virtual void Start()
     {
         dente.setNext = setNext;
         dente.unsetNext = unsetNext;
         spazioDente.setPrevious = setPrevious;
+        name = testo;
         lunghezzaTesto = calcolaLunghezzaTesto();
         loadOriginaryMesh();
         extendToMatchText();
