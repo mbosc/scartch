@@ -20,6 +20,12 @@ ExportedObj/
 *.svd
 *.pdb
 
+# Word temporary
+~$*.doc*
+
+# PowerPoint temporary
+~$*.ppt*
+
 
 # Unity3D generated meta files
 *.pidb.meta
