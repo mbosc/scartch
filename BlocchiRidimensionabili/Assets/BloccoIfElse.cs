@@ -58,10 +58,13 @@ public class BloccoIfElse : Blocco
             k.transform.rotation = this.transform.rotation;
         });
 
+
+
         var oldNext = upperInternalNext;
         upperInternalNext = candidateNext;
         upperInternalNext.linkedBlocks.ForEach(AumentaLunghezzaSuperiore);
         AumentaLunghezzaSuperiore(upperInternalNext);
+
         candidateNext.spazioDente.Receiving = false;
         denteInternoSuperiore.Receiving = false;
         denteInternoSuperiore.Receiving = true;
@@ -77,7 +80,7 @@ public class BloccoIfElse : Blocco
         Blocco catena = upperInternalNext;
         while (catena)
         {
-            lung++;
+			lung+= catena.size;
             catena = catena.next;
         }
         firstStretchSize = lung;
@@ -86,7 +89,23 @@ public class BloccoIfElse : Blocco
         Debug.Log("Invocation list di " + next + ".setNext: " + next.dente.setNext.GetInvocationList().Length);
         next.denti.ForEach(d => d.unsetNext += DiminuisciLunghezzaSuperiore);
 
+		RiposizionaBloccoInferiore ();
     }
+
+	private void RiposizionaBloccoInferiore(){
+		//Aggiornamento lunghezza inferiore
+		if (lowerInternalNext) {
+			var selectionList = new Dictionary<GameObject, Vector2> ();
+			if (lowerInternalNext.linkedBlocks.Count > 0)
+				lowerInternalNext.linkedBlocks.ForEach (s => selectionList.Add (s.gameObject, new Vector2 (lowerInternalNext.gameObject.transform.position.x - s.gameObject.transform.position.x, lowerInternalNext.gameObject.transform.position.y - s.gameObject.transform.position.y)));
+			selectionList.Add (lowerInternalNext.gameObject, new Vector2 (0, 0));
+
+			selectionList.Keys.ToList ().ForEach (k => {
+				k.transform.position = this.transform.position + new Vector3 (nextBlockInternoInferioreOffsetX - selectionList [k].x, nextBlockInternoInferioreOffsetY - selectionList [k].y, 0);
+				k.transform.rotation = this.transform.rotation;
+			});
+		}
+	}
 
     public void DiminuisciLunghezzaSuperiore(Blocco next)
     {
@@ -107,7 +126,9 @@ public class BloccoIfElse : Blocco
         }
         firstStretchSize = lung;
 
+
         extendToMatchContent();
+		RiposizionaBloccoInferiore ();
     }
 
     public virtual void unsetNextInternoSuperiore(Blocco next)
@@ -125,7 +146,9 @@ public class BloccoIfElse : Blocco
         upperInternalNext.spazioDente.Receiving = true;
         upperInternalNext = null;
         firstStretchSize = 0;
+
         extendToMatchContent();
+		RiposizionaBloccoInferiore ();
     }
 
     public virtual void setNextInternoInferiore(Blocco candidateNext)
@@ -162,7 +185,7 @@ public class BloccoIfElse : Blocco
         Blocco catena = lowerInternalNext;
         while (catena)
         {
-            lung++;
+			lung += catena.size;
             catena = catena.next;
         }
         secondStretchSize = lung;
@@ -272,17 +295,17 @@ public class BloccoIfElse : Blocco
 
         var levert = mesh.vertices;
         foreach (var i in verticesToStretch)
-            levert[i] = new Vector3(levert[i].x, levert[i].y, levert[i].z - (firstStretchSize - 1) * 2);
+			levert[i] = new Vector3(levert[i].x, levert[i].y, originaryVertices[i].z - (firstStretchSize - 1) * 2);
         denteInternoInferiore.gameObject.transform.localPosition = new Vector3(denteInternoInferiore.gameObject.transform.localPosition.x, denteInternoInferiore.gameObject.transform.localPosition.y, 0.5f - 4 - firstStretchSize * 2);
         foreach (var i in verticesToStretchTwice)
-            levert[i] = new Vector3(levert[i].x, levert[i].y, levert[i].z - (secondStretchSize - 1) * 2);
+			levert[i] = new Vector3(levert[i].x, levert[i].y, levert[i].z - (secondStretchSize - 1) * 2);
         dente.gameObject.transform.localPosition = new Vector3(dente.gameObject.transform.localPosition.x, dente.gameObject.transform.localPosition.y, 0.5f - 6 - (firstStretchSize + secondStretchSize) * 2);
         mesh.SetVertices(new List<Vector3>(levert));
         if (GetComponent<MeshCollider>())
             Destroy(GetComponent<MeshCollider>());
         initialised = false;
         nextBlockOffsetY = -6 - firstStretchSize * 2 - secondStretchSize * 2;
-        secondoCampoTesto.transform.parent.transform.position -= new Vector3(0, (firstStretchSize - 1) * 2, 0);
+		secondoCampoTesto.transform.parent.transform.localPosition = posizioneBaseSecondoCampoTesto + new Vector3(0, 0, -(firstStretchSize-1)*2);
 
         if (next)
         {
@@ -318,11 +341,13 @@ public class BloccoIfElse : Blocco
         return output;
     }
 
+	private Vector3 posizioneBaseSecondoCampoTesto;
+
     protected override void Start()
     {
         offsetTestoBaseX = 2;
         base.Start();
-
+		posizioneBaseSecondoCampoTesto = secondoCampoTesto.transform.parent.localPosition;
         denteInternoSuperiore.setNext = setNextInternoSuperiore;
         denteInternoSuperiore.unsetNext = unsetNextInternoSuperiore;
         denteInternoInferiore.setNext = setNextInternoInferiore;

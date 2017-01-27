@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class Selector : MonoBehaviour
 {
@@ -36,18 +37,20 @@ public class Selector : MonoBehaviour
             }
             denti[0].searching = true;
             var spazi = selected.spaziDenti;
+			if (spazi.Last())
+				spazi.Last().Receiving = true;
             foreach (var spazioDente in spazi)
             {
                 statoSpazioDenti.Add(spazioDente, spazioDente.Receiving);
                 spazioDente.Receiving = false;
             }
-            //Debug.Log("Enabling research: spaziodente di " + spazi[0].transform.parent.gameObject.GetComponent<Blocco>().testo);
+			//Debug.Log("Enabling research: spaziodente di " + spazi[0].transform.parent.gameObject.GetComponent<Blocco>().testo);
             if (spazi.Count > 0)
                 spazi[spazi.Count - 1].searching = true;
         }
         if (Input.GetMouseButtonUp(0) && selected)
         {
-            selected.transform.position = selected.transform.position + new Vector3(0, 0, 0.5f);
+			selected.move (selected.transform.position + new Vector3 (0, 0, 0.5f));
             var oldSelected = selected;
             selected = null;
             foreach (var dente in statoDenti.Keys)
