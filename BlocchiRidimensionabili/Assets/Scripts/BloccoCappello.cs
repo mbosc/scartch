@@ -54,7 +54,12 @@ public class BloccoCappello : Blocco
     {
         base.Update();
         if (Input.GetKeyDown(KeyCode.Return))
-            GameObject.Find("Output").GetComponent<UnityEngine.UI.Text>().text = next.EvaluateMe("");
+		{
+			if (next)
+				GameObject.Find ("Output").GetComponent<UnityEngine.UI.Text> ().text = next.EvaluateMe ("");
+			else
+				GameObject.Find ("Output").GetComponent<UnityEngine.UI.Text> ().text = "Comporre una sequenza di blocchi e premere invio per valutare";
+		}
     }
 
 

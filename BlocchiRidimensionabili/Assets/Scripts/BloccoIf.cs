@@ -6,10 +6,8 @@ public class BloccoIf : BloccoBocca {
 
 	public override string EvaluateMe(string tabs)
 	{
-		if (!internalNext)
-			throw new System.Exception ("Non c'è una variabile");
 		var output = "";
-		if (slotVariabili[0].Evaluate())
+		if (slotVariabili[0].Evaluate() && internalNext)
 			output = tabs + internalNext.EvaluateMe (tabs);
 		if (next)
 			output += next.EvaluateMe(tabs);
