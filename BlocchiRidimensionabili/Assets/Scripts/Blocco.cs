@@ -5,7 +5,7 @@ using System.Linq;
 
 public class Blocco : MonoBehaviour
 {
-
+	public List<Bucovar> slotVariabili;
     public Blocco next;
     public Dente dente;
     public virtual List<Dente> denti
@@ -31,7 +31,7 @@ public class Blocco : MonoBehaviour
     protected float prevBlockOffsetX = 0;
     protected float prevBlockOffsetY = 2;
     protected float dongExt;
-    protected int lunghezzaTesto;
+    
     protected float deformConst = 1;
     protected Vector3[] originaryVertices;
     public bool lastBlock = false;
@@ -118,8 +118,8 @@ public class Blocco : MonoBehaviour
 
     protected virtual void extendToMatchText()
     {
-        campoTesto.text = testo;
         dongExt = lunghezzaTesto * deformConst;
+		Debug.Log ("DongExt: " + dongExt);
         if (dongExt < 1)
             dongExt = 1;
 
@@ -143,7 +143,7 @@ public class Blocco : MonoBehaviour
 
         var levert = mesh.vertices;
         foreach (var i in verticesToEdit)
-            levert[i] = new Vector3(levert[i].x + dongExt, levert[i].y, levert[i].z);
+			levert[i] = new Vector3(originaryVertices[i].x + dongExt, levert[i].y, levert[i].z);
         mesh.SetVertices(new List<Vector3>(levert));
     }
 
@@ -154,12 +154,41 @@ public class Blocco : MonoBehaviour
     }
 
 
-    protected virtual int calcolaLunghezzaTesto()
+    protected virtual int lunghezzaTesto
     {
-        return testo.Length;
+		get {
+			return campoTesto.text.Length;
+		}
     }
 
     public GameObject bucoVarPrefab, bucoVarAngPrefab, bucoVarCircPrefab, bucoVarDDPrefab;
+
+	public virtual void reExtendToMatchText(){
+		adaptText ();
+		extendToMatchText ();
+	}
+
+	protected virtual void adaptText(){
+		var builder = new System.Text.StringBuilder ();
+		char c = testo [0];
+		var goingThrough = false;
+		var varIndex = 0;
+		for (int i = 0; i < testo.Length; i++) {
+			c = testo [i];
+			if (varStarts.Contains (c)) {
+				builder.Append (new string(' ', slotVariabili [varIndex++].lunghezza));
+				goingThrough = true;
+			} else if (varEnds.Contains (c)) {
+				goingThrough = false;
+			} else if (!goingThrough) {
+				builder.Append (c);
+			}
+		}
+		campoTesto.text = builder.ToString ();
+	}
+
+	private char[] varStarts = new char[]{'[', '<', '(', '{'};
+	private char[] varEnds   = new char[]{']', '>', ')', '}'};
 
     protected virtual void evaluateVars(string testo, int posBaseX, int posBaseY)
     {
@@ -175,9 +204,10 @@ public class Blocco : MonoBehaviour
             }
             else if (testo[i].Equals(']'))
             {
-                curBucoVar.lunghezza = (i - inizioBucoVar + 1);
+				curBucoVar.lunghezzaOriginale = (i - inizioBucoVar + 1);
                 curBucoVar.extend();
                 curBucoVar.transform.SetParent(this.transform);
+				slotVariabili.Add (curBucoVar);
             }
             else if (testo[i].Equals('<'))
             {
@@ -187,9 +217,11 @@ public class Blocco : MonoBehaviour
             }
             else if (testo[i].Equals('>'))
             {
-                curBucoVar.lunghezza = (i - inizioBucoVar + 1);
+				curBucoVar.lunghezzaOriginale = (i - inizioBucoVar + 1);
                 curBucoVar.extend();
                 curBucoVar.transform.SetParent(this.transform);
+				curBucoVar.OnLunghezzaChange += reExtendToMatchText;
+				slotVariabili.Add (curBucoVar);
             }
             else if (testo[i].Equals('('))
             {
@@ -199,21 +231,23 @@ public class Blocco : MonoBehaviour
             }
             else if (testo[i].Equals(')'))
             {
-                curBucoVar.lunghezza = (i - inizioBucoVar + 1);
+				curBucoVar.lunghezzaOriginale = (i - inizioBucoVar + 1);
                 curBucoVar.extend();
                 curBucoVar.transform.SetParent(this.transform);
+				slotVariabili.Add (curBucoVar);
             }
-            else if (testo[i].Equals('|') && curBucoVar == null)
+				else if (testo[i].Equals('{') && curBucoVar == null)
             {
                 curBucoVar = GameObject.Instantiate(bucoVarDDPrefab).GetComponent<Bucovar>();
                 curBucoVar.transform.position = this.transform.position + new Vector3(posBaseX + i, posBaseY, 0);
                 inizioBucoVar = i;
             }
-            else if (testo[i].Equals('|') && curBucoVar != null)
+				else if (testo[i].Equals('}') && curBucoVar != null)
             {
-                curBucoVar.lunghezza = (i - inizioBucoVar + 1);
+				curBucoVar.lunghezzaOriginale = (i - inizioBucoVar + 1);
                 curBucoVar.extend();
                 curBucoVar.transform.SetParent(this.transform);
+				slotVariabili.Add (curBucoVar);
             }
         }
     }
@@ -250,12 +284,13 @@ public class Blocco : MonoBehaviour
     // Use this for initialization
     protected virtual void Start()
     {
+		slotVariabili = new List<Bucovar> ();
         dente.setNext = setNext;
         dente.unsetNext = unsetNext;
         spazioDente.setPrevious = setPrevious;
         name = testo;
-        lunghezzaTesto = calcolaLunghezzaTesto();
         loadOriginaryMesh();
+		campoTesto.text = testo;
         extendToMatchText();
         if (lastBlock) evaluateLastBlock();
         evaluateVars(testo, offsetTestoBaseX, 0);

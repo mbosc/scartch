@@ -322,9 +322,11 @@ public class BloccoIfElse : Blocco
         }
     }
 
-    protected override int calcolaLunghezzaTesto()
+    protected override int lunghezzaTesto
     {
-        return Mathf.Max(testo.Length, secondoTesto.Length);
+		get{
+			return Mathf.Max (campoTesto.text.Length, secondoCampoTesto.text.Length);
+		}
     }
 
     public override string EvaluateMe(string tabs)

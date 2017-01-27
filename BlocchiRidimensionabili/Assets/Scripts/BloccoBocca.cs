@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class BloccoIf : Blocco
+public class BloccoBocca : Blocco
 {
 
     public Blocco internalNext;

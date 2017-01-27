@@ -36,8 +36,24 @@ public class Selectable : MonoBehaviour {
     void OnMouseOver() {
         selector.hovered = this;
         selectionList = new Dictionary<GameObject, Vector2>();
-        var blocco = GetComponent<Blocco>();
-        blocco.linkedBlocks.ForEach(s => selectionList.Add(s.gameObject, new Vector2(gameObject.transform.position.x - s.gameObject.transform.position.x, gameObject.transform.position.y - s.gameObject.transform.position.y)));
+		var blocco = GetComponent<Blocco>();
+		if (blocco) {
+			blocco.linkedBlocks.ForEach (
+				s => 
+				{
+					selectionList.Add (s.gameObject, new Vector2 (gameObject.transform.position.x - s.gameObject.transform.position.x, gameObject.transform.position.y - s.gameObject.transform.position.y));
+					s.slotVariabili.ForEach(z => 
+					{ 
+						if (z.variabile)
+							selectionList.Add (z.variabile.gameObject, new Vector2 (gameObject.transform.position.x - z.variabile.gameObject.transform.position.x,gameObject.transform.position.y - z.variabile.gameObject.transform.position.y));
+					});
+				});
+			blocco.slotVariabili.ForEach (s => 
+				{ if (s.variabile)
+					selectionList.Add (s.variabile.gameObject, 
+						new Vector2 (gameObject.transform.position.x - s.variabile.gameObject.transform.position.x,
+							gameObject.transform.position.y - s.variabile.gameObject.transform.position.y));});
+		}
         selectionList.Add(gameObject, new Vector2(0, 0));
     }
     void OnMouseExit() {
