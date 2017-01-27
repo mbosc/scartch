@@ -14,7 +14,7 @@ public class BloccoIfElse : BloccoDoppiaBocca {
 	public override string EvaluateMe (string tabs)
 	{
 		var output = "";
-		if (slotVariabili [0].Evaluate ()) {
+		if ((slotVariabili [0] as BucovarAng).Evaluate ()) {
 			if (upperInternalNext)
 				output += upperInternalNext.EvaluateMe (tabs);
 		} else {

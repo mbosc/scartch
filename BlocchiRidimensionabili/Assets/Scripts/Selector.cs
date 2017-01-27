@@ -91,7 +91,7 @@ public class Selector : MonoBehaviour
 
 			//Roba da spostare nel selectable delle variabili
 			{
-				var variabile = oldSelected.GetComponent<VariabileAngolare> ();
+				var variabile = oldSelected.GetComponent<Variabile> ();
 				if (variabile && variabile.currentlyHighlighted) {
 					variabile.currentlyHighlighted.CompletaCon (variabile);
 				}

@@ -19,7 +19,7 @@ public class Bucovar : MonoBehaviour {
 	public int lunghezzaOriginale;
 	protected Mesh mesh;
 	protected Vector3[] originaryVertices;
-	public VariabileAngolare variabile;
+	public Variabile variabile;
 	private bool initialised = false;
 
 	private void Init(){
@@ -67,7 +67,7 @@ public class Bucovar : MonoBehaviour {
 		GetComponent<Renderer> ().material.color = col;
 	}
 		
-	public virtual void CompletaCon (VariabileAngolare variabile){
+	public virtual void CompletaCon (Variabile variabile){
 		lunghezza = variabile.lunghezza;
 		variabile.transform.position = this.transform.position;
 		this.variabile = variabile;
@@ -79,13 +79,6 @@ public class Bucovar : MonoBehaviour {
 //		extend ();
 		this.variabile = null;
 
-	}
-
-	public virtual bool Evaluate (){
-		if (variabile)
-			return variabile.valore;
-		else
-			return false;
 	}
 
 	// Use this for initialization

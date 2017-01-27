@@ -103,11 +103,11 @@ public class Blocco : MonoBehaviour
             return ex;
         }
     }
-    public virtual List<VariabileAngolare> linkedVariables
+	public virtual List<Variabile> linkedVariables
     {
         get
         {
-            var ex = new List<VariabileAngolare>();
+			var ex = new List<Variabile>();
             linkedBlocks.ForEach(s => { s.slotVariabili.ForEach(z => { if (z.variabile) ex.Add(z.variabile); }); });
             slotVariabili.ForEach(s => { if (s.variabile) ex.Add(s.variabile); });
             ex.ForEach(Debug.Log);
