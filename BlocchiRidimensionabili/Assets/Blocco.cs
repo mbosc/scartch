@@ -8,10 +8,23 @@ public class Blocco : MonoBehaviour
 
     public Blocco next;
     public Dente dente;
+    public virtual List<Dente> denti
+    {
+        get
+        {
+            var r = new List<Dente>();
+            r.Add(dente);
+            return r;
+        }
+    }
     public SpazioDente spazioDente;
     public bool first = true;
     public string testo;
     public UnityEngine.UI.Text campoTesto;
+    public virtual int size
+    {
+        get { return 1; }
+    }
     protected Mesh mesh;
     protected float nextBlockOffsetX = 0;
     protected float nextBlockOffsetY = -2;
@@ -22,6 +35,14 @@ public class Blocco : MonoBehaviour
     protected float deformConst = 1;
     protected Vector3[] originaryVertices;
     public bool lastBlock = false;
+
+    public virtual string EvaluateMe(string tabs)
+    {
+        var output = tabs + testo + "\n" + tabs;
+        if (next)
+            output += next.EvaluateMe(tabs);
+        return output;
+    }
 
     public override string ToString()
     {

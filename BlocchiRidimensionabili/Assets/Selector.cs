@@ -16,13 +16,15 @@ public class Selector : MonoBehaviour
     public Selectable hovered = null;
     private Dictionary<Dente, bool> statoDenti;
     private Dictionary<SpazioDente, bool> statoSpazioDenti;
-
+    private Vector2 baseClickPosition;
     // Update is called once per frame
     void Update()
     {
         if (Input.GetMouseButtonDown(0) && hovered && selected == null)
         {
             selected = hovered;
+            baseClickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition) - selected.transform.position;
+
             statoDenti = new Dictionary<Dente, bool>();
             statoSpazioDenti = new Dictionary<SpazioDente, bool>();
             var denti = selected.denti;
@@ -40,10 +42,12 @@ public class Selector : MonoBehaviour
                 spazioDente.Receiving = false;
             }
             //Debug.Log("Enabling research: spaziodente di " + spazi[0].transform.parent.gameObject.GetComponent<Blocco>().testo);
-            spazi[spazi.Count - 1].searching = true;
+            if (spazi.Count > 0)
+                spazi[spazi.Count - 1].searching = true;
         }
         if (Input.GetMouseButtonUp(0) && selected)
         {
+            selected.transform.position = selected.transform.position + new Vector3(0, 0, 0.5f);
             var oldSelected = selected;
             selected = null;
             foreach (var dente in statoDenti.Keys)
@@ -70,8 +74,9 @@ public class Selector : MonoBehaviour
         }
         if (selected)
         {
-            var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            selected.move(new Vector2(mousePos.x, mousePos.y));
+            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            mousePos -= baseClickPosition;
+            selected.move(new Vector3(mousePos.x, mousePos.y, -.5f));
         }
     }
 }

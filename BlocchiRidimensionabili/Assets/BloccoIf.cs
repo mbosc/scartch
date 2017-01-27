@@ -10,7 +10,23 @@ public class BloccoIf : Blocco
     public Dente denteInterno;
     protected float nextBlockInternoOffsetX = 1;
     protected float nextBlockInternoOffsetY = -2;
-
+    public override int size
+    {
+        get
+        {
+            return 2 + stretchSize;
+        }
+    }
+    public override List<Dente> denti
+    {
+        get
+        {
+            var r = new List<Dente>();
+            r.Add(dente);
+            r.Add(denteInterno);
+            return r;
+        }
+    }
     public virtual void setNextInterno(Blocco candidateNext)
     {
         Debug.Log(testo + ".setNextInterno(" + candidateNext.testo + ")");
@@ -57,14 +73,14 @@ public class BloccoIf : Blocco
         Blocco catena = internalNext;
         while (catena)
         {
-            lung++;
+            lung+=catena.size;
             catena = catena.next;
         }
         stretchSize = lung;
         extendToMatchContent();
-        next.dente.setNext += AumentaLunghezza;
+        next.denti.ForEach(d => d.setNext += AumentaLunghezza);
         Debug.Log("Invocation list di "+ next +".setNext: " + next.dente.setNext.GetInvocationList().Length);
-        next.dente.unsetNext += DiminuisciLunghezza;
+        next.denti.ForEach(d => d.unsetNext += DiminuisciLunghezza);
 
     }
 
@@ -74,10 +90,15 @@ public class BloccoIf : Blocco
         Blocco catena = next;
         while (catena)
         {
-            lung++;
-            catena.dente.setNext -= AumentaLunghezza;
+            catena.denti.ForEach(d => d.setNext -= AumentaLunghezza);
             Debug.Log("Invocation list di " + catena + ".setNext: " + catena.dente.setNext.GetInvocationList().Length);
-            catena.dente.unsetNext -= DiminuisciLunghezza;
+            catena.denti.ForEach(d => d.unsetNext -= DiminuisciLunghezza);
+            catena = catena.next;
+        }
+        catena = internalNext;
+        while (catena)
+        {
+            lung += catena.size;
             catena = catena.next;
         }
         stretchSize = lung;
@@ -111,9 +132,9 @@ public class BloccoIf : Blocco
         while (catena)
         {
 
-            catena.dente.setNext -= AumentaLunghezza;
+            catena.denti.ForEach(d => d.setNext -= AumentaLunghezza);
             Debug.Log("Invocation list di " + catena + ".setNext: " + catena.dente.setNext.GetInvocationList().Length);
-            catena.dente.unsetNext -= DiminuisciLunghezza;
+            catena.denti.ForEach(d => d.unsetNext -= DiminuisciLunghezza);
             catena = catena.next;
         }
         internalNext.spazioDente.Receiving = true;
@@ -161,6 +182,17 @@ public class BloccoIf : Blocco
                 k.transform.rotation = this.transform.rotation;
             });
         }
+    }
+
+    public override string EvaluateMe(string tabs)
+    {
+        var output = tabs + testo + " {\n";
+        if (internalNext)
+            output += internalNext.EvaluateMe(tabs + "  ");
+        output += tabs + "}\n";
+        if (next)
+            output += next.EvaluateMe(tabs);
+        return output;
     }
 
     protected override void Start()
