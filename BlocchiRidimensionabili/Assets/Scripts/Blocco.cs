@@ -57,12 +57,24 @@ public class Blocco : MonoBehaviour
         candidateNext.linkedBlocks.ForEach(s => selectionList.Add(s.gameObject, new Vector2(candidateNext.gameObject.transform.position.x - s.gameObject.transform.position.x, candidateNext.gameObject.transform.position.y - s.gameObject.transform.position.y)));
         selectionList.Add(candidateNext.gameObject, new Vector2(0, 0));
 
-        selectionList.Keys.ToList().ForEach(k =>
-            {
-                k.transform.position = this.transform.position + new Vector3(nextBlockOffsetX - selectionList[k].x, nextBlockOffsetY - selectionList[k].y, 0);
-                k.transform.rotation = this.transform.rotation;
-            });
         
+
+        var selectionVariables = new Dictionary<GameObject, Vector2>();
+        candidateNext.linkedVariables.ForEach(s => selectionVariables.Add(s.gameObject, new Vector2(candidateNext.gameObject.transform.position.x - s.gameObject.transform.position.x, candidateNext.gameObject.transform.position.y - s.gameObject.transform.position.y)));
+
+        selectionList.Keys.ToList().ForEach(k =>
+        {
+            k.transform.position = this.transform.position + new Vector3(nextBlockOffsetX - selectionList[k].x, nextBlockOffsetY - selectionList[k].y, 0);
+            k.transform.rotation = this.transform.rotation;
+        });
+
+        selectionVariables.Keys.ToList().ForEach(k =>
+        {
+            Debug.Log("Sposto " + k.name);
+            k.transform.position = this.transform.position + new Vector3(nextBlockOffsetX - selectionVariables[k].x, nextBlockOffsetY - selectionVariables[k].y, 0);
+        });
+
+
         var oldNext = next;
         next = candidateNext;
 
@@ -88,6 +100,17 @@ public class Blocco : MonoBehaviour
                 next.linkedBlocks.ForEach(s => { if (s) ex.Add(s); });
                 ex.Add(next);
             }
+            return ex;
+        }
+    }
+    public virtual List<VariabileAngolare> linkedVariables
+    {
+        get
+        {
+            var ex = new List<VariabileAngolare>();
+            linkedBlocks.ForEach(s => { s.slotVariabili.ForEach(z => { if (z.variabile) ex.Add(z.variabile); }); });
+            slotVariabili.ForEach(s => { if (s.variabile) ex.Add(s.variabile); });
+            ex.ForEach(Debug.Log);
             return ex;
         }
     }
@@ -119,7 +142,7 @@ public class Blocco : MonoBehaviour
     protected virtual void extendToMatchText()
     {
         dongExt = lunghezzaTesto * deformConst;
-		Debug.Log ("DongExt: " + dongExt);
+
         if (dongExt < 1)
             dongExt = 1;
 

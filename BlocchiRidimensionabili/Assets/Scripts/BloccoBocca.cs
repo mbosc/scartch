@@ -35,11 +35,18 @@ public class BloccoBocca : Blocco
         var selectionList = new Dictionary<GameObject, Vector2>();
         candidateNext.linkedBlocks.ForEach(s => selectionList.Add(s.gameObject, new Vector2(candidateNext.gameObject.transform.position.x - s.gameObject.transform.position.x, candidateNext.gameObject.transform.position.y - s.gameObject.transform.position.y)));
         selectionList.Add(candidateNext.gameObject, new Vector2(0, 0));
+        var selectionVariables = new Dictionary<GameObject, Vector2>();
+        candidateNext.linkedVariables.ForEach(s => selectionVariables.Add(s.gameObject, new Vector2(candidateNext.gameObject.transform.position.x - s.gameObject.transform.position.x, candidateNext.gameObject.transform.position.y - s.gameObject.transform.position.y)));
 
         selectionList.Keys.ToList().ForEach(k =>
         {
             k.transform.position = this.transform.position + new Vector3(nextBlockInternoOffsetX - selectionList[k].x, nextBlockInternoOffsetY - selectionList[k].y, 0);
             k.transform.rotation = this.transform.rotation;
+        });
+        selectionVariables.Keys.ToList().ForEach(k =>
+        {
+            Debug.Log("Sposto " + k.name);
+            k.transform.position = this.transform.position + new Vector3(nextBlockOffsetX - selectionVariables[k].x, nextBlockOffsetY - selectionVariables[k].y, 0);
         });
 
         var oldNext = internalNext;
