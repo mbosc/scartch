@@ -38,7 +38,7 @@ public class Blocco : MonoBehaviour
 
     public virtual string EvaluateMe(string tabs)
     {
-        var output = tabs + testo + "\n" + tabs;
+        var output = tabs + testo + "\n";
         if (next)
             output += next.EvaluateMe(tabs);
         return output;
