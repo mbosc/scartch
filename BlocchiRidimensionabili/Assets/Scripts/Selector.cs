@@ -38,8 +38,11 @@ public class Selector : MonoBehaviour
 					dente.Receiving = false;
 
 				}
-				if (denti.Count > 0)
-					denti [0].searching = true;
+                if (denti.Count > 0)
+                {
+                    denti[0].searching = true;
+                    Debug.Log("Dente di " + denti[0].transform.parent.name + " " + denti[0].name);
+                }
 				var spazi = selected.spaziDenti;
 				if (spazi.Count > 0)
 					spazi.Last ().Receiving = true;

@@ -356,6 +356,7 @@ public class BloccoDoppiaBocca : Blocco
         denteInternoInferiore.unsetNext = unsetNextInternoInferiore;
         extendToMatchContent();
         nextBlockOffsetY = -6 - firstStretchSize * 2 - secondStretchSize * 2;
+        name = testo + " " + secondoTesto;
     }
 
 }
