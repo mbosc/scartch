@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System.Collections.Generic;
 using System;
 using UnityEngine;
 
@@ -7,14 +7,20 @@ public class Actor {
 	private Vector3 position, rotation;
 	private float scale, volume;
 	private string message;
+	private IList<Hat> hats;
+	private IList<Block> blocks;
+	public event Action ShowedMessage;
+	public event Action HiddenMessage;
+
+	public Actor (Vector3 position, Vector3 rotation, float scale, float volume, string message)
+	{
+		hats = new List<Hat> ();
+		blocks = new List<Block> ();
+	}
 
 	public Actor ()
-	{
-		position = new Vector3 (0, 0, 0);
-		rotation = new Vector3 (0, 0, 0);
-		scale = 1;
-		volume = 75;
-		message = "";
+		:this( new Vector3 (0, 0, 0), new Vector3 (0, 0, 0), 1, 75, ""){
+
 	}
 
 	public Vector3 Position {
@@ -72,9 +78,6 @@ public class Actor {
 		}
 	}
 
-	public event Action ShowedMessage;
-	public event Action HiddenMessage;
-
 	public void ShowMessage(){
 		if (ShowedMessage != null)
 			ShowedMessage();
@@ -83,5 +86,18 @@ public class Actor {
 	public void HideMessage(){
 		if (HiddenMessage != null)
 			HiddenMessage ();
+	}
+
+	public void AddHat(Hat hat) {
+		hats.Add (hat);
+	}
+	public void RemoveHat(Hat hat) {
+		hats.Remove (hat);
+	}
+	public void AddBlock(Block block) {
+		blocks.Add (block);
+	}
+	public void RemoveBlock(Block block) {
+		blocks.Remove (block);
 	}
 }
