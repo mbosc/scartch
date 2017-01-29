@@ -23,5 +23,26 @@ namespace model
         }
         #endregion
 
+        public static int MaxX = 240, MaxZ = 240, MaxY = 180;
+
+        private bool playMode = false;
+        public bool PlayMode
+        {
+            get { return playMode; }
+            set {
+                if (value)
+                    evaluationEngine = new EvaluationEngine();
+                playMode = value;
+            }
+        }
+
+        private EvaluationEngine evaluationEngine;
+        public EvaluationEngine EvaluationEngine
+        {
+            get
+            {
+                return evaluationEngine;
+            }
+        }
     }
 }

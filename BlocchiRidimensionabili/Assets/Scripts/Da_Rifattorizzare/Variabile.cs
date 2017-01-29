@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public abstract class Variabile : MonoBehaviour {
+public abstract class ReferenceWrapper : MonoBehaviour {
 
 	public int lunghezza;
     public string testo;
     public UnityEngine.UI.Text myText;
 	protected Mesh mesh;
 	protected Vector3[] originaryVertices;
-	public Bucovar currentlyHighlighted;
+	public ReferenceContainer currentlyHighlighted;
 	public abstract string valoreStringa {
 		get;
 	}
@@ -42,7 +42,7 @@ public abstract class Variabile : MonoBehaviour {
 	protected void OnTriggerEnter (Collider collider) {
 		if (!Selector.instance.selected || Selector.instance.selected.gameObject != this.gameObject)
 			return;
-		var bucoCorrente = collider.GetComponent<Bucovar> ();
+		var bucoCorrente = collider.GetComponent<ReferenceContainer> ();
 		if (bucoCorrente && bucoCorrente.variabile == null) {
 			if (currentlyHighlighted){
 				currentlyHighlighted.setHighlightVisible (false);
@@ -55,7 +55,7 @@ public abstract class Variabile : MonoBehaviour {
 	protected void OnTriggerStay (Collider collider){
 		if (!Selector.instance.selected || Selector.instance.selected.gameObject != this.gameObject)
 			return;
-		var bucoCorrente = collider.GetComponent<Bucovar> ();
+		var bucoCorrente = collider.GetComponent<ReferenceContainer> ();
 		try {
 			if (bucoCorrente.Equals(currentlyHighlighted))
 				bucoCorrente.setHighlightVisible(true);
@@ -66,7 +66,7 @@ public abstract class Variabile : MonoBehaviour {
 
 	void OnTriggerExit (Collider collider)
 	{
-		var bucoCorrente = collider.GetComponent<Bucovar> ();
+		var bucoCorrente = collider.GetComponent<ReferenceContainer> ();
 		if (bucoCorrente && bucoCorrente.variabile && bucoCorrente.variabile.Equals(this)){
 			bucoCorrente.Svuota();
 		}
@@ -74,7 +74,7 @@ public abstract class Variabile : MonoBehaviour {
 	}
 
 	public void ExitTrigger(Collider collider){
-		var bucoCorrente = collider.GetComponent<Bucovar> ();
+		var bucoCorrente = collider.GetComponent<ReferenceContainer> ();
 		if (bucoCorrente && bucoCorrente == currentlyHighlighted) {
 			bucoCorrente.setHighlightVisible (false);
 			currentlyHighlighted = null;

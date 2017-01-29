@@ -36,7 +36,7 @@ public class Selectable : MonoBehaviour {
     void OnMouseOver() {
         selector.hovered = this;
         selectionList = new Dictionary<GameObject, Vector2>();
-		var blocco = GetComponent<Blocco>();
+		var blocco = GetComponent<BlockWrapper>();
 		if (blocco) {
 			blocco.linkedBlocks.ForEach (
 				s => 

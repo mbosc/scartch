@@ -16,9 +16,13 @@ namespace model
             references.Remove(n);
         }
 
-        public void SetNext(Block block)
+        public Block Next
         {
-            next = block;
+            get { return next; }
+            set
+            {
+                next = value;
+            }
         }
 
         public void UnsetNext()

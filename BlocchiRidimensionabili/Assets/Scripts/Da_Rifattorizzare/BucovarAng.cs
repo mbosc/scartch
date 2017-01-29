@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BucovarAng : Bucovar {
+public class BucovarAng : ReferenceContainer {
 
-	public override void CompletaCon (Variabile variabile)
+	public override void CompletaCon (ReferenceWrapper variabile)
 	{
 		if (variabile is VariabileAngolare)
 			base.CompletaCon(variabile);

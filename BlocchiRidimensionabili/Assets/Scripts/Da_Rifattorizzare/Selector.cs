@@ -83,7 +83,7 @@ public class Selector : MonoBehaviour
 					if (statoSpazioDenti [spazioDente]) {
 						spazioDente.Receiving = true;
 						if (spazioDente.currentlyHighlighted)
-							spazioDente.currentlyHighlighted.setNext (oldSelected.gameObject.GetComponent<Blocco> ());
+							spazioDente.currentlyHighlighted.setNext (oldSelected.gameObject.GetComponent<BlockWrapper> ());
 						spazioDente.searching = false;
 					}
 				}
@@ -91,7 +91,7 @@ public class Selector : MonoBehaviour
 
 			//Roba da spostare nel selectable delle variabili
 			{
-				var variabile = oldSelected.GetComponent<Variabile> ();
+				var variabile = oldSelected.GetComponent<ReferenceWrapper> ();
 				if (variabile && variabile.currentlyHighlighted) {
 					variabile.currentlyHighlighted.CompletaCon (variabile);
 				}

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class VariabileCircolare : Variabile {
+public class VariabileCircolare : ReferenceWrapper {
 
 	public int valore {
 		get {

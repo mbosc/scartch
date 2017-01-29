@@ -8,9 +8,10 @@ namespace model
         private string valString;
 
 
-        public void SetInnerNext(Block block)
+        public Block InnerNext
         {
-            innerNext = block;
+            get { return innerNext; }
+            set { innerNext = value; }
         }
 
         public void UnsetInnerNext()

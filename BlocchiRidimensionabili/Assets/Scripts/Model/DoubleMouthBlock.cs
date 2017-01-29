@@ -6,13 +6,16 @@ namespace model
     {
         protected Block firstInnerNext, secondInnerNext;
 
-        public void SetFirstInnerNext(Block block)
+        public Block FirstInnerNext
         {
-            firstInnerNext = block;
+            get { return firstInnerNext; }
+            set { firstInnerNext = value; }
+            
         }
-        public void SetSecondInnerNext(Block block)
+        public Block SecondInnerNext
         {
-            secondInnerNext = block;
+            get { return secondInnerNext; }
+            set { secondInnerNext = value; }
         }
         public void UnsetFirstInnerNext()
         {

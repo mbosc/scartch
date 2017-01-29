@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BucovarDD : Bucovar {
+public class BucovarDD : ReferenceContainer {
 
 	public override void extend(){
 		loadOriginaryMesh ();

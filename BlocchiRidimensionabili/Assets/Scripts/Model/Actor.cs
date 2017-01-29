@@ -44,7 +44,16 @@ namespace model
             }
             set
             {
-                // TODO verifica che non superi i margini dell'Environment
+                // prevent actor from exiting the playground
+                if (Mathf.Abs(value.x) - Environment.MaxX > 0)
+                    value.x = Environment.MaxX * Mathf.Sign(position.x);
+                if(Mathf.Abs(value.z) - Environment.MaxZ > 0)
+                    value.z = Environment.MaxZ * Mathf.Sign(position.z);
+                if (value.y - Environment.MaxX > 0)
+                    value.y = Environment.MaxY;
+                if (value.y < 0)
+                    value.y = 0;
+
                 position = value;
                 if (ActorChanged != null)
                     ActorChanged();

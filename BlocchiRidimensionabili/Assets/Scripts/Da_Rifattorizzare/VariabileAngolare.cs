@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class VariabileAngolare : Variabile {
+public class VariabileAngolare : ReferenceWrapper {
 
 	public bool valore {
 		get {
