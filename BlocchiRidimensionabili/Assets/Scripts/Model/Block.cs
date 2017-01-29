@@ -30,6 +30,6 @@ namespace model
             next = null;
         }
 
-        public abstract void Execute();
+        public abstract Block ExecuteAndGetNext();
     }
 }
