@@ -33,9 +33,12 @@ namespace model
                 if (value)
                     evaluationEngine = new EvaluationEngine();
                 playMode = value;
+                if (playMode && PlayModeStarted != null)
+                    PlayModeStarted();
             }
         }
 
+        public event Action PlayModeStarted;
         private EvaluationEngine evaluationEngine;
         public EvaluationEngine EvaluationEngine
         {

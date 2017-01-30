@@ -7,12 +7,12 @@ namespace view{
 public class NumberReferenceWrapper : ReferenceWrapper {
 
 		public NumberReference reference;
-	public int valore {
+	public float valore {
 		get {
 				return reference.Evaluate ();
 		}
 	}
-	public override string valoreStringa {
+	public  string valoreStringa {
 			get {
 				return reference.EvaluateAsString ();
 			}

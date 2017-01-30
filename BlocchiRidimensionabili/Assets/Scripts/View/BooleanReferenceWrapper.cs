@@ -17,7 +17,7 @@ namespace view
 			}
 		}
 
-		public override string valoreStringa {
+		public string valoreStringa {
 			get {
 				return reference.EvaluateAsString ();
 			}

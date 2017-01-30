@@ -331,6 +331,8 @@ namespace view
             extendToMatchText();
             if (lastBlock) evaluateLastBlock();
             evaluateVars(testo, offsetTestoBaseX, 0);
+
+
         }
 
 
@@ -342,6 +344,11 @@ namespace view
             {
                 initialised = true;
                 this.gameObject.AddComponent<MeshCollider>();
+
+                ///DEEEBUGGO
+                var att = FindObjectOfType<ActorWrapper>();
+                block = new model.blocks.MoveStepsBlock(att.actor);
+                Debug.Log("Attore " + att);
             }
         }
     }

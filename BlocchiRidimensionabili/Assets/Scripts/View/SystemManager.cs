@@ -1,16 +1,29 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using model;
 
-public class SystemManager : MonoBehaviour {
+namespace view
+{
+    public class SystemManager : MonoBehaviour
+    {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+        private Environment env;
+
+        // Use this for initialization
+        void Start()
+        {
+            env = Environment.Instance;
+
+        }
+
+        void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                env.PlayMode = !env.PlayMode;
+                Debug.Log("Play mode: " + env.PlayMode);
+            }
+        }
+    }
 }

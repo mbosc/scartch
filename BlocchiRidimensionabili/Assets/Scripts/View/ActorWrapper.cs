@@ -7,7 +7,7 @@ namespace view
 {
     public class ActorWrapper : MonoBehaviour
     {
-        private Actor actor;
+        public Actor actor;// TODO set private
         private Vector3 baseScale;
         public Vector3 centerOffset;
 

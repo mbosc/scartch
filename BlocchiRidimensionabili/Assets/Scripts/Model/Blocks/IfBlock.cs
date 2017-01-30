@@ -22,6 +22,7 @@ namespace model
 					flux = flux.ExecuteAndGetNext ();
 					return this;
 				} else {
+                    evaluated = false;
 					return Next;
 				}
 			}

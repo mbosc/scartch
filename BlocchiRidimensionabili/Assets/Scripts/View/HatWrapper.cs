@@ -73,9 +73,12 @@ namespace view
                 else
                     GameObject.Find("Output").GetComponent<UnityEngine.UI.Text>().text = "Comporre una sequenza di blocchi e premere invio per valutare";
             }
+
+            if (Input.GetKeyDown(KeyCode.W))
+                setNext(DEBUGNEXT);
         }
 
-
+        public BlockWrapper DEBUGNEXT;
         protected override void Start()
         {
             dente.setNext = setNext;
@@ -85,6 +88,10 @@ namespace view
             if (lastBlock) evaluateLastBlock();
             nextBlockOffsetX = 2;
             offsetTestoBaseX = 0;
+
+            //DEBUG
+            hat = new Hat();
+            Environment.Instance.PlayModeStarted += hat.Execute;    
         }
     }
 }

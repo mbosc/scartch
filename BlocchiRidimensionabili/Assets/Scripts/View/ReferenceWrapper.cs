@@ -14,10 +14,7 @@ namespace view
 		public UnityEngine.UI.Text myText;
 		protected Mesh mesh;
 		protected Vector3[] originaryVertices;
-
-		public abstract string valoreStringa {
-			get;
-		}
+        public Reference reference;
 
 		public virtual void extend ()
 		{
@@ -43,12 +40,12 @@ namespace view
 			GetComponent<MeshCollider> ().convex = true;
 			GetComponent<MeshCollider> ().isTrigger = true;
 		}
-		public ReferenceContainer currentlyHighLighted;
+		public ReferenceContainer currentlyHighlighted;
 
 		protected void OnTriggerEnter (Collider collider)
 		{
-			if (!Selector.instance.selected || Selector.instance.selected.gameObject != this.gameObject)
-				return;
+			//if (!Selector.instance.selected || Selector.instance.selected.gameObject != this.gameObject)
+			//	return;
 			var bucoCorrente = collider.GetComponent<ReferenceContainer> ();
 			if (bucoCorrente && bucoCorrente.variabile == null) {
 				if (currentlyHighlighted) {
@@ -61,8 +58,8 @@ namespace view
 
 		protected void OnTriggerStay (Collider collider)
 		{
-			if (!Selector.instance.selected || Selector.instance.selected.gameObject != this.gameObject)
-				return;
+			//if (!Selector.instance.selected || Selector.instance.selected.gameObject != this.gameObject)
+			//	return;
 			var bucoCorrente = collider.GetComponent<ReferenceContainer> ();
 			try {
 				if (bucoCorrente.Equals (currentlyHighlighted))

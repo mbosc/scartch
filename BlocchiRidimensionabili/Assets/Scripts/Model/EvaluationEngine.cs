@@ -27,12 +27,12 @@ namespace model
                 return;
 
             //Execute current block
-            Block prioritaryBlock = fluxes.Dequeue();
-            prioritaryBlock.Execute();
+            Block activeBlock = fluxes.Dequeue();
+            activeBlock = activeBlock.ExecuteAndGetNext();
 
             //Get next block
-            if (prioritaryBlock.Next != null)
-                fluxes.Enqueue(prioritaryBlock.Next);
+            if (activeBlock != null)
+                fluxes.Enqueue(activeBlock);
         }
     }
 }
