@@ -13,7 +13,9 @@ namespace view
 
 		public override void extend ()
 		{
-			loadOriginaryMesh ();
+            if (!initialised)
+                Init();
+            loadOriginaryMesh ();
 			if (lunghezza < 1)
 				lunghezza = 1;
 
@@ -33,7 +35,7 @@ namespace view
 			GameObject dropB = GameObject.Instantiate (dropButton);
 			dropB.transform.position = this.transform.position + new Vector3 ((lunghezza - 2) + 0.5f, 0, 0);
 			dropB.transform.SetParent (this.transform);
-
+            dropB.GetComponent<Renderer>().material = GetComponent<Renderer>().material;
 		}
 
 		public GameObject dropButton;

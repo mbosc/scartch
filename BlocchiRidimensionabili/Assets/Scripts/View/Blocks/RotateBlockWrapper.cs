@@ -8,7 +8,7 @@ namespace view
 	public class RotateBlockWrapper : BlockWrapper
 	{
 		protected override void Start(){
-			testo = "Ruota di (  ) gradi intorno all'asse {    }";
+			testo = "Ruota di (  ) ° intorno all'asse {  }";
 			base.Start ();
 		}
 

@@ -7,7 +7,7 @@ namespace view {
     public class ReferenceContainer : MonoBehaviour
     {
         
-        private int _lunghezza = 1;
+        protected int _lunghezza = 1;
         public System.Action OnLunghezzaChange;
         public int lunghezza
         {
@@ -26,9 +26,9 @@ namespace view {
         protected Mesh mesh;
         protected Vector3[] originaryVertices;
         public ReferenceWrapper variabile;
-        private bool initialised = false;
+        protected bool initialised = false;
 
-        private void Init()
+        protected void Init()
         {
             _lunghezza = lunghezzaOriginale;
             loadOriginaryMesh();

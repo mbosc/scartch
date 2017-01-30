@@ -350,10 +350,10 @@ namespace view
             name = testo;
             loadOriginaryMesh();
             campoTesto.text = testo;
-            extendToMatchText();
+            
             if (lastBlock) evaluateLastBlock();
             evaluateVars(testo, offsetTestoBaseX, 0);
-
+            reExtendToMatchText();
 
         }
 
