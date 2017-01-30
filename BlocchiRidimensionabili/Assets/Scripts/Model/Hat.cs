@@ -27,7 +27,8 @@ namespace model
 
         public virtual void Execute()
         {
-            next.ExecuteAndGetNext();
+			if (Next != null)
+            	Next.ExecuteAndGetNext();
         }
     }
 }

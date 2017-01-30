@@ -14,6 +14,7 @@ namespace model
         private HashSet<Block> blocks;
         private HashSet<Variable> variables;
         private Model model;
+		private Sound sound;
         private bool isMessageVisible;
         public event Action ActorChanged;
 
@@ -28,6 +29,7 @@ namespace model
             this.volume = volume;
             this.message = message;
             this.model = model;
+			this.sound = null;
         }
 
         public Actor(Model model)
@@ -49,10 +51,8 @@ namespace model
                     value.x = Environment.MaxX * Mathf.Sign(position.x);
                 if(Mathf.Abs(value.z) - Environment.MaxZ > 0)
                     value.z = Environment.MaxZ * Mathf.Sign(position.z);
-                if (value.y - Environment.MaxX > 0)
-                    value.y = Environment.MaxY;
-                if (value.y < 0)
-                    value.y = 0;
+				if(Mathf.Abs(value.y) - Environment.MaxY > 0)
+					value.y = Environment.MaxY * Mathf.Sign(position.y);
 
                 position = value;
                 if (ActorChanged != null)
@@ -179,5 +179,14 @@ namespace model
                     ActorChanged();
             }
         }
+		public Sound Sound
+		{
+			get {
+				return sound;
+			}
+			set {
+				sound = value;
+			}
+		}
     }
 }

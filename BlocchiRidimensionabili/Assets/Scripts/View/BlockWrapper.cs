@@ -8,10 +8,20 @@ namespace view
 {
     public class BlockWrapper : MonoBehaviour
     {
+		private ActorWrapper ownerWrapper;
+		public virtual ActorWrapper Owner {
+			get { return ownerWrapper; }
+			set {
+				ownerWrapper = value;
+			}
+		}
         public Block block;
+		[HideInInspector]
         public List<ReferenceContainer> slotVariabili;
-        public BlockWrapper next;
-        public BlockWrapperCog dente;
+		[HideInInspector]
+		public BlockWrapper next;
+		[HideInInspector]
+		public BlockWrapperCog dente;
         public virtual List<BlockWrapperCog> denti
         {
             get
@@ -21,9 +31,13 @@ namespace view
                 return r;
             }
         }
+		[HideInInspector]
         public BlockWrapperCogHole spazioDente;
-        public bool first = true;
+
+        
+		[HideInInspector]
         public string testo;
+		[HideInInspector]
         public UnityEngine.UI.Text campoTesto;
         public virtual int size
         {
@@ -38,6 +52,7 @@ namespace view
 
         protected float deformConst = 1;
         protected Vector3[] originaryVertices;
+		[HideInInspector]
         public bool lastBlock = false;
 
         public virtual string EvaluateMe(string tabs)
@@ -237,6 +252,7 @@ namespace view
                 {
                     curBucoVar = GameObject.Instantiate(bucoVarPrefab).GetComponent<ReferenceContainer>();
                     curBucoVar.transform.position = this.transform.position + new Vector3(posBaseX + i, posBaseY, 0);
+					curBucoVar.GetComponent<Renderer> ().material = this.GetComponent<Renderer> ().material;
                     inizioBucoVar = i;
                 }
                 else if (testo[i].Equals(']'))
@@ -250,6 +266,7 @@ namespace view
                 {
                     curBucoVar = GameObject.Instantiate(bucoVarAngPrefab).GetComponent<ReferenceContainer>();
                     curBucoVar.transform.position = this.transform.position + new Vector3(posBaseX + i, posBaseY, 0);
+					curBucoVar.GetComponent<Renderer> ().material = this.GetComponent<Renderer> ().material;
                     inizioBucoVar = i;
                 }
                 else if (testo[i].Equals('>'))
@@ -264,6 +281,7 @@ namespace view
                 {
                     curBucoVar = GameObject.Instantiate(bucoVarCircPrefab).GetComponent<ReferenceContainer>();
                     curBucoVar.transform.position = this.transform.position + new Vector3(posBaseX + i, posBaseY, 0);
+					curBucoVar.GetComponent<Renderer> ().material = this.GetComponent<Renderer> ().material;
                     inizioBucoVar = i;
                 }
                 else if (testo[i].Equals(')'))
@@ -273,13 +291,14 @@ namespace view
                     curBucoVar.transform.SetParent(this.transform);
                     slotVariabili.Add(curBucoVar);
                 }
-                else if (testo[i].Equals('{') && curBucoVar == null)
+                else if (testo[i].Equals('{'))
                 {
                     curBucoVar = GameObject.Instantiate(bucoVarDDPrefab).GetComponent<ReferenceContainer>();
                     curBucoVar.transform.position = this.transform.position + new Vector3(posBaseX + i, posBaseY, 0);
+					curBucoVar.GetComponent<Renderer> ().material = this.GetComponent<Renderer> ().material;
                     inizioBucoVar = i;
                 }
-                else if (testo[i].Equals('}') && curBucoVar != null)
+                else if (testo[i].Equals('}'))
                 {
                     curBucoVar.lunghezzaOriginale = (i - inizioBucoVar + 1);
                     curBucoVar.extend();
@@ -322,6 +341,9 @@ namespace view
         protected virtual void Start()
         {
             slotVariabili = new List<ReferenceContainer>();
+			campoTesto = transform.GetChild (0).GetChild (0).GetComponent<UnityEngine.UI.Text> ();
+			dente = transform.GetChild (1).GetComponent<BlockWrapperCog>();
+			spazioDente = transform.GetChild (2).GetComponent<BlockWrapperCogHole>();
             dente.setNext = setNext;
             dente.unsetNext = unsetNext;
             spazioDente.setPrevious = setPrevious;
@@ -344,11 +366,6 @@ namespace view
             {
                 initialised = true;
                 this.gameObject.AddComponent<MeshCollider>();
-
-                ///DEEEBUGGO
-                var att = FindObjectOfType<ActorWrapper>();
-                block = new model.blocks.MoveStepsBlock(att.actor);
-                Debug.Log("Attore " + att);
             }
         }
     }

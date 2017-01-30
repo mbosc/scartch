@@ -17,13 +17,6 @@ namespace view
 
         }
 
-        void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.P))
-            {
-                env.PlayMode = !env.PlayMode;
-                Debug.Log("Play mode: " + env.PlayMode);
-            }
-        }
+        
     }
 }
