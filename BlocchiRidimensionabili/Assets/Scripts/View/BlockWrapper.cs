@@ -8,7 +8,7 @@ namespace view
 {
     public class BlockWrapper : MonoBehaviour
     {
-		private ActorWrapper ownerWrapper;
+		public ActorWrapper ownerWrapper;
 		public virtual ActorWrapper Owner {
 			get { return ownerWrapper; }
 			set {
@@ -341,9 +341,16 @@ namespace view
         protected virtual void Start()
         {
             slotVariabili = new List<ReferenceContainer>();
-			campoTesto = transform.GetChild (0).GetChild (0).GetComponent<UnityEngine.UI.Text> ();
-			dente = transform.GetChild (1).GetComponent<BlockWrapperCog>();
-			spazioDente = transform.GetChild (2).GetComponent<BlockWrapperCogHole>();
+            try
+            {
+                campoTesto = transform.GetChild(0).GetChild(0).GetComponent<UnityEngine.UI.Text>();
+                dente = transform.GetChild(1).GetComponent<BlockWrapperCog>();
+                spazioDente = transform.GetChild(2).GetComponent<BlockWrapperCogHole>();
+            }
+            catch
+            {
+                Debug.Log("Problemi inizializzazione per " + name);
+            }
             dente.setNext = setNext;
             dente.unsetNext = unsetNext;
             spazioDente.setPrevious = setPrevious;

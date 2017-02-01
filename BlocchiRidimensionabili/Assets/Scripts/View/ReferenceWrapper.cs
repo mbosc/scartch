@@ -8,8 +8,17 @@ namespace view
 {
 	public abstract class ReferenceWrapper : MonoBehaviour
 	{
+        private ActorWrapper ownerWrapper;
+        public virtual ActorWrapper Owner
+        {
+            get { return ownerWrapper; }
+            set
+            {
+                ownerWrapper = value;
+            }
+        }
 
-		public int lunghezza;
+        public int lunghezza;
 		public string testo;
 		public UnityEngine.UI.Text myText;
 		protected Mesh mesh;

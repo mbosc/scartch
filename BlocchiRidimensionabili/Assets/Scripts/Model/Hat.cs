@@ -28,7 +28,7 @@ namespace model
         public virtual void Execute()
         {
 			if (Next != null)
-            	Next.ExecuteAndGetNext();
+            	Environment.Instance.EvaluationEngine.AddFlux(Next);
         }
     }
 }

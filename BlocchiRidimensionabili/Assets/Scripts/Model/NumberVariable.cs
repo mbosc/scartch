@@ -15,7 +15,7 @@ namespace model
         public NumberVariable(string name)
             : this(name, 0) { }
 
-        public float Value
+        public virtual float Value
         {
             get { return value; }
             set { this.value = value; }

@@ -64,23 +64,20 @@ namespace view
 
         protected override void Update()
         {
-            //DEBUG
-            base.Update();
-            if (Input.GetKeyDown(KeyCode.Return))
-            {
-                if (next)
-                    GameObject.Find("Output").GetComponent<UnityEngine.UI.Text>().text = next.EvaluateMe("");
-                else
-                    GameObject.Find("Output").GetComponent<UnityEngine.UI.Text>().text = "Comporre una sequenza di blocchi e premere invio per valutare";
-            }
-
-            if (Input.GetKeyDown(KeyCode.W))
-                setNext(DEBUGNEXT);
+           
         }
-
-        public BlockWrapper DEBUGNEXT;
+        
         protected override void Start()
         {
+            try
+            {
+                campoTesto = transform.GetChild(0).GetChild(0).GetComponent<UnityEngine.UI.Text>();
+                dente = transform.GetChild(1).GetComponent<BlockWrapperCog>();
+            }
+            catch
+            {
+                Debug.Log("Problemi inizializzazione per " + name);
+            }
             dente.setNext = setNext;
             dente.unsetNext = unsetNext;
             name = testo;
@@ -88,10 +85,6 @@ namespace view
             if (lastBlock) evaluateLastBlock();
             nextBlockOffsetX = 2;
             offsetTestoBaseX = 0;
-
-            //DEBUG
-            hat = new Hat();
-            Environment.Instance.PlayModeStarted += hat.Execute;    
         }
     }
 }
