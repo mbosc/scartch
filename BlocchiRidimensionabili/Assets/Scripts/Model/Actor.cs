@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace model
 {
-    public class Actor
+    public class Actor : InteractionItem
     {
 
         private Vector3 position, rotation;

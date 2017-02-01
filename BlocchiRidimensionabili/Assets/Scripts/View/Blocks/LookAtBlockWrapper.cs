@@ -2,13 +2,14 @@
 using UnityEngine;
 using model;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace view
 {
 	public class LookAtBlockWrapper : BlockWrapper
 	{
 		protected override void Start(){
-			testo = "Ruota di (  ) gradi intorno all'asse {  }";
+			testo = "Rivolgiti verso {  }";
 			base.Start ();
 		}
 
@@ -24,34 +25,28 @@ namespace view
 
 		private class LookAtBlock : Block
 		{
-			public Actor owner;
-			public LookAtBlock(Actor owner){
-				var opt = new Option(new object[]{"x", "y", "z"}.ToList());
-				options.Add(0, opt);
-				this.owner = owner;
-			}
-			public override Block ExecuteAndGetNext()
-			{
-				var quantity = (references [0] as NumberReference).Evaluate ();
-				var axis = (options [0].chosenValue);
-				var addedRotation = new Vector3 ();
-				switch (axis) {
-				case 0:
-					addedRotation.x += quantity;
-					break;
-				case 1:
-					addedRotation.y += quantity;
-					break;
-				case 2:
-					addedRotation.z += quantity;
-					break;
-				default:
-					throw new ArgumentException ("Invalid option value");
-				}
-					owner.Rotation += addedRotation;
-				return Next;
-			}
-		}
+            public Actor owner;
+            public LookAtBlock(Actor owner)
+            {
+                this.owner = owner;
+                Func<IList<object>> valuesCalculator = () =>
+                {
+                    List<object> res = new List<object>();
+                    model.Environment.Instance.actors.ForEach(s => { if (s != owner) res.Add(s); });
+                    model.Environment.Instance.controllers.ForEach(res.Add);
+                    return res;
+                };
+                var opt = new Option(valuesCalculator);
+                options.Add(0, opt);
+            }
+            public override Block ExecuteAndGetNext()
+            {
+                var targetPosition = (options[0].PossibleValues[options[0].chosenValue] as InteractionItem).Position;
+
+                //TODO algoritmo qui.
+                return Next;
+            }
+        }
 	}
 }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using model;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace view
@@ -8,7 +9,7 @@ namespace view
 	public class GoToTargetsPositionBlockWrapper : BlockWrapper
 	{
 		protected override void Start(){
-			testo = "Ruota di (  ) gradi intorno all'asse {  }";
+			testo = "Vai alla posizione di {  }";
 			base.Start ();
 		}
 
@@ -26,29 +27,21 @@ namespace view
 		{
 			public Actor owner;
 			public GoToTargetsPositionBlock(Actor owner){
-				var opt = new Option(new object[]{"x", "y", "z"}.ToList());
+                this.owner = owner;
+                Func<IList<object>> valuesCalculator = () =>
+                {
+                    List<object> res = new List<object>();
+                    model.Environment.Instance.actors.ForEach(s => { if (s != owner) res.Add(s); });
+                    model.Environment.Instance.controllers.ForEach(res.Add);
+                    return res;
+                };
+				var opt = new Option(valuesCalculator);
 				options.Add(0, opt);
-				this.owner = owner;
 			}
 			public override Block ExecuteAndGetNext()
 			{
-				var quantity = (references [0] as NumberReference).Evaluate ();
-				var axis = (options [0].chosenValue);
-				var addedRotation = new Vector3 ();
-				switch (axis) {
-				case 0:
-					addedRotation.x += quantity;
-					break;
-				case 1:
-					addedRotation.y += quantity;
-					break;
-				case 2:
-					addedRotation.z += quantity;
-					break;
-				default:
-					throw new ArgumentException ("Invalid option value");
-				}
-					owner.Rotation += addedRotation;
+                var targetPosition = (options[0].PossibleValues[options[0].chosenValue] as InteractionItem).Position;
+                owner.Position = targetPosition;
 				return Next;
 			}
 		}
