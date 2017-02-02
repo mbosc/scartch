@@ -7,7 +7,7 @@ using System;
 namespace view
 {
 
-    public class ZPositionVariableWrapper : ReferenceWrapper
+    public class ZPositionVariableWrapper : NumberReferenceWrapper
     {
         //mettere riferimento a una classe nuova derivata da Variable che faccia da proxy per owner.Position.x;
         protected override void Start()

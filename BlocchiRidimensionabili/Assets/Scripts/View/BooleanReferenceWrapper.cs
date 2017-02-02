@@ -9,7 +9,11 @@ namespace view
 	public class BooleanReferenceWrapper : ReferenceWrapper
 	{
 
-		public BooleanReference reference;
+		public new BooleanReference reference
+        {
+            get { return base.reference as BooleanReference; }
+            set { base.reference = value; }
+        }
 
 		public bool valore {
 			get {

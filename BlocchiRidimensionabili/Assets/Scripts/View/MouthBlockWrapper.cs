@@ -181,7 +181,7 @@ namespace view
             var levert = mesh.vertices;
             foreach (var i in verticesToStretch)
                 levert[i] = new Vector3(levert[i].x, levert[i].y, originaryVertices[i].z - (stretchSize - 1) * 2);
-            dente.gameObject.transform.localPosition = new Vector3(dente.gameObject.transform.localPosition.x, dente.gameObject.transform.localPosition.y, 0.5f - 4 - stretchSize * 2);
+            if (!lastBlock) dente.gameObject.transform.localPosition = new Vector3(dente.gameObject.transform.localPosition.x, dente.gameObject.transform.localPosition.y, 0.5f - 4 - stretchSize * 2);
             mesh.SetVertices(new List<Vector3>(levert));
             if (GetComponent<MeshCollider>())
                 Destroy(GetComponent<MeshCollider>());

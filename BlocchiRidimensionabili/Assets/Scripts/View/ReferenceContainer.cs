@@ -77,13 +77,17 @@ namespace view {
             Color col = v ? Color.green : def;
             GetComponent<Renderer>().material.color = col;
         }
-
+        private int n;
         public virtual void CompletaCon(ReferenceWrapper variabile)
         {
             lunghezza = variabile.lunghezza;
             variabile.transform.position = this.transform.position;
             this.variabile = variabile;
             GetComponent<MeshRenderer>().enabled = false;
+            var d = transform.parent.gameObject.GetComponent<BlockWrapper>().block;
+            n = d.ReferencesCount;
+
+            d.AddReference(n, variabile.reference);
         }
 
         public virtual void Svuota()
@@ -91,6 +95,7 @@ namespace view {
             lunghezza = lunghezzaOriginale;
             //		extend ();
             this.variabile = null;
+            transform.parent.gameObject.GetComponent<BlockWrapper>().block.RemoveReference(n);
 
         }
 

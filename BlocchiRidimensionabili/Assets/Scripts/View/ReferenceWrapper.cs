@@ -29,8 +29,8 @@ namespace view
 		{
 			loadOriginaryMesh ();
 			lunghezza = testo.ToString ().Length;
-			if (lunghezza < 1)
-				lunghezza = 1;
+			if (lunghezza < 2)
+				lunghezza = 2;
 		
 			List<int> verticesToEdit = new List<int> ();
 
@@ -45,6 +45,8 @@ namespace view
 				levert [i] = new Vector3 (levert [i].x - lunghezza + 2, levert [i].y, levert [i].z);
 			mesh.SetVertices (new List<Vector3> (levert));
 			myText.text = testo;
+            if (GetComponent<MeshCollider>())
+                Destroy(GetComponent<MeshCollider>());
 			gameObject.AddComponent<MeshCollider> ();
 			GetComponent<MeshCollider> ().convex = true;
 			GetComponent<MeshCollider> ().isTrigger = true;

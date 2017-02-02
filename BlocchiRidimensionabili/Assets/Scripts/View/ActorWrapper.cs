@@ -15,7 +15,7 @@ namespace view
         void Start()
         {
             // prevedere modello corretto
-            actor = new Actor(new Model());
+            
             this.transform.localPosition = actor.Position + centerOffset;
             this.transform.localEulerAngles = actor.Rotation;
             baseScale = transform.localScale;
