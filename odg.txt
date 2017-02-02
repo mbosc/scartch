@@ -1,6 +1,4 @@
 ORDINE GIORNO
-[ ] Diagramma di sequenza (17.00)
-[ ] Lavoro su interfaccia (18.30) -> blocchi che compaiono e scompaiono.
 ------------------------------------------
 [ ] Retrofitting Diagramma analisi
 [ ] Prevedere che le classi Wrapper siano inizializzate con una apposita funzione che passa il wrappato
