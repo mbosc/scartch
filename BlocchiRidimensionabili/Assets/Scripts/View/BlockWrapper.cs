@@ -12,7 +12,10 @@ namespace view
         public virtual ActorWrapper Owner {
             get { return ownerWrapper; }
             set {
+				if (ownerWrapper)
+					ownerWrapper.blocks.Remove (this);
                 ownerWrapper = value;
+				ownerWrapper.blocks.Add (this);
             }
         }
         public Block block;

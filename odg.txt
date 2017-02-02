@@ -3,6 +3,7 @@ ORDINE GIORNO
 [ ] Lavoro su interfaccia (18.30) -> blocchi che compaiono e scompaiono.
 ------------------------------------------
 [ ] Retrofitting Diagramma analisi
+[ ] Prevedere che le classi Wrapper siano inizializzate con una apposita funzione che passa il wrappato
 [ ] Variabili quadrate
 [ ] Interfaccia drop down
 [ ] Completamento elenco blocchi

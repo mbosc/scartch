@@ -10,13 +10,17 @@ namespace view
         public Actor actor;// TODO set private
         private Vector3 baseScale;
         public Vector3 centerOffset;
+		public List<MonoBehaviour> blocks;
 
         // Use this for initialization
         void Start()
         {
             // prevedere modello corretto
+			//DEBUG
+			if (actor == null)
+				actor = new Actor (new Model ("wewe"));
             
-            this.transform.localPosition = actor.Position + centerOffset;
+			this.transform.localPosition = actor.Position + centerOffset;
             this.transform.localEulerAngles = actor.Rotation;
             baseScale = transform.localScale;
             this.transform.localScale = actor.Scale * baseScale;
@@ -42,5 +46,12 @@ namespace view
             if (Input.GetKeyDown(KeyCode.R))
                 actor.Position += new Vector3(0, 0, 10);
         }
+
+		public void ShowBlocks(){
+			blocks.ForEach (b => b.gameObject.SetActive (true));
+		}
+		public void HideBlocks(){
+			blocks.ForEach (b => b.gameObject.SetActive (false));
+		}
     }
 }
