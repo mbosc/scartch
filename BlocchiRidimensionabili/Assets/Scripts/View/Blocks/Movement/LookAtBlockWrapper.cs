@@ -32,8 +32,8 @@ namespace view
                 Func<IList<object>> valuesCalculator = () =>
                 {
                     List<object> res = new List<object>();
-                    model.Environment.Instance.actors.ForEach(s => { if (s != owner) res.Add(s); });
-                    model.Environment.Instance.controllers.ForEach(res.Add);
+                    model.Environment.Instance.Actors.ForEach(s => { if (s != owner) res.Add(s); });
+                    model.Environment.Instance.Controllers.ForEach(res.Add);
                     return res;
                 };
                 var opt = new Option(valuesCalculator);

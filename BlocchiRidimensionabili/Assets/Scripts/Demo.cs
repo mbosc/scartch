@@ -14,25 +14,26 @@ public class Demo : MonoBehaviour {
     // Use this for initialization
 	void Start () {
         actor.actor = new Actor(new Model());
-
-        var b = InstantiateWithComponent<EndPlayModeBlockWrapper>(block);
-        b.GetComponent<BlockWrapper>().Owner = actor;
+		actor.actor.Rotation = new Vector3 (0, 30, 0);
+//        var b = InstantiateWithComponent<EndPlayModeBlockWrapper>(block);
+//        b.GetComponent<BlockWrapper>().Owner = actor;
 
         var c = InstantiateWithComponent<MoveStepsBlockWrapper>(block);
         c.GetComponent<BlockWrapper>().Owner = actor;
-        var c2 = InstantiateWithComponent<MoveStepsBlockWrapper>(block);
-        c2.GetComponent<BlockWrapper>().Owner = actor;
+//        var c2 = InstantiateWithComponent<MoveStepsBlockWrapper>(block);
+//        c2.GetComponent<BlockWrapper>().Owner = actor;
 
 
         var d = InstantiateWithComponent<OnPlayModeHatWrapper>(hat);
 
-        var e = Instantiate(varcirc);
-        e.GetComponent<NumberReferenceWrapper>().reference = new model.NumberVariable("hello", 3);
+//        var e = Instantiate(varcirc);
+//        e.GetComponent<NumberReferenceWrapper>().reference = new model.NumberVariable("hello", 3);
 
         var f = Instantiate(varcirc);
-        f.GetComponent<NumberReferenceWrapper>().reference = new model.NumberVariable("sd", -10);
+        f.GetComponent<NumberReferenceWrapper>().reference = new model.NumberVariable("sd", -40);
 
-        
+		var g = InstantiateWithComponent<BounceOnBorderBlockWrapper> (block);
+		g.GetComponent<BlockWrapper> ().Owner = actor;
 
         var z = InstantiateWithComponent<ForeverBlockWrapper>(mblock);
 

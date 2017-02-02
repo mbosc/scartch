@@ -34,7 +34,7 @@ namespace view
 				if (Environment.MaxX - Mathf.Abs(owner.Position.x) < Environment.BorderTolerance)
 					rotation.y += 180;
 				if (Environment.MaxZ - Mathf.Abs (owner.Position.z) < Environment.BorderTolerance)
-					rotation.y += rotation.y == 0 ? 0 : 180;
+					rotation.y += rotation.y != 0 ? 0 : 180;
 				if (Environment.MaxY - Mathf.Abs (owner.Position.y) < Environment.BorderTolerance)
 					rotation.z += 180;
 				//da controllare che questo algoritmo funzioni davvero

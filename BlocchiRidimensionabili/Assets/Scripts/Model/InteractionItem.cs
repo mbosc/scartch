@@ -4,6 +4,7 @@ namespace model
 {
     public interface InteractionItem
     {
-        Vector3 Position { get; set; }   
+        Vector3 Position { get; }  
+		string Name {get;}
     }
 }

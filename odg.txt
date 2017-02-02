@@ -1,0 +1,11 @@
+ORDINE GIORNO
+[ ] Diagramma di sequenza (17.00)
+[ ] Lavoro su interfaccia (18.30) -> blocchi che compaiono e scompaiono.
+------------------------------------------
+[ ] Retrofitting Diagramma analisi
+[ ] Variabili quadrate
+[ ] Interfaccia drop down
+[ ] Completamento elenco blocchi
+------------------------------------------
+[ ] Relazione (serve anche il cartaceo o solo diapositive?)
+[ ] Impieghi più razionali

@@ -2,6 +2,7 @@
 using System;
 using UnityEngine;
 using System.Collections;
+using System.Linq;
 
 namespace model
 {
@@ -18,7 +19,9 @@ namespace model
                 Destroy(this);
             else
                 instance = this;
-            PlayModeStarted += () => StartCoroutine(playRoutine(ExecutionSpeed));
+            PlayModeStarted += () => StartCoroutine(playRoutine(StepDeltaTime));
+			actors = new List<Actor> ();
+			controllers = new List<InteractionItem> ();
         }
         #endregion
 
@@ -31,7 +34,7 @@ namespace model
             get { return playMode; }
             set {
                 if (value)
-                    evaluationEngine = new EvaluationEngine();
+					evaluationEngine = new EvaluationEngine();
                 playMode = value;
                 Debug.Log("Play mode: " + PlayMode);
                 if (playMode && PlayModeStarted != null)
@@ -39,11 +42,23 @@ namespace model
             }
         }
 
-        public List<Actor> actors;
+        private IList<Actor> actors;
+		public List<Actor> Actors {
+			get {
+				return actors.ToList(); 
+			}
+		}
+		public void AddActor(Actor act){
+			actors.Add (act);
+		}
+		public void RemoveActor(Actor act){
+			actors.Remove (act);
+		}
 
-        public void Wait(float time)
+
+        public void Wait(float secs)
         {
-            StartCoroutine(waitRoutine(time));
+            StartCoroutine(waitRoutine(secs));
         }
 
         private IEnumerator waitRoutine(float time)
@@ -51,8 +66,12 @@ namespace model
             yield return new WaitForSeconds(time);
         }
 
-        public List<InteractionItem> controllers;
-
+        private IList<InteractionItem> controllers;
+		public List<InteractionItem> Controllers {
+			get {
+				return controllers.ToList ();
+			}
+		}
         public event Action PlayModeStarted;
         private EvaluationEngine evaluationEngine;
         public EvaluationEngine EvaluationEngine
@@ -63,7 +82,9 @@ namespace model
             }
         }
 
-        public float ExecutionSpeed;
+		// TODO mettere anche l'accessor qui (non lo faccio subito per facilitare il debug in editor
+		public float StepDeltaTime;
+
         void Update()
         {
             //TODO Debug
