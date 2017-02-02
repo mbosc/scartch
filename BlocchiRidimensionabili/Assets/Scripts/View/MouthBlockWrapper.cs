@@ -15,6 +15,7 @@ namespace view
             set { base.block = value; }
         }
         public BlockWrapper internalNext;
+        [HideInInspector]
         public BlockWrapperCog denteInterno;
         protected float nextBlockInternoOffsetX = 1;
         protected float nextBlockInternoOffsetY = -2;
@@ -156,6 +157,7 @@ namespace view
             }
             internalNext.spazioDente.Receiving = true;
             internalNext = null;
+            block.UnsetInnerNext();
             stretchSize = 0;
             extendToMatchContent();
         }
@@ -203,6 +205,7 @@ namespace view
 
         protected override void Start()
         {
+            denteInterno = this.gameObject.transform.GetChild(3).gameObject.GetComponent<BlockWrapperCog>();
             offsetTestoBaseX = 2;
             base.Start();
             denteInterno.setNext = setNextInterno;

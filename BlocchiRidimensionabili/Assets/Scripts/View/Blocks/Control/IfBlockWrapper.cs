@@ -24,7 +24,7 @@ namespace view
 			{
 				if (!evaluated) {
 					evaluated = true;
-					if ((references [0] as BooleanReference).Evaluate ()) {
+					if (GetReferenceAs<bool>(0)) {
 						flux = InnerNext;
 					}
 				}

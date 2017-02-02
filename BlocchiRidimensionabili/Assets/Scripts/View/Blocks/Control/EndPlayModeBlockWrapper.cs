@@ -12,6 +12,7 @@ namespace view
         // Use this for initialization
         protected override void Start()
         {
+            lastBlock = true;
             testo = "Termina play mode";
             block = new EndPlayModeBlock();
             base.Start();

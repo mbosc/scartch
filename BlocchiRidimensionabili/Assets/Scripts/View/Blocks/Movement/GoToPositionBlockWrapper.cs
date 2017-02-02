@@ -31,9 +31,9 @@ namespace view
 			public override Block ExecuteAndGetNext()
 			{
 				owner.Position = new Vector3 (
-					(references [0] as NumberReference).Evaluate (),
-					(references [1] as NumberReference).Evaluate (),
-					(references [2] as NumberReference).Evaluate ()
+					GetReferenceAs<float>(0),
+					GetReferenceAs<float>(1),
+					GetReferenceAs<float>(2)
 				);
 				return Next;
 			}

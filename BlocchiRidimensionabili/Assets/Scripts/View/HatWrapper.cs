@@ -62,6 +62,17 @@ namespace view
             }
         }
 
+        public override void unsetNext(BlockWrapper thisBlocco)
+        {
+            Debug.Log(testo + ".unsetNext()");
+            if (next)
+            {
+                next.spazioDente.Receiving = true;
+                hat.UnsetNext();
+            }
+            next = null;
+        }
+
         protected override void Update()
         {
            

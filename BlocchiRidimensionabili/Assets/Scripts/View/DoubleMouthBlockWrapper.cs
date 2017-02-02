@@ -163,6 +163,7 @@ namespace view
             }
             upperInternalNext.spazioDente.Receiving = true;
             upperInternalNext = null;
+            block.UnsetFirstInnerNext();
             firstStretchSize = 0;
 
             extendToMatchContent();
@@ -258,6 +259,7 @@ namespace view
             }
             lowerInternalNext.spazioDente.Receiving = true;
             lowerInternalNext = null;
+            block.UnsetSecondInnerNext();
             secondStretchSize = 0;
             extendToMatchContent();
         }

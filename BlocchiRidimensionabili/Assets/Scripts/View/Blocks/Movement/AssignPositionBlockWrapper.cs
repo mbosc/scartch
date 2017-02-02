@@ -32,7 +32,7 @@ namespace view
 			}
 			public override Block ExecuteAndGetNext()
 			{
-				var quantity = (references [0] as NumberReference).Evaluate ();
+				var quantity = GetReferenceAs<float>(0);
 				var axis = (options [0].chosenValue);
 				switch (axis) {
 				case 0:

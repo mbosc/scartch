@@ -8,20 +8,20 @@ namespace view
 {
     public class BlockWrapper : MonoBehaviour
     {
-		public ActorWrapper ownerWrapper;
-		public virtual ActorWrapper Owner {
-			get { return ownerWrapper; }
-			set {
-				ownerWrapper = value;
-			}
-		}
+        public ActorWrapper ownerWrapper;
+        public virtual ActorWrapper Owner {
+            get { return ownerWrapper; }
+            set {
+                ownerWrapper = value;
+            }
+        }
         public Block block;
-		[HideInInspector]
+        [HideInInspector]
         public List<ReferenceContainer> slotVariabili;
-		[HideInInspector]
-		public BlockWrapper next;
-		[HideInInspector]
-		public BlockWrapperCog dente;
+        [HideInInspector]
+        public BlockWrapper next;
+        [HideInInspector]
+        public BlockWrapperCog dente;
         public virtual List<BlockWrapperCog> denti
         {
             get
@@ -31,13 +31,13 @@ namespace view
                 return r;
             }
         }
-		[HideInInspector]
+        [HideInInspector]
         public BlockWrapperCogHole spazioDente;
 
-        
-		[HideInInspector]
+
+        [HideInInspector]
         public string testo;
-		[HideInInspector]
+        [HideInInspector]
         public UnityEngine.UI.Text campoTesto;
         public virtual int size
         {
@@ -52,7 +52,7 @@ namespace view
 
         protected float deformConst = 1;
         protected Vector3[] originaryVertices;
-		[HideInInspector]
+        [HideInInspector]
         public bool lastBlock = false;
 
         public virtual string EvaluateMe(string tabs)
@@ -147,7 +147,10 @@ namespace view
         {
             Debug.Log(testo + ".unsetNext()");
             if (next)
+            {
                 next.spazioDente.Receiving = true;
+                block.UnsetNext();
+            }
             next = null;
         }
 
@@ -205,7 +208,11 @@ namespace view
             }
         }
 
-        public GameObject bucoVarPrefab, bucoVarAngPrefab, bucoVarCircPrefab, bucoVarDDPrefab;
+        [HideInInspector]
+        public GameObject bucoVarPrefab,
+        bucoVarAngPrefab,
+            bucoVarCircPrefab,
+            bucoVarDDPrefab;
 
         public virtual void reExtendToMatchText()
         {
@@ -340,6 +347,10 @@ namespace view
         // Use this for initialization
         protected virtual void Start()
         {
+            bucoVarPrefab = ResourceManager.Instance.bucoVarSquare;
+            bucoVarAngPrefab = ResourceManager.Instance.bucoVarAng;
+            bucoVarCircPrefab = ResourceManager.Instance.bucoVarCrc; 
+            bucoVarDDPrefab = ResourceManager.Instance.bucoVarDD;
             slotVariabili = new List<ReferenceContainer>();
             try
             {
@@ -351,8 +362,13 @@ namespace view
             {
                 Debug.Log("Problemi inizializzazione per " + name);
             }
-            dente.setNext = setNext;
-            dente.unsetNext = unsetNext;
+            if (lastBlock)
+                Destroy(dente);
+            else
+            {
+                dente.setNext = setNext;
+                dente.unsetNext = unsetNext;
+            }
             spazioDente.setPrevious = setPrevious;
             name = testo;
             loadOriginaryMesh();
