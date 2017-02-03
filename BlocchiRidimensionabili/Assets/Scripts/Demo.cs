@@ -33,9 +33,11 @@ public class Demo : MonoBehaviour {
 		i.GetComponent<BlockWrapper> ().Init (actor2);
 
 
-
         var e = Instantiate(varcirc);
-        e.GetComponent<NumberReferenceWrapper>().reference = new model.NumberVariable("hello", 3);
+        e.GetComponent<NumberReferenceWrapper>().Init(actor2, new model.NumberVariable("hello", 3));
+
+        var zz = Instantiate(varAng);
+        zz.GetComponent<BooleanReferenceWrapper>().Init(actor2, new model.BooleanVariable("tru story", true));
         //settare proprieta' variabili a personaggio
         //confronta come abbiamo fatto con wrapper blocchi
 

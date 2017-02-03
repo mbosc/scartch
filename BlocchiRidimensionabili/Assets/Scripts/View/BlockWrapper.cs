@@ -6,16 +6,23 @@ using model;
 
 namespace view
 {
-    public class BlockWrapper : MonoBehaviour
+    public class BlockWrapper : ScriptingElementWrapper
     {
+        public override ScriptingElement ScriptingElement
+        {
+            get
+            {
+                return block;
+            }
+        }
         public ActorWrapper ownerWrapper;
         public virtual ActorWrapper Owner {
             get { return ownerWrapper; }
             set {
 				if (ownerWrapper)
-					ownerWrapper.RemoveBlock (this);
+					ownerWrapper.AddScriptingElement (this);
                 ownerWrapper = value;
-				ownerWrapper.AddBlock (this);
+				ownerWrapper.AddScriptingElement (this);
             }
         }
         public Block block;
@@ -270,6 +277,7 @@ namespace view
                     curBucoVar.lunghezzaOriginale = (i - inizioBucoVar + 1);
                     curBucoVar.extend();
                     curBucoVar.transform.SetParent(this.transform);
+                    curBucoVar.OnLunghezzaChange += reExtendToMatchText;
                     slotVariabili.Add(curBucoVar);
                 }
                 else if (testo[i].Equals('<'))
@@ -299,6 +307,7 @@ namespace view
                     curBucoVar.lunghezzaOriginale = (i - inizioBucoVar + 1);
                     curBucoVar.extend();
                     curBucoVar.transform.SetParent(this.transform);
+                    curBucoVar.OnLunghezzaChange += reExtendToMatchText;
                     slotVariabili.Add(curBucoVar);
                 }
                 else if (testo[i].Equals('{'))

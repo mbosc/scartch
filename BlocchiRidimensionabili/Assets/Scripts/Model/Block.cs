@@ -21,7 +21,6 @@ namespace model
         public void AddReference(int n, Reference reference)
         {
             references.Add(n, reference);
-            UnityEngine.Debug.Log(references[n]);
         }
 
         public void RemoveReference(int n)

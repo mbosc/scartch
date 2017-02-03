@@ -2,7 +2,6 @@ ORDINE GIORNO
 [ ] Aggiornare classe actor come da UML: scripting references e non piu' cappelli/blocchi. Di conseguenza aggiornare i wrapper (che sia il caso di inserire lo scriptingreferencewrapper?) e consentire di assegnare ad attori anche variabili.
 ------------------------------------------
 [ ] Retrofitting Diagramma analisi
-[ ] Prevedere che le classi Wrapper siano inizializzate con una apposita funzione che passa il wrappato
 [ ] Variabili quadrate
 [ ] Interfaccia drop down
 [ ] Completamento elenco blocchi

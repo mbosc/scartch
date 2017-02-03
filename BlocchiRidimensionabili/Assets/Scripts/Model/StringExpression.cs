@@ -4,7 +4,8 @@ namespace model
 {
     public abstract class StringExpression : Expression, StringReference
     {
-		
+        public abstract string Name { get; }
+
         public abstract string Evaluate();
         public string EvaluateAsString()
         {

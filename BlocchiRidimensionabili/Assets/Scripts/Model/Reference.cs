@@ -4,6 +4,7 @@ namespace model
 {
 	public interface Reference : ScriptingElement
     {
+        string Name { get; }
         string EvaluateAsString();
     }
 }

@@ -6,7 +6,7 @@ using model;
 namespace view {
     public class ReferenceContainer : MonoBehaviour
     {
-        
+        public string type;
         protected int _lunghezza = 1;
         public System.Action OnLunghezzaChange;
         public int lunghezza
@@ -80,14 +80,24 @@ namespace view {
         private int n;
         public virtual void CompletaCon(ReferenceWrapper variabile)
         {
+            //verificare correttezza di tipo;
+            if (variabile.assigned)
+            {
+                variabile.transform.position = this.transform.position;
+                return;
+            }
+
+            variabile.assigned = true;
             lunghezza = variabile.lunghezza;
             variabile.transform.position = this.transform.position;
             this.variabile = variabile;
             GetComponent<MeshRenderer>().enabled = false;
-            var d = transform.parent.gameObject.GetComponent<BlockWrapper>().block;
-            n = d.ReferencesCount;
+            var d = transform.parent.gameObject.GetComponent<BlockWrapper>();
 
-            d.AddReference(n, variabile.reference);
+            //TODO: questo e' molto approssimativo: fare meglio la logica di accoppiamento
+            //degli indici alle reference.
+            n = d.block.ReferencesCount;
+            d.block.AddReference(n, variabile.reference);
         }
 
         public virtual void Svuota()

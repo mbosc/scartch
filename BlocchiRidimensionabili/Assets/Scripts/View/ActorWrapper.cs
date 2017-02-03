@@ -10,7 +10,7 @@ namespace view
         public Actor actor;// TODO set private
         private Vector3 baseScale;
         public Vector3 centerOffset;
-		private List<MonoBehaviour> blocks = new List<MonoBehaviour>();
+		private List<ScriptingElementWrapper> scriptingElements = new List<ScriptingElementWrapper>();
         private GameObject highlight;
 
         // Use this for initialization
@@ -43,24 +43,24 @@ namespace view
             
         }
 
-		public void AddScriptingElement(BlockWrapper b){
-			blocks.Add (b);
-			actor.AddBlock (b.block);
+		public void AddScriptingElement(ScriptingElementWrapper b){
+			scriptingElements.Add (b);
+			actor.AddScriptingElement (b.ScriptingElement);
 		}
-		public void RemoveScriptingElement(BlockWrapper b){
-			blocks.Remove (b);
-			actor.RemoveBlock (b.block);
+		public void RemoveScriptingElement(ScriptingElementWrapper b){
+			scriptingElements.Remove (b);
+			actor.RemoveScriptingElement (b.ScriptingElement);
 		}
 
 		public void ShowBlocks(){
             if (highlight)
                 highlight.SetActive(true);
-			blocks.ForEach (b => b.gameObject.SetActive (true));
+			scriptingElements.ForEach (b => b.gameObject.SetActive (true));
 		}
 		public void HideBlocks(){
             if (highlight)
                 highlight.SetActive(false);
-			blocks.ForEach (b => b.gameObject.SetActive (false));
+			scriptingElements.ForEach (b => b.gameObject.SetActive (false));
 		}
     }
 }

@@ -26,6 +26,11 @@ namespace view
 				return reference.EvaluateAsString ();
 			}
 		}
-	}
+
+        protected override bool Compatible(ReferenceContainer bucoCorrente)
+        {
+            return bucoCorrente.type.Equals("<");
+        }
+    }
 
 }

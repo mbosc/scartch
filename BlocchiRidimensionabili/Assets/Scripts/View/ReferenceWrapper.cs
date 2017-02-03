@@ -6,7 +6,7 @@ using model;
 
 namespace view
 {
-	public abstract class ReferenceWrapper : MonoBehaviour
+	public abstract class ReferenceWrapper : ScriptingElementWrapper
 	{
         private ActorWrapper ownerWrapper;
         public virtual ActorWrapper Owner
@@ -14,13 +14,23 @@ namespace view
             get { return ownerWrapper; }
             set
             {
+                if (ownerWrapper)
+                    ownerWrapper.AddScriptingElement(this);
                 ownerWrapper = value;
-				ownerWrapper.AddBlock
+                ownerWrapper.AddScriptingElement(this);
+            }
+        }
+
+        public override ScriptingElement ScriptingElement
+        {
+            get
+            {
+                return reference;
             }
         }
 
         public int lunghezza;
-		public string testo;
+		private string testo;
 		public UnityEngine.UI.Text myText;
 		protected Mesh mesh;
 		protected Vector3[] originaryVertices;
@@ -56,10 +66,10 @@ namespace view
 
 		protected void OnTriggerEnter (Collider collider)
 		{
-			//if (!Selector.instance.selected || Selector.instance.selected.gameObject != this.gameObject)
-			//	return;
+			if (!Selector.instance.selected || Selector.instance.selected.gameObject != this.gameObject)
+				return;
 			var bucoCorrente = collider.GetComponent<ReferenceContainer> ();
-			if (bucoCorrente && bucoCorrente.variabile == null) {
+			if (bucoCorrente && bucoCorrente.variabile == null && !assigned && Compatible(bucoCorrente)) {
 				if (currentlyHighlighted) {
 					currentlyHighlighted.setHighlightVisible (false);
 				}
@@ -68,10 +78,12 @@ namespace view
 			}
 		}
 
-		protected void OnTriggerStay (Collider collider)
+        protected abstract bool Compatible(ReferenceContainer bucoCorrente);
+
+        protected void OnTriggerStay (Collider collider)
 		{
-			//if (!Selector.instance.selected || Selector.instance.selected.gameObject != this.gameObject)
-			//	return;
+			if (!Selector.instance.selected || Selector.instance.selected.gameObject != this.gameObject)
+				return;
 			var bucoCorrente = collider.GetComponent<ReferenceContainer> ();
 			try {
 				if (bucoCorrente.Equals (currentlyHighlighted))
@@ -85,6 +97,7 @@ namespace view
 			var bucoCorrente = collider.GetComponent<ReferenceContainer> ();
 			if (bucoCorrente && bucoCorrente.variabile && bucoCorrente.variabile.Equals (this)) {
 				bucoCorrente.Svuota ();
+                assigned = false;
 			}
 			ExitTrigger (collider);
 		}
@@ -107,8 +120,20 @@ namespace view
 		// Use this for initialization
 		protected virtual void Start ()
 		{
-			extend ();
+			//extend ();
 		}
+
+        public virtual void Init(ActorWrapper ownerWrapper, Reference reference)
+        {
+            this.reference = reference;
+            this.testo = reference.Name;
+            this.name = reference.Name;
+            this.Owner = ownerWrapper;
+            assigned = false;
+            extend();
+        }
+
+        public bool assigned;
 
 	}
 }

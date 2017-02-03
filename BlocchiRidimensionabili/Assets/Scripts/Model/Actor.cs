@@ -11,10 +11,8 @@ namespace model
         private float scale, volume;
         private string message;
 
-		// instances of hats, blocks and references to be used in this actor's scripts
-        private HashSet<Hat> hats;
-        private HashSet<Block> blocks;
-		private HashSet<Reference> references;
+        // instances of hats, blocks and references to be used in this actor's scripts
+        private HashSet<ScriptingElement> scriptingElements;
 
 		// variables defined within this actor's scope
         private HashSet<Variable> variables;
@@ -26,8 +24,7 @@ namespace model
 
         public Actor(Vector3 position, Vector3 rotation, float scale, float volume, string message, Model model)
         {
-            hats = new HashSet<Hat>();
-            blocks = new HashSet<Block>();
+            scriptingElements = new HashSet<ScriptingElement>();
             variables = new HashSet<Variable>();
             this.position = position;
             this.rotation = rotation;
@@ -146,21 +143,13 @@ namespace model
 
         }
 
-        public void AddHat(Hat hat)
+        public void AddScriptingElement(ScriptingElement hat)
         {
-            hats.Add(hat);
+            scriptingElements.Add(hat);
         }
-        public void RemoveHat(Hat hat)
+        public void RemoveScriptingElement(ScriptingElement hat)
         {
-            hats.Remove(hat);
-        }
-        public void AddBlock(Block block)
-        {
-            blocks.Add(block);
-        }
-        public void RemoveBlock(Block block)
-        {
-            blocks.Remove(block);
+            scriptingElements.Remove(hat);
         }
         public void AddVariable(Variable variable)
         {
