@@ -16,7 +16,7 @@ public class SelectableActor : Selectable {
 			selectedActor.HideBlocks ();
 		}
 		selectedActor = this.GetComponent<ActorWrapper> ();
-		Debug.Log ("Selected actor " + name);
+		//Debug.Log ("Selected actor " + name);
 		selectedActor.ShowBlocks();
 	}
 

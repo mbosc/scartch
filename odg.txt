@@ -1,10 +1,10 @@
 ORDINE GIORNO
-[ ] Aggiornare classe actor come da UML: scripting references e non piu' cappelli/blocchi. Di conseguenza aggiornare i wrapper (che sia il caso di inserire lo scriptingreferencewrapper?) e consentire di assegnare ad attori anche variabili.
-------------------------------------------
+[ ] o	Se spostato di poco, il blocco deve ri-snappare in posizione
 [ ] Retrofitting Diagramma analisi
-[ ] Variabili quadrate
 [ ] Interfaccia drop down
 [ ] Completamento elenco blocchi
 ------------------------------------------
+[ ] Menu per inserimento valori immediati e altro VR
 [ ] Relazione (serve anche il cartaceo o solo diapositive?)
+[ ] Rimbalza quando tocchi il bordo: fare controllo sulla direzione.
 [ ] Impieghi più razionali

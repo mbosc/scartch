@@ -7,7 +7,7 @@ using view;
 
 public class Demo : MonoBehaviour {
 
-    public GameObject block, hat, mblock, mmblock, varcirc, varAng;
+    public GameObject block, hat, mblock, mmblock, varcirc, varAng, varSqr;
     public ActorWrapper actor1, actor2, actor3;
     public Transform spawnTransform;
     
@@ -38,6 +38,12 @@ public class Demo : MonoBehaviour {
 
         var zz = Instantiate(varAng);
         zz.GetComponent<BooleanReferenceWrapper>().Init(actor2, new model.BooleanVariable("tru story", true));
+
+        var soso = InstantiateWithComponent<SayBlockWrapper>(block);
+        soso.GetComponent<BlockWrapper>().Init(actor2);
+
+        var afispo = Instantiate(varSqr);
+        afispo.GetComponent<StringReferenceWrapper>().Init(actor2, new model.StringVariable("one thing", "one thing"));
         //settare proprieta' variabili a personaggio
         //confronta come abbiamo fatto con wrapper blocchi
 

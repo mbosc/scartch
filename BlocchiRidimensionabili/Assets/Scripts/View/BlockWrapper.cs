@@ -99,7 +99,7 @@ namespace view
 
             selectionVariables.Keys.ToList().ForEach(k =>
             {
-                Debug.Log("Sposto " + k.name);
+                //Debug.Log("Sposto " + k.name);
                 k.transform.position = this.transform.position + new Vector3(nextBlockOffsetX - selectionVariables[k].x, nextBlockOffsetY - selectionVariables[k].y, 0);
             });
 
@@ -140,7 +140,7 @@ namespace view
                 var ex = new List<ReferenceWrapper>();
                 linkedBlocks.ForEach(s => { s.slotVariabili.ForEach(z => { if (z.variabile) ex.Add(z.variabile); }); });
                 slotVariabili.ForEach(s => { if (s.variabile) ex.Add(s.variabile); });
-                ex.ForEach(Debug.Log);
+                //ex.ForEach(Debug.Log);
                 return ex;
             }
         }

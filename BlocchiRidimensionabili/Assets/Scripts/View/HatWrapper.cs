@@ -42,7 +42,6 @@ namespace view
                 });
             selectionVariables.Keys.ToList().ForEach(k =>
             {
-                Debug.Log("Sposto " + k.name);
                 k.transform.position = this.transform.position + new Vector3(nextBlockOffsetX - selectionVariables[k].x, nextBlockOffsetY - selectionVariables[k].y, 0);
             });
 

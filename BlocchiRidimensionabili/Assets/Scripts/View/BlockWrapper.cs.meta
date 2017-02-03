@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 32b4df325470d4defaadc676dce44ba0
-timeCreated: 1485988923
+timeCreated: 1486138189
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
@@ -10,7 +10,7 @@ MonoImporter:
   - dente: {instanceID: 0}
   - spazioDente: {instanceID: 0}
   - campoTesto: {instanceID: 0}
-  - bucoVarPrefab: {fileID: 1379458122753024, guid: 0e645b091994642fdb25c955f41d35c2,
+  - bucoVarPrefab: {fileID: 1205457186021332, guid: c85d6268ece07c64db6776c92831c642,
       type: 2}
   - bucoVarAngPrefab: {fileID: 1205457186021332, guid: b1ea1aeaf9e834b4e9cd827fd222245d,
       type: 2}

@@ -54,8 +54,8 @@ namespace view
             });
             selectionVariables.Keys.ToList().ForEach(k =>
             {
-                Debug.Log("Sposto " + k.name);
-                k.transform.position = this.transform.position + new Vector3(nextBlockOffsetX - selectionVariables[k].x, nextBlockOffsetY - selectionVariables[k].y, 0);
+                //Debug.Log("Sposto " + k.name);
+                k.transform.position = this.transform.position + new Vector3(nextBlockInternoOffsetX - selectionVariables[k].x, nextBlockInternoOffsetY - selectionVariables[k].y, 0);
             });
 
             var oldNext = internalNext;
@@ -97,7 +97,7 @@ namespace view
             stretchSize = lung;
             extendToMatchContent();
             next.denti.ForEach(d => d.setNext += AumentaLunghezza);
-            Debug.Log("Invocation list di " + next + ".setNext: " + next.dente.setNext.GetInvocationList().Length);
+            //Debug.Log("Invocation list di " + next + ".setNext: " + next.dente.setNext.GetInvocationList().Length);
             next.denti.ForEach(d => d.unsetNext += DiminuisciLunghezza);
 
         }
@@ -109,7 +109,7 @@ namespace view
             while (catena)
             {
                 catena.denti.ForEach(d => d.setNext -= AumentaLunghezza);
-                Debug.Log("Invocation list di " + catena + ".setNext: " + catena.dente.setNext.GetInvocationList().Length);
+                //Debug.Log("Invocation list di " + catena + ".setNext: " + catena.dente.setNext.GetInvocationList().Length);
                 catena.denti.ForEach(d => d.unsetNext -= DiminuisciLunghezza);
                 catena = catena.next;
             }
@@ -151,7 +151,7 @@ namespace view
             {
 
                 catena.denti.ForEach(d => d.setNext -= AumentaLunghezza);
-                Debug.Log("Invocation list di " + catena + ".setNext: " + catena.dente.setNext.GetInvocationList().Length);
+                //Debug.Log("Invocation list di " + catena + ".setNext: " + catena.dente.setNext.GetInvocationList().Length);
                 catena.denti.ForEach(d => d.unsetNext -= DiminuisciLunghezza);
                 catena = catena.next;
             }
@@ -185,6 +185,7 @@ namespace view
             mesh.SetVertices(new List<Vector3>(levert));
             if (GetComponent<MeshCollider>())
                 Destroy(GetComponent<MeshCollider>());
+            gameObject.AddComponent<MeshCollider>();
             initialised = false;
             nextBlockOffsetY = -4 - stretchSize * 2;
 

@@ -69,7 +69,7 @@ namespace view
             selectionVariables.Keys.ToList().ForEach(k =>
             {
                 Debug.Log("Sposto " + k.name);
-                k.transform.position = this.transform.position + new Vector3(nextBlockOffsetX - selectionVariables[k].x, nextBlockOffsetY - selectionVariables[k].y, 0);
+                k.transform.position = this.transform.position + new Vector3(nextBlockInternoSuperioreOffsetX - selectionVariables[k].x, nextBlockInternoSuperioreOffsetY - selectionVariables[k].y, 0);
             });
 
 
@@ -189,7 +189,7 @@ namespace view
             selectionVariables.Keys.ToList().ForEach(k =>
             {
                 Debug.Log("Sposto " + k.name);
-                k.transform.position = this.transform.position + new Vector3(nextBlockOffsetX - selectionVariables[k].x, nextBlockOffsetY - selectionVariables[k].y, 0);
+                k.transform.position = this.transform.position + new Vector3(nextBlockInternoInferioreOffsetX - selectionVariables[k].x, nextBlockInternoInferioreOffsetY - selectionVariables[k].y, 0);
             });
 
             var oldNext = lowerInternalNext;
@@ -331,6 +331,7 @@ namespace view
             mesh.SetVertices(new List<Vector3>(levert));
             if (GetComponent<MeshCollider>())
                 Destroy(GetComponent<MeshCollider>());
+            gameObject.AddComponent<MeshCollider>();
             initialised = false;
             nextBlockOffsetY = -6 - firstStretchSize * 2 - secondStretchSize * 2;
             secondoCampoTesto.transform.parent.transform.localPosition = posizioneBaseSecondoCampoTesto + new Vector3(0, 0, -(firstStretchSize - 1) * 2);
