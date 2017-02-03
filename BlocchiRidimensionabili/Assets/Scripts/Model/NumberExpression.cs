@@ -4,6 +4,7 @@ namespace model
 {
     public abstract class NumberExpression : Expression, NumberReference
     {
+		
         public abstract float Evaluate();
         public string EvaluateAsString()
         {

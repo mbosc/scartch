@@ -7,11 +7,11 @@ namespace view{
 
 	public class IfElseBlockWrapper : DoubleMouthBlockWrapper{
 
-		protected override void Start(){
+		public override void Init(ActorWrapper wrapper, bool autoinit = true){
 			testo = "se <  >, allora";
 			secondoTesto = "altrimenti";
 			block = new IfElseBlock ();
-			base.Start ();
+			base.Init (wrapper, autoinit);
 		}
 
 

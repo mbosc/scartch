@@ -14,23 +14,23 @@ public class Demo : MonoBehaviour {
     // Use this for initialization
 	void Start () {
 		actor1.actor = new Actor (new Vector3 (0, 0, 0), new Vector3 (0, 0, 0), 1, 100, "", new Model ("s"));
-		actor2.actor = new Actor (new Vector3 (20, 0, 0), new Vector3 (0, 0, 0), 1, 100, "", new Model ("s"));
-		actor3.actor = new Actor (new Vector3 (-20, 0, 0), new Vector3 (0, 0, 0), 1, 100, "", new Model ("s"));
+		actor2.actor = new Actor (new Vector3 (40, 0, 0), new Vector3 (0, 0, 0), 1, 100, "", new Model ("s"));
+		actor3.actor = new Actor (new Vector3 (-40, 0, 0), new Vector3 (0, 0, 0), 1, 100, "", new Model ("s"));
 //        var b = InstantiateWithComponent<EndPlayModeBlockWrapper>(block);
 //        b.GetComponent<BlockWrapper>().Owner = actor;
 
         var c = InstantiateWithComponent<MoveStepsBlockWrapper>(block);
-        c.GetComponent<BlockWrapper>().Owner = actor2;
+		c.GetComponent<BlockWrapper>().Init(actor2);
 
 //        var c2 = InstantiateWithComponent<MoveStepsBlockWrapper>(block);
 //        c2.GetComponent<BlockWrapper>().Owner = actor;
 
 
         var d = InstantiateWithComponent<OnPlayModeHatWrapper>(hat);
-		d.GetComponent<HatWrapper> ().Owner = actor2;
+		d.GetComponent<HatWrapper> ().Init (actor2);
 
         var i = InstantiateWithComponent<IfBlockWrapper>(mblock);
-        i.GetComponent<BlockWrapper>().Owner = actor2;
+		i.GetComponent<BlockWrapper> ().Init (actor2);
 
 
 
@@ -44,10 +44,10 @@ public class Demo : MonoBehaviour {
 
 
 		var g = InstantiateWithComponent<BounceOnBorderBlockWrapper> (block);
-		g.GetComponent<BlockWrapper> ().Owner = actor2;
+		g.GetComponent<BlockWrapper> ().Init(actor2);
 
         var z = InstantiateWithComponent<ForeverBlockWrapper>(mblock);
-        z.GetComponent<BlockWrapper>().Owner = actor2;
+		z.GetComponent<BlockWrapper>().Init(actor2);
 
 		actor1.HideBlocks ();
 		actor2.HideBlocks ();

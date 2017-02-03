@@ -75,27 +75,28 @@ namespace view
 
         protected override void Update()
         {
-           
+			if (!initialised)
+				return;
         }
         
-        protected override void Start()
-        {
-            try
-            {
-                campoTesto = transform.GetChild(0).GetChild(0).GetComponent<UnityEngine.UI.Text>();
-                dente = transform.GetChild(1).GetComponent<BlockWrapperCog>();
-            }
-            catch
-            {
-                Debug.Log("Problemi inizializzazione per " + name);
-            }
-            dente.setNext = setNext;
-            dente.unsetNext = unsetNext;
-            name = testo;
-            campoTesto.text = testo;
-            if (lastBlock) evaluateLastBlock();
-            nextBlockOffsetX = 2;
-            offsetTestoBaseX = 0;
-        }
-    }
+		public override void Init(ActorWrapper wrapper, bool autoinit = true){
+			
+			this.Owner = wrapper;
+				try {
+					campoTesto = transform.GetChild (0).GetChild (0).GetComponent<UnityEngine.UI.Text> ();
+					dente = transform.GetChild (1).GetComponent<BlockWrapperCog> ();
+				} catch {
+					Debug.Log ("Problemi inizializzazione per " + name);
+				}
+				dente.setNext = setNext;
+				dente.unsetNext = unsetNext;
+				name = testo;
+				campoTesto.text = testo;
+				if (lastBlock)
+					evaluateLastBlock ();
+				nextBlockOffsetX = 2;
+				offsetTestoBaseX = 0;
+				initialised = autoinit;
+			}
+		}
 }

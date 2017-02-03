@@ -360,18 +360,20 @@ namespace view
 
         private Vector3 posizioneBaseSecondoCampoTesto;
 
-        protected override void Start()
+		public override void Init(ActorWrapper wrapper, bool autoinit = true)
         {
             offsetTestoBaseX = 2;
-            base.Start();
-            posizioneBaseSecondoCampoTesto = secondoCampoTesto.transform.parent.localPosition;
+			base.Init(wrapper, false);
+			posizioneBaseSecondoCampoTesto = secondoCampoTesto.transform.parent.localPosition;
             denteInternoSuperiore.setNext = setNextInternoSuperiore;
             denteInternoSuperiore.unsetNext = unsetNextInternoSuperiore;
             denteInternoInferiore.setNext = setNextInternoInferiore;
             denteInternoInferiore.unsetNext = unsetNextInternoInferiore;
             extendToMatchContent();
             nextBlockOffsetY = -6 - firstStretchSize * 2 - secondStretchSize * 2;
+
             name = testo + " " + secondoTesto;
+			initialised = autoinit;
         }
 
     }

@@ -8,24 +8,15 @@ namespace view
 {
 	public class GoToTargetsPositionBlockWrapper : BlockWrapper
 	{
-		protected override void Start(){
+		public override void Init(ActorWrapper wrapper, bool autoinit = true){
 			testo = "Vai alla posizione di {  }";
-			base.Start ();
-		}
-
-		public override ActorWrapper Owner {
-			get {
-				return base.Owner;
-			}
-			set {
-				base.Owner = value;
-				block = new GoToTargetsPositionBlock (Owner.actor);
-			}
+			block = new GoToTargetsPositionBlock (wrapper.actor);
+			base.Init (wrapper, autoinit);
 		}
 
 		private class GoToTargetsPositionBlock : Block
 		{
-			public Actor owner;
+			
 			public GoToTargetsPositionBlock(Actor owner){
                 this.owner = owner;
                 Func<IList<object>> valuesCalculator = () =>

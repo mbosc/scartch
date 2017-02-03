@@ -3,8 +3,13 @@ using System;
 using System.Reflection;
 namespace model
 {
-    public abstract class Block
+	public abstract class Block : ScriptingElement
     {
+		public Actor Owner {
+			get { return owner; }
+		}
+
+		protected Actor owner;
         protected Block next;
         protected Dictionary<int, Reference> references = new Dictionary<int, Reference>();
         protected Dictionary<int, Option> options = new Dictionary<int, Option>();

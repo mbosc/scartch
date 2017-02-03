@@ -2,7 +2,7 @@
 using System;
 namespace model
 {
-    public interface Reference
+	public interface Reference : ScriptingElement
     {
         string EvaluateAsString();
     }

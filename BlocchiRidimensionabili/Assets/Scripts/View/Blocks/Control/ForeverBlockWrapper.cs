@@ -8,12 +8,12 @@ namespace view
 	public class ForeverBlockWrapper : MouthBlockWrapper
 	{
 
-		protected override void Start ()
+		public override void Init(ActorWrapper wrapper, bool autoinit = true)
 		{
 			testo = "Per sempre";
 			block = new ForeverBlock();
             lastBlock = true;
-			base.Start ();
+			base.Init (wrapper, autoinit);
 		}
 
 		private class ForeverBlock : MouthBlock

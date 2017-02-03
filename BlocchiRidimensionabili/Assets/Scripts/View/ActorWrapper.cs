@@ -10,17 +10,13 @@ namespace view
         public Actor actor;// TODO set private
         private Vector3 baseScale;
         public Vector3 centerOffset;
-		public List<MonoBehaviour> blocks;
+		private List<MonoBehaviour> blocks = new List<MonoBehaviour>();
         private GameObject highlight;
 
         // Use this for initialization
         void Start()
         {
-            // prevedere modello corretto
-			//DEBUG
-			if (actor == null)
-				actor = new Actor (new Model ("wewe"));
-
+			
             highlight = this.transform.GetChild(0).gameObject;
 			this.transform.localPosition = actor.Position + centerOffset;
             this.transform.localEulerAngles = actor.Rotation;
@@ -44,10 +40,17 @@ namespace view
         // Update is called once per frame
         void Update()
         {
-            //Debug
-            if (Input.GetKeyDown(KeyCode.R))
-                actor.Position += new Vector3(0, 0, 10);
+            
         }
+
+		public void AddBlock(BlockWrapper b){
+			blocks.Add (b);
+			actor.AddBlock (b.block);
+		}
+		public void RemoveBlock(BlockWrapper b){
+			blocks.Remove (b);
+			actor.RemoveBlock (b.block);
+		}
 
 		public void ShowBlocks(){
             if (highlight)

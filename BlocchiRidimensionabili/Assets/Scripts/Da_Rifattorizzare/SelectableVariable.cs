@@ -13,7 +13,6 @@ public class SelectableVariable : Selectable {
 
 	public override void OnMouseOverActions() {
 		selectionList = new Dictionary<GameObject, Vector2>();
-		var blocco = GetComponent<BlockWrapper>();
 		selectionList.Add(gameObject, new Vector2(0, 0));
 	}
 

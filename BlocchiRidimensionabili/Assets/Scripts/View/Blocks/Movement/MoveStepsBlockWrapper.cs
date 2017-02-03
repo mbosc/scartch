@@ -7,24 +7,15 @@ using model;
 namespace view{
 	public class MoveStepsBlockWrapper : BlockWrapper {
 
-		protected override void Start ()
-		{
+		public override void Init(ActorWrapper wrapper, bool autoinit = true){
 			testo = "Fai (  ) passi";
-			base.Start ();
-		}
-		public override ActorWrapper Owner {
-			get {
-				return base.Owner;
-			}
-			set {
-				base.Owner = value;
-				block = new MoveStepsBlock (Owner.actor);
-			}
+			block = new MoveStepsBlock (wrapper.actor);
+			base.Init (wrapper, autoinit);
 		}
 
         private class MoveStepsBlock : Block
         {
-            public Actor owner;
+            
             public MoveStepsBlock(Actor owner)
             {
                 this.owner = owner;

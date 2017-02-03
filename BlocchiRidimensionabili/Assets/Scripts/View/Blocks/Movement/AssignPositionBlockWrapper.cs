@@ -7,24 +7,14 @@ namespace view
 {
 	public class AssignPositionBlockWrapper : BlockWrapper
 	{
-		protected override void Start(){
+		public override void Init(ActorWrapper wrapper, bool autoinit = true){
 			testo = "Assegna (  ) a {  }";
-			base.Start ();
-		}
-
-		public override ActorWrapper Owner {
-			get {
-				return base.Owner;
-			}
-			set {
-				base.Owner = value;
-				block = new AssignPositionBlock (Owner.actor);
-			}
+			block = new AssignPositionBlock (wrapper.actor);
+			base.Init (wrapper,autoinit);
 		}
 
 		private class AssignPositionBlock : Block
 		{
-			public Actor owner;
 			public AssignPositionBlock(Actor owner){
 				var opt = new Option(new object[]{"x", "y", "z"}.ToList());
 				options.Add(0, opt);

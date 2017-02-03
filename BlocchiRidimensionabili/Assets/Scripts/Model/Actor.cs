@@ -10,9 +10,15 @@ namespace model
         private Vector3 position, rotation;
         private float scale, volume;
         private string message;
+
+		// instances of hats, blocks and references to be used in this actor's scripts
         private HashSet<Hat> hats;
         private HashSet<Block> blocks;
+		private HashSet<Reference> references;
+
+		// variables defined within this actor's scope
         private HashSet<Variable> variables;
+
         private Model model;
 		private Sound sound;
         private bool isMessageVisible;
@@ -164,6 +170,7 @@ namespace model
         {
             variables.Remove(variable);
         }
+
         public Model Model
         {
             get

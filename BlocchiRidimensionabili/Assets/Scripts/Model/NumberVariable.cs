@@ -5,8 +5,7 @@ namespace model
     public class NumberVariable : Variable, NumberReference
     {
         private float value;
-
-        public NumberVariable(string name, float value)
+		public NumberVariable(string name, float value)
         {
             //da controllare
             Name = name;

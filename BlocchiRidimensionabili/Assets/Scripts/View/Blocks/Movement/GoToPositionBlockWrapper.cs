@@ -7,24 +7,15 @@ namespace view
 {
 	public class GoToPositionBlockWrapper : BlockWrapper
 	{
-		protected override void Start(){
+		public override void Init(ActorWrapper wrapper, bool autoinit = true){
 			testo = "Vai alla posizione x: (  ) y: (  ) z: (  )";
-			base.Start ();
-		}
-
-		public override ActorWrapper Owner {
-			get {
-				return base.Owner;
-			}
-			set {
-				base.Owner = value;
-				block = new GoToPositionBlock (Owner.actor);
-			}
+			block = new GoToPositionBlock (wrapper.actor);
+			base.Init (wrapper, autoinit);
 		}
 
 		private class GoToPositionBlock : Block
 		{
-			public Actor owner;
+			
 			public GoToPositionBlock(Actor owner){
 				this.owner = owner;
 			}

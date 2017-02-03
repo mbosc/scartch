@@ -7,24 +7,15 @@ namespace view
 {
 	public class IncreasePositionBlockWrapper : BlockWrapper
 	{
-		protected override void Start(){
+		public override void Init(ActorWrapper wrapper, bool autoinit = true){
 			testo = "Cambia {  } di (  )";
-			base.Start ();
-		}
-
-		public override ActorWrapper Owner {
-			get {
-				return base.Owner;
-			}
-			set {
-				base.Owner = value;
-				block = new IncreasePositionBlock (Owner.actor);
-			}
+			block = new IncreasePositionBlock (wrapper.actor);
+			base.Init (wrapper, autoinit);
 		}
 
 		private class IncreasePositionBlock : Block
 		{
-			public Actor owner;
+			
 			public IncreasePositionBlock(Actor owner){
 				var opt = new Option(new object[]{"x", "y", "z"}.ToList());
 				options.Add(0, opt);

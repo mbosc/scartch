@@ -7,12 +7,14 @@ namespace view {
     public class OnPlayModeHatWrapper : HatWrapper {
 
         // Use this for initialization
-        protected override void Start() {
-            hat = new Hat();
+		public override void Init(ActorWrapper wrapper, bool autoinit = true){
+			hat = new Hat(wrapper.actor);
             Environment.Instance.PlayModeStarted += hat.Execute;
             testo = "Al play mode";
-            base.Start();
+			base.Init (wrapper, autoinit);
         }
+
+
         
     }
 }

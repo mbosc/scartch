@@ -2,12 +2,17 @@
 using System;
 namespace model
 {
-    public class Hat
+	public class Hat : ScriptingElement
     {
+		private Actor owner;
+		public Actor Owner {
+			get { return owner; }
+		}
         private Block next;
 
-        public Hat()
+		public Hat(Actor owner)
         {
+			this.owner = owner;
             next = null;
         }
 

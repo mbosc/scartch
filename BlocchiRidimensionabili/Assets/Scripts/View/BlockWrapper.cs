@@ -13,9 +13,9 @@ namespace view
             get { return ownerWrapper; }
             set {
 				if (ownerWrapper)
-					ownerWrapper.blocks.Remove (this);
+					ownerWrapper.RemoveBlock (this);
                 ownerWrapper = value;
-				ownerWrapper.blocks.Add (this);
+				ownerWrapper.AddBlock (this);
             }
         }
         public Block block;
@@ -348,8 +348,9 @@ namespace view
 
 
         // Use this for initialization
-        protected virtual void Start()
+		public virtual void Init(ActorWrapper ownerWrapper, bool autoinit = true)
         {
+			this.Owner = ownerWrapper;
             bucoVarPrefab = ResourceManager.Instance.bucoVarSquare;
             bucoVarAngPrefab = ResourceManager.Instance.bucoVarAng;
             bucoVarCircPrefab = ResourceManager.Instance.bucoVarCrc; 
@@ -380,17 +381,20 @@ namespace view
             if (lastBlock) evaluateLastBlock();
             evaluateVars(testo, offsetTestoBaseX, 0);
             reExtendToMatchText();
+			initialised = autoinit;
 
         }
 
-
-        protected bool initialised = false;
+		protected bool initialised = false;
+        protected bool meshCalculated = false;
         // Update is called once per frame
         protected virtual void Update()
         {
-            if (!initialised)
+			if (!initialised)
+				return;
+			if (!meshCalculated)
             {
-                initialised = true;
+				meshCalculated = true;
                 this.gameObject.AddComponent<MeshCollider>();
             }
         }

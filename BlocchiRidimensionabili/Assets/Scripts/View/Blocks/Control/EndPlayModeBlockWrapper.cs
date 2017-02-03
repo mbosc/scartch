@@ -10,12 +10,12 @@ namespace view
     {
 
         // Use this for initialization
-        protected override void Start()
+		public override void Init(ActorWrapper ownerWrapper, bool autoinit = true)
         {
             lastBlock = true;
             testo = "Termina play mode";
             block = new EndPlayModeBlock();
-            base.Start();
+			base.Init(ownerWrapper, autoinit);
         }
 
         public class EndPlayModeBlock : Block

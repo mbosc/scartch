@@ -8,24 +8,15 @@ namespace view
 {
 	public class LookAtBlockWrapper : BlockWrapper
 	{
-		protected override void Start(){
+		public override void Init(ActorWrapper wrapper, bool autoinit = true){
 			testo = "Rivolgiti verso {  }";
-			base.Start ();
-		}
-
-		public override ActorWrapper Owner {
-			get {
-				return base.Owner;
-			}
-			set {
-				base.Owner = value;
-				block = new LookAtBlock (Owner.actor);
-			}
+			block = new LookAtBlock (wrapper.actor);
+			base.Init (wrapper, autoinit);
 		}
 
 		private class LookAtBlock : Block
 		{
-            public Actor owner;
+            
             public LookAtBlock(Actor owner)
             {
                 this.owner = owner;

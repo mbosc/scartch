@@ -7,24 +7,15 @@ namespace view
 {
 	public class RotateBlockWrapper : BlockWrapper
 	{
-		protected override void Start(){
+		public override void Init(ActorWrapper wrapper, bool autoinit = true){
 			testo = "Ruota di (  ) ° intorno all'asse {  }";
-			base.Start ();
-		}
-
-		public override ActorWrapper Owner {
-			get {
-				return base.Owner;
-			}
-			set {
-				base.Owner = value;
-				block = new RotateBlock (Owner.actor);
-			}
+			block = new RotateBlock (wrapper.actor);
+			base.Init (wrapper, autoinit);
 		}
 
 		private class RotateBlock : Block
 		{
-			public Actor owner;
+			
 			public RotateBlock(Actor owner){
 				var opt = new Option(new object[]{"x", "y", "z"}.ToList());
 				options.Add(0, opt);

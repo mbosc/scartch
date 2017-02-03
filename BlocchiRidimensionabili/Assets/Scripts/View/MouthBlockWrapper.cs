@@ -203,16 +203,16 @@ namespace view
             }
         }
 
-        protected override void Start()
+		public override void Init(ActorWrapper wrapper, bool autoinit = true)
         {
             denteInterno = this.gameObject.transform.GetChild(3).gameObject.GetComponent<BlockWrapperCog>();
             offsetTestoBaseX = 2;
-            base.Start();
-            denteInterno.setNext = setNextInterno;
-            denteInterno.unsetNext = unsetNextInterno;
-            extendToMatchContent();
-            nextBlockOffsetY = -4 - stretchSize * 2;
-
+			base.Init(wrapper, false);
+			denteInterno.setNext = setNextInterno;
+			denteInterno.unsetNext = unsetNextInterno;
+			extendToMatchContent();
+			nextBlockOffsetY = -4 - stretchSize * 2;
+			initialised = autoinit;
         }
 
     }

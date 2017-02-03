@@ -7,24 +7,15 @@ namespace view
 {
 	public class BounceOnBorderBlockWrapper : BlockWrapper
 	{
-		protected override void Start(){
+		public override void Init(ActorWrapper wrapper, bool autoinit = true){
 			testo = "Rimbalza quando tocchi il bordo";
-			base.Start ();
-		}
-
-		public override ActorWrapper Owner {
-			get {
-				return base.Owner;
-			}
-			set {
-				base.Owner = value;
-				block = new BounceOnBorderBlock (Owner.actor);
-			}
+			block = new BounceOnBorderBlock (wrapper.actor);
+			base.Init (wrapper, autoinit);
 		}
 
 		private class BounceOnBorderBlock : Block
 		{
-			public Actor owner;
+			
 			public BounceOnBorderBlock(Actor owner){
 				this.owner = owner;
 			}

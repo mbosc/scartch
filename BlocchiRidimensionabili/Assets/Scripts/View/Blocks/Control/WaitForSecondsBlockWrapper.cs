@@ -10,12 +10,12 @@ namespace view
     {
 
         // Use this for initialization
-        protected override void Start()
-        {
-            testo = "Aspetta (  ) secondi";
-            block = new WaitForSecondsBlock();
-            base.Start();
-        }
+		public override void Init(ActorWrapper wrapper, bool autoinit = true){
+			
+				testo = "Aspetta (  ) secondi";
+				block = new WaitForSecondsBlock ();
+			base.Init (wrapper, autoinit);
+			}
 
         private class WaitForSecondsBlock : Block
         {
