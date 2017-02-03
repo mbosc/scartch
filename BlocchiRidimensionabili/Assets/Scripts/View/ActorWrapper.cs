@@ -43,11 +43,11 @@ namespace view
             
         }
 
-		public void AddBlock(BlockWrapper b){
+		public void AddScriptingElement(BlockWrapper b){
 			blocks.Add (b);
 			actor.AddBlock (b.block);
 		}
-		public void RemoveBlock(BlockWrapper b){
+		public void RemoveScriptingElement(BlockWrapper b){
 			blocks.Remove (b);
 			actor.RemoveBlock (b.block);
 		}

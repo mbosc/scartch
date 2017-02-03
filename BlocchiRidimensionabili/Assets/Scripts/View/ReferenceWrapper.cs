@@ -15,6 +15,7 @@ namespace view
             set
             {
                 ownerWrapper = value;
+				ownerWrapper.AddBlock
             }
         }
 
