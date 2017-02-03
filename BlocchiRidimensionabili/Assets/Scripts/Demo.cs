@@ -51,7 +51,7 @@ public class Demo : MonoBehaviour {
   //      f.GetComponent<NumberReferenceWrapper>().reference = new model.NumberVariable("sd", 1);
 
 
-		var g = InstantiateWithComponent<BounceOnBorderBlockWrapper> (block);
+		var g = InstantiateWithComponent<RotateBlockWrapper> (block);
 		g.GetComponent<BlockWrapper> ().Init(actor2);
 
         var z = InstantiateWithComponent<ForeverBlockWrapper>(mblock);

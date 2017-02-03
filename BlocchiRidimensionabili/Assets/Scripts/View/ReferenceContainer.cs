@@ -28,7 +28,7 @@ namespace view {
         public ReferenceWrapper variabile;
         protected bool initialised = false;
 
-        protected void Init()
+		public virtual void Init()
         {
             _lunghezza = lunghezzaOriginale;
             loadOriginaryMesh();

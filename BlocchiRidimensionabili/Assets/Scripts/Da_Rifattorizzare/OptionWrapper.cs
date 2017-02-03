@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using model;
+using System.Linq;
 
 namespace view
 {
@@ -37,11 +38,42 @@ namespace view
 			dropB.transform.SetParent (this.transform);
             dropB.GetComponent<Renderer>().material = GetComponent<Renderer>().material;
 		}
-
+			
 		public GameObject dropButton;
+		public GameObject dropElementPrefab;
 
-		public void SetOptions(IList<object> options){
-			option = new Option (options);
+		private List<GameObject> instancedOptions;
+		public bool showing = false;
+		public void ShowOptions(){
+			showing = true;
+			List<string> options = new List<string> ();
+			option.PossibleValues.ToList().ForEach(s => options.Add(s.ToString()));
+			var longest = 0;
+			options.ForEach(s => {if (s.Length > longest) longest = s.Length;});
+
+			// istanzia i dropelement in giusta posizione
+			instancedOptions = new List<GameObject>();
+			int i = 0;
+			options.ForEach (s => {
+				var inst = GameObject.Instantiate(dropElementPrefab);
+				inst.GetComponent<OptionWrapperDropDownElement>().Init(s, i++, longest);
+				inst.transform.SetParent(transform);
+				inst.transform.localPosition = new Vector3(0, -i * 2, 0);
+				instancedOptions.Add(inst);
+			});
 		}
+
+		public void HideOptions(){
+			showing = false;
+			instancedOptions.ForEach(Destroy);
+		}
+
+		public void SetValue(int i){
+			option.chosenValue = i;
+		}
+
+//		public void SetOptions(IList<object> options){
+//			option = new Option (options);
+//		}
 	}
 }
