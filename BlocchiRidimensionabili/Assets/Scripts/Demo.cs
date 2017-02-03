@@ -7,7 +7,7 @@ using view;
 
 public class Demo : MonoBehaviour {
 
-    public GameObject block, hat, mblock, mmblock, varcirc;
+    public GameObject block, hat, mblock, mmblock, varcirc, varAng;
     public ActorWrapper actor1, actor2, actor3;
     public Transform spawnTransform;
     
@@ -20,7 +20,7 @@ public class Demo : MonoBehaviour {
 //        b.GetComponent<BlockWrapper>().Owner = actor;
 
         var c = InstantiateWithComponent<MoveStepsBlockWrapper>(block);
-        c.GetComponent<BlockWrapper>().Owner = actor1;
+        c.GetComponent<BlockWrapper>().Owner = actor2;
 
 //        var c2 = InstantiateWithComponent<MoveStepsBlockWrapper>(block);
 //        c2.GetComponent<BlockWrapper>().Owner = actor;
@@ -29,8 +29,15 @@ public class Demo : MonoBehaviour {
         var d = InstantiateWithComponent<OnPlayModeHatWrapper>(hat);
 		d.GetComponent<HatWrapper> ().Owner = actor2;
 
-//        var e = Instantiate(varcirc);
-//        e.GetComponent<NumberReferenceWrapper>().reference = new model.NumberVariable("hello", 3);
+        var i = InstantiateWithComponent<IfBlockWrapper>(mblock);
+        i.GetComponent<BlockWrapper>().Owner = actor2;
+
+
+
+        var e = Instantiate(varcirc);
+        e.GetComponent<NumberReferenceWrapper>().reference = new model.NumberVariable("hello", 3);
+        //settare proprieta' variabili a personaggio
+        //confronta come abbiamo fatto con wrapper blocchi
 
   //      var f = Instantiate(varcirc);
   //      f.GetComponent<NumberReferenceWrapper>().reference = new model.NumberVariable("sd", 1);
@@ -39,7 +46,8 @@ public class Demo : MonoBehaviour {
 		var g = InstantiateWithComponent<BounceOnBorderBlockWrapper> (block);
 		g.GetComponent<BlockWrapper> ().Owner = actor2;
 
-        //var z = InstantiateWithComponent<ForeverBlockWrapper>(mblock);
+        var z = InstantiateWithComponent<ForeverBlockWrapper>(mblock);
+        z.GetComponent<BlockWrapper>().Owner = actor2;
 
 		actor1.HideBlocks ();
 		actor2.HideBlocks ();

@@ -11,6 +11,7 @@ namespace view
         private Vector3 baseScale;
         public Vector3 centerOffset;
 		public List<MonoBehaviour> blocks;
+        private GameObject highlight;
 
         // Use this for initialization
         void Start()
@@ -19,7 +20,8 @@ namespace view
 			//DEBUG
 			if (actor == null)
 				actor = new Actor (new Model ("wewe"));
-            
+
+            highlight = this.transform.GetChild(0).gameObject;
 			this.transform.localPosition = actor.Position + centerOffset;
             this.transform.localEulerAngles = actor.Rotation;
             baseScale = transform.localScale;
@@ -48,9 +50,13 @@ namespace view
         }
 
 		public void ShowBlocks(){
+            if (highlight)
+                highlight.SetActive(true);
 			blocks.ForEach (b => b.gameObject.SetActive (true));
 		}
 		public void HideBlocks(){
+            if (highlight)
+                highlight.SetActive(false);
 			blocks.ForEach (b => b.gameObject.SetActive (false));
 		}
     }
