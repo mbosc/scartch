@@ -2676,7 +2676,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+Reset()",
+											"text": "+Stop()",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -22337,7 +22337,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFZ5RsvcLqQB78="
 							},
-							"name": "Reset",
+							"name": "Stop",
 							"visibility": "public",
 							"isStatic": false,
 							"isLeaf": false,

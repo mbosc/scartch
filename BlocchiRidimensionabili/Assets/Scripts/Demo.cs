@@ -29,8 +29,8 @@ public class Demo : MonoBehaviour {
         var d = InstantiateWithComponent<OnPlayModeHatWrapper>(hat);
 		d.Init (actor2);
 
-        var i = InstantiateWithComponent<IfBlockWrapper>(mblock);
-		i.GetComponent<BlockWrapper> ().Init (actor2);
+		var i = InstantiateWithComponent<BounceOnBorderBlockWrapper>(block);
+		i.Init (actor2);
 
 
         var e = Instantiate(varcirc);
@@ -42,7 +42,7 @@ public class Demo : MonoBehaviour {
         var soso = InstantiateWithComponent<SayBlockWrapper>(block);
         soso.Init(actor2);
 
-		var ifels = InstantiateWithComponent<IfElseBlockWrapper> (mmblock);
+		var ifels = InstantiateWithComponent<TimeResetBlockWrapper> (block);
 		ifels.Init (actor2);
 
         var afispo = Instantiate(varSqr);
@@ -54,7 +54,7 @@ public class Demo : MonoBehaviour {
   //      f.GetComponent<NumberReferenceWrapper>().reference = new model.NumberVariable("sd", 1);
 
 
-		var g = InstantiateWithComponent<RotateBlockWrapper> (block);
+		var g = InstantiateWithComponent<StopAllSoundsBlockWrapper> (block);
 		g.Init(actor2);
 
         var z = InstantiateWithComponent<ForeverBlockWrapper>(mblock);

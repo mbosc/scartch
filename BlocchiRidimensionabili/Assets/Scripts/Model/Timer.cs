@@ -27,7 +27,7 @@ namespace model
 			if (running)
 				time = UnityEngine.Time.time - startTime;
 		}
-		public void ResetTimer(){
+		public void StopTimer(){
 			running = false;
 		}
     }

@@ -1,9 +1,18 @@
 ORDINE GIORNO
-[ ] Se spostato di poco, il blocco deve ri-snappare in posizione <Meno facile del previsto>
-[ ] Retrofitting Diagramma analisi
+Sabato:
+[ ] Gestione Espressioni: devono avere un motore per l'inserimento di variabili come il blockwrapper
+
+Lunedì:
+[ ] Integrazione SteamVR (8.45 -> 10)
+[ ] Adattamento sistema di puntamento a VR (10 -> 11.30)
+[ ] Menu per inserimento valori immediati e altro VR (11.30 -> 13)
+[ ] Aggiungere visualizzatore variabili (15.30 -> 16.30)
+[ ] Aggiungere sistema per inserimento blocchi (16.30 -> 18.30)
+
+Successivi:
 [ ] Completamento elenco blocchi
-------------------------------------------
-[ ] Menu per inserimento valori immediati e altro VR
+[ ] Retrofitting Diagramma analisi
 [ ] Relazione (serve anche il cartaceo o solo diapositive?)
 [ ] Rimbalza quando tocchi il bordo: fare controllo sulla direzione.
-[ ] Impieghi più razionali
+[ ] Se spostato di poco, il blocco deve ri-snappare in posizione <Meno facile del previsto>
+[ ] Realizzazione demo: Gioco labirinto? Fattoriale (per mostrare ricorsione con chiamata di messaggi)? 

@@ -50,6 +50,13 @@ namespace model
 
         }
 
+		public void PlaySound(Sound s){
+			// TODO not done
+		}
+		public void StopSound(){
+			// TODO not done
+		}
+
         public Vector3 Position
         {
             get

@@ -12,7 +12,8 @@ namespace model
         #region Singleton Pattern Code
         private static Environment instance;
 
-
+		private model.Timer timer;
+		public Timer Timer { get {return timer;}}
 
         void Start() {
             if (instance != null)
@@ -22,7 +23,8 @@ namespace model
             PlayModeStarted += () => StartCoroutine(playRoutine(StepDeltaTime));
 			actors = new List<Actor> ();
 			controllers = new List<InteractionItem> ();
-        }
+			timer = GetComponent<Timer> ();
+		}
         #endregion
 
         public static int MaxX = 240, MaxZ = 240, MaxY = 180;
@@ -33,8 +35,12 @@ namespace model
         {
             get { return playMode; }
             set {
-                if (value)
-					evaluationEngine = new EvaluationEngine();
+				if (value) {
+					evaluationEngine = new EvaluationEngine ();
+					timer.StartTimer ();
+				} else {
+					timer.StopTimer ();
+				}
                 playMode = value;
                 Debug.Log("Play mode: " + PlayMode);
                 if (playMode && PlayModeStarted != null)

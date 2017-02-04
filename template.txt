@@ -1,0 +1,29 @@
+using System;
+using UnityEngine;
+using model;
+using System.Linq;
+
+namespace view
+{
+	public class #BlockWrapper : BlockWrapper
+	{
+		public override void Init(ActorWrapper wrapper, bool autoinit = true){
+			GetComponent<Renderer> ().material = ResourceManager.Instance.bloccoSensori;
+			testo = "//testo";
+			block = new #Block (wrapper.actor);
+			base.Init (wrapper,autoinit);
+		}
+
+		private class #Block : Block
+		{
+			public #Block(Actor owner){
+				this.owner = owner;
+			}
+			public override Block ExecuteAndGetNext()
+			{
+				//FILL HERE
+				return Next;
+			}
+		}
+	}
+}

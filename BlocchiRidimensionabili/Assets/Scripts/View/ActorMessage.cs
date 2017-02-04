@@ -24,7 +24,7 @@ public class ActorMessage : MonoBehaviour {
 		var extension = (lunghezza - 2) / 3.0f * 5;
 		var displacement = -21.59f + (extension) * 0.5f;
 		var assDisplacement = -21.115f + extension;
-		Debug.Log (extension + ", " + displacement +"-> "+ assDisplacement);
+
 		//body.rectTransform.rect.width = extension;
 		//body.rectTransform.rect.position.x = -19.09f + extension/5 * 0.5f;
 		body.rectTransform.sizeDelta = new Vector2(extension, body.rectTransform.sizeDelta.y);
