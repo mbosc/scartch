@@ -14,6 +14,12 @@ namespace model
         protected Dictionary<int, Reference> references = new Dictionary<int, Reference>();
         protected Dictionary<int, Option> options = new Dictionary<int, Option>();
 
+        public Option GetOption(int i)
+        {
+            Option ex = options[i];
+            return ex;
+        }
+
         public int ReferencesCount
         {
             get { return references.Keys.Count; }

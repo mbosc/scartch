@@ -9,8 +9,8 @@ namespace view
 	public class GoToTargetsPositionBlockWrapper : BlockWrapper
 	{
 		public override void Init(ActorWrapper wrapper, bool autoinit = true){
-			testo = "Vai alla posizione di {  }";
-			block = new GoToTargetsPositionBlock (wrapper.actor);
+            block = new GoToTargetsPositionBlock(wrapper.actor);
+            testo = "Vai alla posizione di {  }";
 			base.Init (wrapper, autoinit);
 		}
 

@@ -39,7 +39,9 @@ namespace view
 
 		public override void OnDeselection(){
 			transform.parent.GetComponent<OptionWrapper> ().SetValue (number);
-		}
+            transform.parent.GetComponent<OptionWrapper>().HideOptions();
+
+        }
 
 		private int number;
 		public void Init(string text, int number, int length)

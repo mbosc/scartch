@@ -11,6 +11,7 @@ namespace view
 	{
 
 		public Option option;
+        public UnityEngine.UI.Text myText;
 
 		public override void extend ()
 		{
@@ -50,6 +51,8 @@ namespace view
 			option.PossibleValues.ToList().ForEach(s => options.Add(s.ToString()));
 			var longest = 0;
 			options.ForEach(s => {if (s.Length > longest) longest = s.Length;});
+            if (longest < lunghezza)
+                longest = lunghezza;
 
 			// istanzia i dropelement in giusta posizione
 			instancedOptions = new List<GameObject>();
@@ -58,7 +61,8 @@ namespace view
 				var inst = GameObject.Instantiate(dropElementPrefab);
 				inst.GetComponent<OptionWrapperDropDownElement>().Init(s, i++, longest);
 				inst.transform.SetParent(transform);
-				inst.transform.localPosition = new Vector3(0, -i * 2, 0);
+				inst.transform.localPosition = new Vector3(0, 0, -i * 2);
+                inst.transform.localRotation = Quaternion.identity;
 				instancedOptions.Add(inst);
 			});
 		}

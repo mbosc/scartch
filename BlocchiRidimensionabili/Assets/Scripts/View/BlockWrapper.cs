@@ -263,6 +263,7 @@ namespace view
         {
             ReferenceContainer curBucoVar = null;
             int inizioBucoVar = 0;
+            int countVars = 0, countOpt = 0;
             for (int i = 0; i < testo.Length; i++)
             {
                 if (testo[i].Equals('['))
@@ -312,9 +313,10 @@ namespace view
                 }
                 else if (testo[i].Equals('{'))
                 {
-                    curBucoVar = GameObject.Instantiate(bucoVarDDPrefab).GetComponent<ReferenceContainer>();
+                    curBucoVar = GameObject.Instantiate(bucoVarDDPrefab).GetComponent<OptionWrapper>();
                     curBucoVar.transform.position = this.transform.position + new Vector3(posBaseX + i, posBaseY, 0);
 					curBucoVar.GetComponent<Renderer> ().material = this.GetComponent<Renderer> ().material;
+                    (curBucoVar as OptionWrapper).option = block.GetOption(countOpt++);
                     inizioBucoVar = i;
                 }
                 else if (testo[i].Equals('}'))
