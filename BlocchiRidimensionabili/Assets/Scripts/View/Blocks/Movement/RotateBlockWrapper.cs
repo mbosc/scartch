@@ -8,6 +8,7 @@ namespace view
 	public class RotateBlockWrapper : BlockWrapper
 	{
 		public override void Init(ActorWrapper wrapper, bool autoinit = true){
+			GetComponent<Renderer> ().material = ResourceManager.Instance.bloccoMovimento;
 			testo = "Ruota di (  ) ° intorno all'asse {  }";
 			block = new RotateBlock (wrapper.actor);
 			base.Init (wrapper, autoinit);

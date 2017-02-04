@@ -20,14 +20,14 @@ public class Demo : MonoBehaviour {
 //        b.GetComponent<BlockWrapper>().Owner = actor;
 
         var c = InstantiateWithComponent<MoveStepsBlockWrapper>(block);
-		c.GetComponent<BlockWrapper>().Init(actor2);
+		c.Init(actor2);
 
 //        var c2 = InstantiateWithComponent<MoveStepsBlockWrapper>(block);
 //        c2.GetComponent<BlockWrapper>().Owner = actor;
 
 
         var d = InstantiateWithComponent<OnPlayModeHatWrapper>(hat);
-		d.GetComponent<HatWrapper> ().Init (actor2);
+		d.Init (actor2);
 
         var i = InstantiateWithComponent<IfBlockWrapper>(mblock);
 		i.GetComponent<BlockWrapper> ().Init (actor2);
@@ -40,7 +40,10 @@ public class Demo : MonoBehaviour {
         zz.GetComponent<BooleanReferenceWrapper>().Init(actor2, new model.BooleanVariable("tru story", true));
 
         var soso = InstantiateWithComponent<SayBlockWrapper>(block);
-        soso.GetComponent<BlockWrapper>().Init(actor2);
+        soso.Init(actor2);
+
+		var ifels = InstantiateWithComponent<IfElseBlockWrapper> (mmblock);
+		ifels.Init (actor2);
 
         var afispo = Instantiate(varSqr);
         afispo.GetComponent<StringReferenceWrapper>().Init(actor2, new model.StringVariable("one thing", "one thing"));
@@ -52,10 +55,10 @@ public class Demo : MonoBehaviour {
 
 
 		var g = InstantiateWithComponent<RotateBlockWrapper> (block);
-		g.GetComponent<BlockWrapper> ().Init(actor2);
+		g.Init(actor2);
 
         var z = InstantiateWithComponent<ForeverBlockWrapper>(mblock);
-		z.GetComponent<BlockWrapper>().Init(actor2);
+		z.Init(actor2);
 
 		actor1.HideBlocks ();
 		actor2.HideBlocks ();
@@ -64,13 +67,13 @@ public class Demo : MonoBehaviour {
         
     }
 
-    private GameObject InstantiateWithComponent<T>(GameObject prefab) where T:MonoBehaviour
+    private T InstantiateWithComponent<T>(GameObject prefab) where T:MonoBehaviour
     {
         GameObject b = GameObject.Instantiate(prefab);
         b.AddComponent<T>();
         GameObject c = GameObject.Instantiate(b);
         Destroy(b);
-        return c;
+		return c.GetComponent<T>();
     }
 	
 	// Update is called once per frame

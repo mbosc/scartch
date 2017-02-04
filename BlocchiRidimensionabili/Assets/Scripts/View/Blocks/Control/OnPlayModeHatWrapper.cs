@@ -8,6 +8,7 @@ namespace view {
 
         // Use this for initialization
 		public override void Init(ActorWrapper wrapper, bool autoinit = true){
+			GetComponent<Renderer> ().material = ResourceManager.Instance.bloccoControllo;
 			hat = new Hat(wrapper.actor);
             Environment.Instance.PlayModeStarted += hat.Execute;
             testo = "Al play mode";

@@ -8,6 +8,7 @@ namespace view
 	public class BounceOnBorderBlockWrapper : BlockWrapper
 	{
 		public override void Init(ActorWrapper wrapper, bool autoinit = true){
+			GetComponent<Renderer> ().material = ResourceManager.Instance.bloccoMovimento;
 			testo = "Rimbalza quando tocchi il bordo";
 			block = new BounceOnBorderBlock (wrapper.actor);
 			base.Init (wrapper, autoinit);

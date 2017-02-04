@@ -10,6 +10,7 @@ namespace view
 
 		public override void Init(ActorWrapper wrapper, bool autoinit = true)
 		{
+			GetComponent<Renderer> ().material = ResourceManager.Instance.bloccoControllo;
 			testo = "Per sempre";
 			block = new ForeverBlock();
             lastBlock = true;

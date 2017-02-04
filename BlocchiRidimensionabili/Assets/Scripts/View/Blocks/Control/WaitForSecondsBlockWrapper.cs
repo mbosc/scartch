@@ -11,9 +11,9 @@ namespace view
 
         // Use this for initialization
 		public override void Init(ActorWrapper wrapper, bool autoinit = true){
-			
-				testo = "Aspetta (  ) secondi";
-				block = new WaitForSecondsBlock ();
+			GetComponent<Renderer> ().material = ResourceManager.Instance.bloccoControllo;
+			testo = "Aspetta (  ) secondi";
+			block = new WaitForSecondsBlock ();
 			base.Init (wrapper, autoinit);
 			}
 
@@ -24,7 +24,7 @@ namespace view
             }
             public override Block ExecuteAndGetNext()
             {
-                model.Environment.Instance.Wait(((references[0]) as NumberReference).Evaluate());
+                model.Environment.Instance.Wait(GetReferenceAs<float>(0));
                 return Next;
             }
         }

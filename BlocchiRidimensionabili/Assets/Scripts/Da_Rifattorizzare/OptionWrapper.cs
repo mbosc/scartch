@@ -9,8 +9,14 @@ namespace view
 
 	public class OptionWrapper : ReferenceContainer
 	{
-
-		public Option option;
+		private Option _option;
+		public Option option {
+			get { return _option; }
+			set {
+				_option = value;
+				SetValue (0);
+			}
+		}
         public UnityEngine.UI.Text myText;
 
 		public override void extend ()
@@ -51,15 +57,15 @@ namespace view
 			option.PossibleValues.ToList().ForEach(s => options.Add(s.ToString()));
 			var longest = 0;
 			options.ForEach(s => {if (s.Length > longest) longest = s.Length;});
-            if (longest < lunghezza)
-                longest = lunghezza;
+            if (longest + 1 > lunghezza)
+				lunghezza = longest + 1;
 
 			// istanzia i dropelement in giusta posizione
 			instancedOptions = new List<GameObject>();
 			int i = 0;
 			options.ForEach (s => {
 				var inst = GameObject.Instantiate(dropElementPrefab);
-				inst.GetComponent<OptionWrapperDropDownElement>().Init(s, i++, longest);
+				inst.GetComponent<OptionWrapperDropDownElement>().Init(s, i++, lunghezza);
 				inst.transform.SetParent(transform);
 				inst.transform.localPosition = new Vector3(0, 0, -i * 2);
                 inst.transform.localRotation = Quaternion.identity;
@@ -74,6 +80,26 @@ namespace view
 
 		public void SetValue(int i){
 			option.chosenValue = i;
+			myText.text = option.PossibleValues [i].ToString ();
+		}
+
+		protected override void Start ()
+		{
+			
+			if (option == null)
+				return;
+			else {
+				SetValue (0);
+				List<string> options = new List<string> ();
+				option.PossibleValues.ToList ().ForEach (s => options.Add (s.ToString ()));
+				var longest = 0;
+				options.ForEach (s => {
+					if (s.Length > longest)
+						longest = s.Length;
+				});
+				if (longest + 1 > lunghezza)
+					lunghezza = longest + 1;
+			}
 		}
 
 //		public void SetOptions(IList<object> options){

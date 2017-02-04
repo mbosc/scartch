@@ -8,6 +8,7 @@ namespace view
 	public class IncreasePositionBlockWrapper : BlockWrapper
 	{
 		public override void Init(ActorWrapper wrapper, bool autoinit = true){
+			GetComponent<Renderer> ().material = ResourceManager.Instance.bloccoMovimento;
 			testo = "Cambia {  } di (  )";
 			block = new IncreasePositionBlock (wrapper.actor);
 			base.Init (wrapper, autoinit);

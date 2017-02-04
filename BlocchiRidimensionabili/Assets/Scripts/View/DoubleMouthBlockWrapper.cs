@@ -363,6 +363,9 @@ namespace view
 
 		public override void Init(ActorWrapper wrapper, bool autoinit = true)
         {
+			denteInternoSuperiore = this.gameObject.transform.GetChild (3).gameObject.GetComponent<BlockWrapperCog> ();
+			secondoCampoTesto = this.gameObject.transform.GetChild (4).GetChild(0).gameObject.GetComponent<UnityEngine.UI.Text> ();
+			denteInternoInferiore = this.gameObject.transform.GetChild (5).gameObject.GetComponent<BlockWrapperCog> ();
             offsetTestoBaseX = 2;
 			base.Init(wrapper, false);
 			posizioneBaseSecondoCampoTesto = secondoCampoTesto.transform.parent.localPosition;

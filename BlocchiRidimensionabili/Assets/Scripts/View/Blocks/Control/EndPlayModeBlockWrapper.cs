@@ -12,6 +12,7 @@ namespace view
         // Use this for initialization
 		public override void Init(ActorWrapper ownerWrapper, bool autoinit = true)
         {
+			GetComponent<Renderer> ().material = ResourceManager.Instance.bloccoControllo;
             lastBlock = true;
             testo = "Termina play mode";
             block = new EndPlayModeBlock();

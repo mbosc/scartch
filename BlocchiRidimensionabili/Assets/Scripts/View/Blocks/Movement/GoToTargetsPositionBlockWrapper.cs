@@ -9,6 +9,7 @@ namespace view
 	public class GoToTargetsPositionBlockWrapper : BlockWrapper
 	{
 		public override void Init(ActorWrapper wrapper, bool autoinit = true){
+			GetComponent<Renderer> ().material = ResourceManager.Instance.bloccoMovimento;
             block = new GoToTargetsPositionBlock(wrapper.actor);
             testo = "Vai alla posizione di {  }";
 			base.Init (wrapper, autoinit);

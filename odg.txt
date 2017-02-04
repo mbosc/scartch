@@ -1,7 +1,6 @@
 ORDINE GIORNO
-[ ] o	Se spostato di poco, il blocco deve ri-snappare in posizione
+[ ] Se spostato di poco, il blocco deve ri-snappare in posizione <Meno facile del previsto>
 [ ] Retrofitting Diagramma analisi
-[ ] Interfaccia drop down
 [ ] Completamento elenco blocchi
 ------------------------------------------
 [ ] Menu per inserimento valori immediati e altro VR

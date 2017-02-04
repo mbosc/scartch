@@ -324,6 +324,7 @@ namespace view
                     curBucoVar.lunghezzaOriginale = (i - inizioBucoVar + 1);
                     curBucoVar.extend();
                     curBucoVar.transform.SetParent(this.transform);
+					curBucoVar.OnLunghezzaChange += reExtendToMatchText;
                     slotVariabili.Add(curBucoVar);
                 }
             }

@@ -8,6 +8,7 @@ namespace view{
 	public class MoveStepsBlockWrapper : BlockWrapper {
 
 		public override void Init(ActorWrapper wrapper, bool autoinit = true){
+			GetComponent<Renderer> ().material = ResourceManager.Instance.bloccoMovimento;
 			testo = "Fai (  ) passi";
 			block = new MoveStepsBlock (wrapper.actor);
 			base.Init (wrapper, autoinit);
@@ -15,7 +16,7 @@ namespace view{
 
         private class MoveStepsBlock : Block
         {
-            
+
             public MoveStepsBlock(Actor owner)
             {
                 this.owner = owner;
@@ -23,7 +24,7 @@ namespace view{
             public override Block ExecuteAndGetNext()
             {
 				var forward = (Quaternion.Euler(owner.Rotation) * new Vector3(0,0,1));
-				owner.Position += forward * (references[0] as NumberReference).Evaluate();
+				owner.Position += forward * GetReferenceAs<float>(0);
                 return Next;
             }
         }

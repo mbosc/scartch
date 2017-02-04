@@ -8,6 +8,7 @@ namespace view
 	public class AssignPositionBlockWrapper : BlockWrapper
 	{
 		public override void Init(ActorWrapper wrapper, bool autoinit = true){
+			GetComponent<Renderer> ().material = ResourceManager.Instance.bloccoMovimento;
 			testo = "Assegna (  ) a {  }";
 			block = new AssignPositionBlock (wrapper.actor);
 			base.Init (wrapper,autoinit);

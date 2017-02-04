@@ -9,6 +9,7 @@ namespace view
 	public class LookAtBlockWrapper : BlockWrapper
 	{
 		public override void Init(ActorWrapper wrapper, bool autoinit = true){
+			GetComponent<Renderer> ().material = ResourceManager.Instance.bloccoMovimento;
 			testo = "Rivolgiti verso {  }";
 			block = new LookAtBlock (wrapper.actor);
 			base.Init (wrapper, autoinit);

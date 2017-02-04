@@ -8,6 +8,7 @@ namespace view{
 	public class IfElseBlockWrapper : DoubleMouthBlockWrapper{
 
 		public override void Init(ActorWrapper wrapper, bool autoinit = true){
+			GetComponent<Renderer> ().material = ResourceManager.Instance.bloccoControllo;
 			testo = "se <  >, allora";
 			secondoTesto = "altrimenti";
 			block = new IfElseBlock ();
@@ -25,7 +26,7 @@ namespace view{
                 if (!evaluated)
                 {
                     evaluated = true;
-                    if ((references[0] as BooleanReference).Evaluate())
+					if (GetReferenceAs<bool>(0))
                     {
                         flux = firstInnerNext;
                     }

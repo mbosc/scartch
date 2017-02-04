@@ -8,6 +8,7 @@ namespace view
 	public class SayBlockWrapper : BlockWrapper
 	{
 		public override void Init(ActorWrapper wrapper, bool autoinit = true){
+			GetComponent<Renderer> ().material = ResourceManager.Instance.bloccoAspetto;
 			testo = "Di' [  ]";
 			block = new SayBlock (wrapper.actor);
 			base.Init (wrapper,autoinit);
@@ -20,11 +21,10 @@ namespace view
 			}
 			public override Block ExecuteAndGetNext()
 			{
-                owner.Message = (references[0] as StringReference).Evaluate();
+                owner.Message = GetReferenceAs<string>(0);
                 owner.ShowMessage();
 				return Next;
 			}
 		}
 	}
 }
-
