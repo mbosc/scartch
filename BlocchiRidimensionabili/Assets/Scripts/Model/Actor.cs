@@ -20,8 +20,17 @@ namespace model
         private Model model;
 		private Sound sound;
         private bool isMessageVisible;
+		public bool IsMessageVisible { get { return isMessageVisible; } }
         public event Action ActorChanged;
-
+		private bool hidden;
+		public bool Hidden {
+			get { return hidden; }
+			set {
+				hidden = value;
+				if (ActorChanged != null)
+					ActorChanged ();
+			}
+		}
         public Actor(Vector3 position, Vector3 rotation, float scale, float volume, string message, Model model)
         {
             scriptingElements = new HashSet<ScriptingElement>();
