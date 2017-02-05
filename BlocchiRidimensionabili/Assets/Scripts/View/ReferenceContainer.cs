@@ -92,12 +92,22 @@ namespace view {
             variabile.transform.position = this.transform.position;
             this.variabile = variabile;
             GetComponent<MeshRenderer>().enabled = false;
-            var d = transform.parent.gameObject.GetComponent<BlockWrapper>();
+
 
             //TODO: questo e' molto approssimativo: fare meglio la logica di accoppiamento
             //degli indici alle reference.
-            n = d.block.ReferencesCount;
-            d.block.AddReference(n, variabile.reference);
+            var d = transform.parent.gameObject.GetComponent<BlockWrapper>();
+            if (d == null)
+            {
+                var z = transform.parent.gameObject.GetComponent<ReferenceWrapper>();
+                n = z.expression.ReferencesCount;
+                z.expression.AddReference(n, variabile.reference);
+            }
+            else
+            {
+                n = d.block.ReferencesCount;
+                d.block.AddReference(n, variabile.reference);
+            }
         }
 
         public virtual void Svuota()
@@ -105,7 +115,10 @@ namespace view {
             lunghezza = lunghezzaOriginale;
             //		extend ();
             this.variabile = null;
-            transform.parent.gameObject.GetComponent<BlockWrapper>().block.RemoveReference(n);
+            if (transform.parent.gameObject.GetComponent<BlockWrapper>())
+                transform.parent.gameObject.GetComponent<BlockWrapper>().block.RemoveReference(n);
+            else
+                transform.parent.gameObject.GetComponent<ReferenceWrapper>().expression.RemoveReference(n);
 
         }
 

@@ -36,7 +36,7 @@ namespace view
 
         protected override bool Compatible(ReferenceContainer bucoCorrente)
         {
-            return bucoCorrente.type.Equals("(");
+            return bucoCorrente.type.Equals("(") || bucoCorrente.type.Equals("[");
         }
     }
 }

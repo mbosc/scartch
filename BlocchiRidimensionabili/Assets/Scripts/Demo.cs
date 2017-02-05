@@ -10,9 +10,33 @@ public class Demo : MonoBehaviour {
     public GameObject block, hat, mblock, mmblock, varcirc, varAng, varSqr;
     public ActorWrapper actor1, actor2, actor3;
     public Transform spawnTransform;
-    
+
+    private class SumExpression : NumberExpression
+    {
+        public SumExpression()
+        {
+            name = "(  ) + (  )";
+        }
+
+        private string name;
+        public override string Name
+        {
+            get
+            {
+                return name;
+            }
+        }
+
+        public override float Evaluate()
+        {
+            var a1 = GetReferenceAs<float>(0);
+            var a2 = GetReferenceAs<float>(1);
+            return a1 + a2;
+        }
+    }
+
     // Use this for initialization
-	void Start () {
+    void Start () {
 		actor1.actor = new Actor (new Vector3 (0, 0, 0), new Vector3 (0, 0, 0), 1, 100, "", new Model ("s"));
 		actor2.actor = new Actor (new Vector3 (40, 0, 0), new Vector3 (0, 0, 0), 1, 100, "", new Model ("s"));
 		actor3.actor = new Actor (new Vector3 (-40, 0, 0), new Vector3 (0, 0, 0), 1, 100, "", new Model ("s"));
@@ -34,7 +58,11 @@ public class Demo : MonoBehaviour {
 
 
         var e = Instantiate(varcirc);
-        e.GetComponent<NumberReferenceWrapper>().Init(actor2, new model.NumberVariable("hello", 3));
+        e.GetComponent<NumberReferenceWrapper>().Init(actor2, new model.NumberVariable("three", 3));
+        var e2 = Instantiate(varcirc);
+        e2.GetComponent<NumberReferenceWrapper>().Init(actor2, new model.NumberVariable("two", 2));
+        var e3 = Instantiate(varcirc);
+        e3.GetComponent<NumberReferenceWrapper>().Init(actor2, new SumExpression());
 
         var zz = Instantiate(varAng);
         zz.GetComponent<BooleanReferenceWrapper>().Init(actor2, new model.BooleanVariable("tru story", true));

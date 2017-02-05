@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using model;
+using System.Linq;
 
 namespace view
 {
@@ -28,9 +29,12 @@ namespace view
                 return reference;
             }
         }
+        
+        
+
 
         public int lunghezza;
-		private string testo;
+		protected string testo;
 		public UnityEngine.UI.Text myText;
 		protected Mesh mesh;
 		protected Vector3[] originaryVertices;
@@ -123,17 +127,154 @@ namespace view
 			//extend ();
 		}
 
+        
+
         public virtual void Init(ActorWrapper ownerWrapper, Reference reference)
         {
+            bucoVarPrefab = ResourceManager.Instance.bucoVarSquare;
+            bucoVarAngPrefab = ResourceManager.Instance.bucoVarAng;
+            bucoVarCircPrefab = ResourceManager.Instance.bucoVarCrc;
+            bucoVarDDPrefab = ResourceManager.Instance.bucoVarDD;
             this.reference = reference;
             this.testo = reference.Name;
             this.name = reference.Name;
             this.Owner = ownerWrapper;
             assigned = false;
-            extend();
+            evaluateVars(testo, 0, 0);
+            reExtendToMatchText();
         }
 
         public bool assigned;
+        protected virtual void adaptText()
+        {
+            var builder = new System.Text.StringBuilder();
+            char c = testo[0];
+            var goingThrough = false;
+            var varIndex = 0;
+            for (int i = 0; i < testo.Length; i++)
+            {
+                c = testo[i];
+                if (varStarts.Contains(c))
+                {
+                    builder.Append(new string(' ', slotVariabili[varIndex++].lunghezza));
+                    goingThrough = true;
+                }
+                else if (varEnds.Contains(c))
+                {
+                    goingThrough = false;
+                }
+                else if (!goingThrough)
+                {
+                    builder.Append(c);
+                }
+            }
+            myText.text = builder.ToString();
+        }
 
-	}
+        private char[] varStarts = new char[] { '[', '<', '(', '{' };
+        private char[] varEnds = new char[] { ']', '>', ')', '}' };
+        [HideInInspector]
+        public List<ReferenceContainer> slotVariabili;
+        protected virtual void evaluateVars(string testo, int posBaseX, int posBaseY)
+        {
+            ReferenceContainer curBucoVar = null;
+            int inizioBucoVar = 0;
+            int countVars = 0, countOpt = 0;
+            for (int i = 0; i < testo.Length; i++)
+            {
+                if (testo[i].Equals('['))
+                {
+                    curBucoVar = GameObject.Instantiate(bucoVarPrefab).GetComponent<ReferenceContainer>();
+                    Physics.IgnoreCollision(GetComponent<Collider>(), curBucoVar.GetComponent<Collider>());
+                    curBucoVar.transform.position = this.transform.position + new Vector3(posBaseX + i, posBaseY, -.4f);
+                    curBucoVar.GetComponent<Renderer>().material = this.GetComponent<Renderer>().material;
+                    inizioBucoVar = i;
+                }
+                else if (testo[i].Equals(']'))
+                {
+                    curBucoVar.lunghezzaOriginale = (i - inizioBucoVar + 1);
+                    curBucoVar.extend();
+                    curBucoVar.transform.SetParent(this.transform);
+                    curBucoVar.OnLunghezzaChange += reExtendToMatchText;
+                    slotVariabili.Add(curBucoVar);
+                }
+                else if (testo[i].Equals('<'))
+                {
+                    curBucoVar = GameObject.Instantiate(bucoVarAngPrefab).GetComponent<ReferenceContainer>();
+                    Physics.IgnoreCollision(GetComponent<Collider>(), curBucoVar.GetComponent<Collider>());
+                    curBucoVar.transform.position = this.transform.position + new Vector3(posBaseX + i, posBaseY, -.4f);
+                    curBucoVar.GetComponent<Renderer>().material = this.GetComponent<Renderer>().material;
+                    inizioBucoVar = i;
+                }
+                else if (testo[i].Equals('>'))
+                {
+                    curBucoVar.lunghezzaOriginale = (i - inizioBucoVar + 1);
+                    curBucoVar.extend();
+                    curBucoVar.transform.SetParent(this.transform);
+                    curBucoVar.OnLunghezzaChange += reExtendToMatchText;
+                    slotVariabili.Add(curBucoVar);
+                }
+                else if (testo[i].Equals('('))
+                {
+                    curBucoVar = GameObject.Instantiate(bucoVarCircPrefab).GetComponent<ReferenceContainer>();
+                   // Physics.IgnoreCollision(GetComponent<Collider>(), curBucoVar.GetComponent<Collider>());
+                    curBucoVar.transform.position = this.transform.position + new Vector3(posBaseX + i, posBaseY, -.4f);
+                    curBucoVar.GetComponent<Renderer>().material = this.GetComponent<Renderer>().material;
+                    inizioBucoVar = i;
+                }
+                else if (testo[i].Equals(')'))
+                {
+                    curBucoVar.lunghezzaOriginale = (i - inizioBucoVar + 1);
+                    curBucoVar.extend();
+                    curBucoVar.transform.SetParent(this.transform);
+                    curBucoVar.OnLunghezzaChange += reExtendToMatchText;
+                    slotVariabili.Add(curBucoVar);
+                }
+                else if (testo[i].Equals('{'))
+                {
+                    curBucoVar = GameObject.Instantiate(bucoVarDDPrefab).GetComponent<OptionWrapper>();
+
+                    curBucoVar.transform.position = this.transform.position + new Vector3(posBaseX + i, posBaseY, 0);
+                    curBucoVar.GetComponent<Renderer>().material = this.GetComponent<Renderer>().material;
+                    (curBucoVar as OptionWrapper).option = expression.GetOption(countOpt++);
+                    inizioBucoVar = i;
+                }
+                else if (testo[i].Equals('}'))
+                {
+                    curBucoVar.lunghezzaOriginale = (i - inizioBucoVar + 1);
+                    curBucoVar.extend();
+                    curBucoVar.transform.SetParent(this.transform);
+                    curBucoVar.OnLunghezzaChange += reExtendToMatchText;
+                    slotVariabili.Add(curBucoVar);
+                }
+            }
+        }
+        public virtual void reExtendToMatchText()
+        {
+            adaptText();
+            extend();
+        }
+
+        public Expression expression
+        {
+            get { return reference as Expression; }
+        }
+        //public new Reference reference
+        //{
+        //    get { return base.reference; }
+        //    set
+        //    {
+        //        if (value is Expression)
+        //            base.reference = value;
+        //        else throw new ArgumentException("reference has to be an expression");
+        //    }
+        //}
+
+        [HideInInspector]
+        public GameObject bucoVarPrefab,
+        bucoVarAngPrefab,
+            bucoVarCircPrefab,
+            bucoVarDDPrefab;
+        
+    }
 }

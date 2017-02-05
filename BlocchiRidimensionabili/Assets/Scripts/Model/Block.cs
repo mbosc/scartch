@@ -38,15 +38,13 @@ namespace model
         {
             try
             {
-                return (T)references[0].GetType().GetMethod("Evaluate").Invoke(references[0], null);
+                if (typeof(T) == typeof(string))
+                    return (T)references[n].GetType().GetMethod("EvaluateAsString").Invoke(references[n], null);
+                else
+                return (T)references[n].GetType().GetMethod("Evaluate").Invoke(references[n], null);
             } catch (KeyNotFoundException) {
                 return default(T);
             }
-        }
-
-        private T defaultGeneric<T>()
-        {
-            return default(T);
         }
 
         public Block Next
