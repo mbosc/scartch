@@ -29,6 +29,8 @@ namespace view
         [HideInInspector]
         public List<ReferenceContainer> slotVariabili;
         [HideInInspector]
+        public List<int> slotDisplacement;
+        [HideInInspector]
         public BlockWrapper next;
         [HideInInspector]
         public BlockWrapperCog dente;
@@ -139,7 +141,7 @@ namespace view
             {
                 var ex = new List<ReferenceWrapper>();
                 linkedBlocks.ForEach(s => { s.slotVariabili.ForEach(z => { if (z.variabile) ex.Add(z.variabile); }); });
-                slotVariabili.ForEach(s => { if (s.variabile) ex.Add(s.variabile); });
+                slotVariabili.ForEach(s => { if (s.variabile) { ex.Add(s.variabile); s.variabile.linkedVariables.ForEach(ex.Add); } });
                 //ex.ForEach(Debug.Log);
                 return ex;
             }
@@ -230,8 +232,13 @@ namespace view
             extendToMatchText();
         }
 
+        private List<float> originalXses;
+        private List<float> translatedXses;
         protected virtual void adaptText()
         {
+            translatedXses = new List<float>();
+            originalXses.ForEach(s => translatedXses.Add(0));
+
             var builder = new System.Text.StringBuilder();
             char c = testo[0];
             var goingThrough = false;
@@ -241,7 +248,16 @@ namespace view
                 c = testo[i];
                 if (varStarts.Contains(c))
                 {
-                    builder.Append(new string(' ', slotVariabili[varIndex++].lunghezza));
+                    var offset = slotVariabili[varIndex++].lunghezza;
+                    builder.Append(new string(' ', offset));
+
+                    for (int o = 0; o < slotVariabili.Count; o++)
+                        if (slotDisplacement[o] > i)
+                        {
+                            translatedXses[o] += slotVariabili[varIndex - 1].lunghezza - slotVariabili[varIndex - 1].lunghezzaOriginale;
+                          //  Debug.Log("Sposto variabile numero " + (o) + " displacement:" + translatedXses[o]);
+                        }
+
                     goingThrough = true;
                 }
                 else if (varEnds.Contains(c))
@@ -254,6 +270,17 @@ namespace view
                 }
             }
             campoTesto.text = builder.ToString();
+
+            for (int i = 0; i < slotVariabili.Count; i++)
+            {
+                slotVariabili[i].transform.localPosition = new Vector3(
+                    originalXses[i] + translatedXses[i],
+                    slotVariabili[i].transform.localPosition.y,
+                    slotVariabili[i].transform.localPosition.z
+                    );
+                if (slotVariabili[i].variabile)
+                    slotVariabili[i].variabile.transform.position = slotVariabili[i].transform.position;
+            }
         }
 
         private char[] varStarts = new char[] { '[', '<', '(', '{' };
@@ -261,6 +288,7 @@ namespace view
 
         protected virtual void evaluateVars(string testo, int posBaseX, int posBaseY)
         {
+            originalXses = new List<float>();
             ReferenceContainer curBucoVar = null;
             int inizioBucoVar = 0;
             int countVars = 0, countOpt = 0;
@@ -270,14 +298,18 @@ namespace view
                 {
                     curBucoVar = GameObject.Instantiate(bucoVarPrefab).GetComponent<ReferenceContainer>();
                     curBucoVar.transform.position = this.transform.position + new Vector3(posBaseX + i, posBaseY, 0);
-					curBucoVar.GetComponent<Renderer> ().material = this.GetComponent<Renderer> ().material;
+                    
+                    curBucoVar.GetComponent<Renderer> ().material = this.GetComponent<Renderer> ().material;
+                    slotDisplacement.Add(i);
                     inizioBucoVar = i;
                 }
                 else if (testo[i].Equals(']'))
                 {
                     curBucoVar.lunghezzaOriginale = (i - inizioBucoVar + 1);
+                    curBucoVar.Init(countVars++);
                     curBucoVar.extend();
                     curBucoVar.transform.SetParent(this.transform);
+                    originalXses.Add(curBucoVar.transform.localPosition.x);
                     curBucoVar.OnLunghezzaChange += reExtendToMatchText;
                     slotVariabili.Add(curBucoVar);
                 }
@@ -285,14 +317,18 @@ namespace view
                 {
                     curBucoVar = GameObject.Instantiate(bucoVarAngPrefab).GetComponent<ReferenceContainer>();
                     curBucoVar.transform.position = this.transform.position + new Vector3(posBaseX + i, posBaseY, 0);
-					curBucoVar.GetComponent<Renderer> ().material = this.GetComponent<Renderer> ().material;
+              
+                    curBucoVar.GetComponent<Renderer> ().material = this.GetComponent<Renderer> ().material;
+                    slotDisplacement.Add(i);
                     inizioBucoVar = i;
                 }
                 else if (testo[i].Equals('>'))
                 {
                     curBucoVar.lunghezzaOriginale = (i - inizioBucoVar + 1);
+                    curBucoVar.Init(countVars++);
                     curBucoVar.extend();
                     curBucoVar.transform.SetParent(this.transform);
+                    originalXses.Add(curBucoVar.transform.localPosition.x);
                     curBucoVar.OnLunghezzaChange += reExtendToMatchText;
                     slotVariabili.Add(curBucoVar);
                 }
@@ -300,14 +336,18 @@ namespace view
                 {
                     curBucoVar = GameObject.Instantiate(bucoVarCircPrefab).GetComponent<ReferenceContainer>();
                     curBucoVar.transform.position = this.transform.position + new Vector3(posBaseX + i, posBaseY, 0);
-					curBucoVar.GetComponent<Renderer> ().material = this.GetComponent<Renderer> ().material;
+         
+                    curBucoVar.GetComponent<Renderer> ().material = this.GetComponent<Renderer> ().material;
+                    slotDisplacement.Add(i);
                     inizioBucoVar = i;
                 }
                 else if (testo[i].Equals(')'))
                 {
                     curBucoVar.lunghezzaOriginale = (i - inizioBucoVar + 1);
+                    curBucoVar.Init(countVars++);
                     curBucoVar.extend();
                     curBucoVar.transform.SetParent(this.transform);
+                    originalXses.Add(curBucoVar.transform.localPosition.x);
                     curBucoVar.OnLunghezzaChange += reExtendToMatchText;
                     slotVariabili.Add(curBucoVar);
                 }
@@ -315,16 +355,20 @@ namespace view
                 {
                     curBucoVar = GameObject.Instantiate(bucoVarDDPrefab).GetComponent<OptionWrapper>();
                     curBucoVar.transform.position = this.transform.position + new Vector3(posBaseX + i, posBaseY, 0);
-					curBucoVar.GetComponent<Renderer> ().material = this.GetComponent<Renderer> ().material;
-                    (curBucoVar as OptionWrapper).option = block.GetOption(countOpt++);
+           
+                    curBucoVar.GetComponent<Renderer> ().material = this.GetComponent<Renderer> ().material;
+                    slotDisplacement.Add(i);
+                    (curBucoVar as OptionWrapper).option = block.GetOption(countOpt);
                     inizioBucoVar = i;
                 }
                 else if (testo[i].Equals('}'))
                 {
                     curBucoVar.lunghezzaOriginale = (i - inizioBucoVar + 1);
+                    curBucoVar.Init(countOpt++);
                     curBucoVar.extend();
                     curBucoVar.transform.SetParent(this.transform);
-					curBucoVar.OnLunghezzaChange += reExtendToMatchText;
+                    originalXses.Add(curBucoVar.transform.localPosition.x);
+                    curBucoVar.OnLunghezzaChange += reExtendToMatchText;
                     slotVariabili.Add(curBucoVar);
                 }
             }
@@ -368,6 +412,7 @@ namespace view
             bucoVarCircPrefab = ResourceManager.Instance.bucoVarCrc; 
             bucoVarDDPrefab = ResourceManager.Instance.bucoVarDD;
             slotVariabili = new List<ReferenceContainer>();
+            slotDisplacement = new List<int>();
             try
             {
                 campoTesto = transform.GetChild(0).GetChild(0).GetComponent<UnityEngine.UI.Text>();

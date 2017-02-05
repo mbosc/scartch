@@ -21,8 +21,7 @@ namespace view
 
 		public override void extend ()
 		{
-            if (!initialised)
-                Init();
+            
             loadOriginaryMesh ();
 			if (lunghezza < 1)
 				lunghezza = 1;

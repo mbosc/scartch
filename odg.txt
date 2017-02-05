@@ -1,8 +1,4 @@
 ORDINE GIORNO
-Sabato:
-[ ] Gestione Espressioni: devono avere un motore per l'inserimento di variabili come il blockwrapper
-[ ] Il blockwrapper ha un algoritmo di estensione fallato (qualcosa incrementa sempre e non viene mai azzerato?) e si allunga a dismisura.
-[ ] Il referencecontainer deve ricevere il proprio indice in costruzione, altrimenti le variabili non possono essere gestite a dovere.
 
 Lunedì:
 [ ] Integrazione SteamVR (8.45 -> 10)
@@ -14,6 +10,7 @@ Lunedì:
 Successivi:
 [ ] Completamento elenco blocchi
 [ ] Retrofitting Diagramma analisi
+[ ] Rimessa a posto delle classi di interfaccia: il sistema si incasina altrimenti: soprattutto la gestione degli spostamenti di blocchi collegati e variabili va ripensata (parenting? forse e' piu' semplice).
 [ ] Relazione (serve anche il cartaceo o solo diapositive?)
 [ ] Rimbalza quando tocchi il bordo: fare controllo sulla direzione.
 [ ] Se spostato di poco, il blocco deve ri-snappare in posizione <Meno facile del previsto>

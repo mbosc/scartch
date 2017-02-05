@@ -43,8 +43,8 @@ public class Demo : MonoBehaviour {
 //        var b = InstantiateWithComponent<EndPlayModeBlockWrapper>(block);
 //        b.GetComponent<BlockWrapper>().Owner = actor;
 
-        var c = InstantiateWithComponent<MoveStepsBlockWrapper>(block);
-		c.Init(actor2);
+  //      var c = InstantiateWithComponent<MoveStepsBlockWrapper>(block);
+		//c.Init(actor2);
 
 //        var c2 = InstantiateWithComponent<MoveStepsBlockWrapper>(block);
 //        c2.GetComponent<BlockWrapper>().Owner = actor;
@@ -53,8 +53,8 @@ public class Demo : MonoBehaviour {
         var d = InstantiateWithComponent<OnPlayModeHatWrapper>(hat);
 		d.Init (actor2);
 
-		var i = InstantiateWithComponent<BounceOnBorderBlockWrapper>(block);
-		i.Init (actor2);
+		//var i = InstantiateWithComponent<BounceOnBorderBlockWrapper>(block);
+		//i.Init (actor2);
 
 
         var e = Instantiate(varcirc);
@@ -64,29 +64,32 @@ public class Demo : MonoBehaviour {
         var e3 = Instantiate(varcirc);
         e3.GetComponent<NumberReferenceWrapper>().Init(actor2, new SumExpression());
 
-        var zz = Instantiate(varAng);
-        zz.GetComponent<BooleanReferenceWrapper>().Init(actor2, new model.BooleanVariable("tru story", true));
+  //      var zz = Instantiate(varAng);
+  //      zz.GetComponent<BooleanReferenceWrapper>().Init(actor2, new model.BooleanVariable("tru story", true));
 
-        var soso = InstantiateWithComponent<SayBlockWrapper>(block);
-        soso.Init(actor2);
+  //      var soso = InstantiateWithComponent<SayBlockWrapper>(block);
+  //      soso.Init(actor2);
 
-		var ifels = InstantiateWithComponent<TimeResetBlockWrapper> (block);
-		ifels.Init (actor2);
+		//var ifels = InstantiateWithComponent<TimeResetBlockWrapper> (block);
+		//ifels.Init (actor2);
 
-        var afispo = Instantiate(varSqr);
-        afispo.GetComponent<StringReferenceWrapper>().Init(actor2, new model.StringVariable("one thing", "one thing"));
-        //settare proprieta' variabili a personaggio
+        var omega = InstantiateWithComponent<GoToPositionBlockWrapper>(block);
+        omega.Init(actor2);
+
+        //var afispo = Instantiate(varSqr);
+        //afispo.GetComponent<StringReferenceWrapper>().Init(actor2, new model.StringVariable("one thing", "one thing"));
+        ////settare proprieta' variabili a personaggio
         //confronta come abbiamo fatto con wrapper blocchi
 
   //      var f = Instantiate(varcirc);
   //      f.GetComponent<NumberReferenceWrapper>().reference = new model.NumberVariable("sd", 1);
 
 
-		var g = InstantiateWithComponent<StopAllSoundsBlockWrapper> (block);
-		g.Init(actor2);
+		//var g = InstantiateWithComponent<StopAllSoundsBlockWrapper> (block);
+		//g.Init(actor2);
 
-        var z = InstantiateWithComponent<ForeverBlockWrapper>(mblock);
-		z.Init(actor2);
+  //      var z = InstantiateWithComponent<ForeverBlockWrapper>(mblock);
+		//z.Init(actor2);
 
 		actor1.HideBlocks ();
 		actor2.HideBlocks ();

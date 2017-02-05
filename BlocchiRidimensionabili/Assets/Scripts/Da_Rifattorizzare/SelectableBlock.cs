@@ -26,12 +26,12 @@ public class SelectableBlock : Selectable {
 								selectionList.Add(z.variabile.gameObject, new Vector2(gameObject.transform.position.x - z.variabile.gameObject.transform.position.x, gameObject.transform.position.y - z.variabile.gameObject.transform.position.y));
 						});
 				});
-			blocco.slotVariabili.ForEach(s =>
+			blocco.linkedVariables.ForEach(s =>
 				{
-					if (s.variabile)
-						selectionList.Add(s.variabile.gameObject,
-							new Vector2(gameObject.transform.position.x - s.variabile.gameObject.transform.position.x,
-								gameObject.transform.position.y - s.variabile.gameObject.transform.position.y));
+					if (s)
+						selectionList.Add(s.gameObject,
+							new Vector2(gameObject.transform.position.x - s.gameObject.transform.position.x,
+								gameObject.transform.position.y - s.gameObject.transform.position.y));
 				});
 		}
 		selectionList.Add(gameObject, new Vector2(0, 0));

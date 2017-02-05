@@ -28,17 +28,17 @@ namespace view {
         public ReferenceWrapper variabile;
         protected bool initialised = false;
 
-		public virtual void Init()
+		public virtual void Init(int number)
         {
+            this.number = number;
             _lunghezza = lunghezzaOriginale;
             loadOriginaryMesh();
             def = GetComponent<Renderer>().material.color;
         }
 
+        private int number;
         public virtual void extend()
         {
-            if (!initialised)
-                Init();
             if (lunghezza < 1)
                 lunghezza = 1;
 
@@ -77,7 +77,7 @@ namespace view {
             Color col = v ? Color.green : def;
             GetComponent<Renderer>().material.color = col;
         }
-        private int n;
+
         public virtual void CompletaCon(ReferenceWrapper variabile)
         {
             //verificare correttezza di tipo;
@@ -100,13 +100,13 @@ namespace view {
             if (d == null)
             {
                 var z = transform.parent.gameObject.GetComponent<ReferenceWrapper>();
-                n = z.expression.ReferencesCount;
-                z.expression.AddReference(n, variabile.reference);
+               
+                z.expression.AddReference(number, variabile.reference);
             }
             else
             {
-                n = d.block.ReferencesCount;
-                d.block.AddReference(n, variabile.reference);
+              
+                d.block.AddReference(number, variabile.reference);
             }
         }
 
@@ -116,9 +116,9 @@ namespace view {
             //		extend ();
             this.variabile = null;
             if (transform.parent.gameObject.GetComponent<BlockWrapper>())
-                transform.parent.gameObject.GetComponent<BlockWrapper>().block.RemoveReference(n);
+                transform.parent.gameObject.GetComponent<BlockWrapper>().block.RemoveReference(number);
             else
-                transform.parent.gameObject.GetComponent<ReferenceWrapper>().expression.RemoveReference(n);
+                transform.parent.gameObject.GetComponent<ReferenceWrapper>().expression.RemoveReference(number);
 
         }
 

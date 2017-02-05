@@ -13,8 +13,19 @@ public class SelectableVariable : Selectable {
 
 	public override void OnMouseOverActions() {
 		selectionList = new Dictionary<GameObject, Vector2>();
-		selectionList.Add(gameObject, new Vector2(0, 0));
-	}
+        var wrap = GetComponent<ReferenceWrapper>();
+        if (wrap)
+        {
+            wrap.linkedVariables.ForEach(s =>
+            {
+                if (s)
+                selectionList.Add(s.gameObject,
+                            new Vector2(gameObject.transform.position.x - s.gameObject.transform.position.x,
+                                gameObject.transform.position.y - s.gameObject.transform.position.y));
+            });
+        }
+        selectionList.Add(gameObject, new Vector2(0, 0));
+    }
 
     public List<BlockWrapperCog> denti
     {
