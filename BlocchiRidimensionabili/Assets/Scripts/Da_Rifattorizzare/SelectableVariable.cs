@@ -55,8 +55,11 @@ public class SelectableVariable : Selectable {
     {
         move(new Vector3(input.x, input.y, 0));
     }
-    
+
+    public bool selected = false;
+        
 	public override void OnSelection(){
+        selected = true;
 		selectionList = new Dictionary<GameObject, DeltaState>();
         var wrap = GetComponent<ReferenceWrapper>();
         if (wrap)
@@ -82,6 +85,7 @@ public class SelectableVariable : Selectable {
 
 
 	public override void OnDeselection(){
+        selected = false;
 		var variabile = this.GetComponent<ReferenceWrapper>();
 		if (variabile && variabile.currentlyHighlighted)
 		{

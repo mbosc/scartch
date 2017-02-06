@@ -91,9 +91,9 @@ namespace view
 
 		protected void OnTriggerEnter (Collider collider)
 		{
-			//if (!Selector.instance.selected || Selector.instance.selected.gameObject != this.gameObject)
-			//	return;
-			var bucoCorrente = collider.GetComponent<ReferenceContainer> ();
+            if (!GetComponent<SelectableVariable>().selected)
+                return;
+            var bucoCorrente = collider.GetComponent<ReferenceContainer> ();
 			if (bucoCorrente && bucoCorrente.variabile == null && !assigned && Compatible(bucoCorrente)) {
 				if (currentlyHighlighted) {
 					currentlyHighlighted.setHighlightVisible (false);
@@ -107,8 +107,8 @@ namespace view
 
         protected void OnTriggerStay (Collider collider)
 		{
-			//if (!Selector.instance.selected || Selector.instance.selected.gameObject != this.gameObject)
-			//	return;
+			if (!GetComponent<SelectableVariable>().selected)
+			    return;
 			var bucoCorrente = collider.GetComponent<ReferenceContainer> ();
 			try {
 				if (bucoCorrente.Equals (currentlyHighlighted))

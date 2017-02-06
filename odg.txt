@@ -7,8 +7,11 @@ Lunedì:
 [ ] Prevedere che snapping di tutti i tipi siano fatti con parenting.
 	[x] Blocchi
 	[ ] Variabili
+	assicurarsi che quando prendo un blocco non si stacchino le variabili come succede adesso
+	assicurarsi che qyando tolgo una variabile da un buco venga effettivamente via
 
 Successivi:
+[ ] Appigli molto approssimativi: soprattutto per le espressioni composte e' difficile prendere tutto.
 [ ] Menu per inserimento valori immediati e altro VR
 [ ] Aggiungere visualizzatore variabili 
 [ ] Aggiungere sistema per inserimento blocchi
