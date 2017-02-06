@@ -10,7 +10,7 @@ public class Selector : MonoBehaviour
 
     public static Selector instance;
     // Use this for initialization
-    void Start()
+    protected virtual void Start()
     {
         instance = this;
     }

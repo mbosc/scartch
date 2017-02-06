@@ -8,19 +8,40 @@ namespace NewtonVR
         public Rigidbody Rigidbody;
 
         public bool CanAttach = true;
-        
+        public event System.Action Selected, Unselected, StaySelected;
         public bool DisableKinematicOnAttach = true;
         public bool EnableKinematicOnDetach = false;
         public float DropDistance = 1;
 
         public bool EnableGravityOnDetach = true;
 
-        public NVRHand AttachedHand = null;
+        public NVRHand attachedHand = null;
 
         protected Collider[] Colliders;
         protected Vector3 ClosestHeldPoint;
 
-        
+        public NVRHand AttachedHand
+        {
+            get
+            {
+                return attachedHand;
+            }
+            set
+            {
+                var oldvalue = attachedHand;
+                attachedHand = value;
+                if (value == null)
+                {
+                    if (Unselected != null)
+                        Unselected();
+                }
+                else if (oldvalue != value)
+                {
+                    if (Selected != null)
+                        Selected();
+                }
+            }
+        }
 
         public virtual bool IsAttached
         {
@@ -89,6 +110,9 @@ namespace NewtonVR
         //Remove items that go too high or too low.
         protected virtual void Update()
         {
+            if (IsAttached)
+                if (StaySelected != null)
+                    StaySelected();
             if (this.transform.position.y > 10000 || this.transform.position.y < -10000)
             {
                 if (AttachedHand != null)

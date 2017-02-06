@@ -9,23 +9,7 @@ using view;
 public class SelectableVariable : Selectable {
 
     
-    private Dictionary<GameObject, Vector2> selectionList;
-
-	public override void OnMouseOverActions() {
-		selectionList = new Dictionary<GameObject, Vector2>();
-        var wrap = GetComponent<ReferenceWrapper>();
-        if (wrap)
-        {
-            wrap.linkedVariables.ForEach(s =>
-            {
-                if (s)
-                selectionList.Add(s.gameObject,
-                            new Vector2(gameObject.transform.position.x - s.gameObject.transform.position.x,
-                                gameObject.transform.position.y - s.gameObject.transform.position.y));
-            });
-        }
-        selectionList.Add(gameObject, new Vector2(0, 0));
-    }
+    private Dictionary<GameObject, Vector3> selectionList;
 
     public List<BlockWrapperCog> denti
     {
@@ -47,9 +31,9 @@ public class SelectableVariable : Selectable {
 	}
     
 
-    internal void move(Vector3 input)
+    internal void follow()
     {
-        selectionList.Keys.ToList().ForEach(k => k.transform.position = new Vector3(input.x - selectionList[k].x, input.y - selectionList[k].y, input.z));
+        selectionList.Keys.ToList().ForEach(k => k.transform.position = new Vector3(this.transform.position.x - selectionList[k].x, this.transform.position.y - selectionList[k].y, this.transform.position.z - selectionList[k].z));
     }
 
     internal void move(Vector2 input)
@@ -59,11 +43,24 @@ public class SelectableVariable : Selectable {
 	private Vector2 baseClickPosition;
 	public override void OnSelection(){
 		baseClickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
-	}
+        selectionList = new Dictionary<GameObject, Vector3>();
+        var wrap = GetComponent<ReferenceWrapper>();
+        if (wrap)
+        {
+            wrap.linkedVariables.ForEach(s =>
+            {
+                if (s)
+                    selectionList.Add(s.gameObject,
+                                new Vector3(gameObject.transform.position.x - s.gameObject.transform.position.x,
+                                    gameObject.transform.position.y - s.gameObject.transform.position.y,
+                                     gameObject.transform.position.z - s.gameObject.transform.position.z));
+            });
+        }
+        //selectionList.Add(gameObject, new Vector2(0, 0));
+    }
 
 
 	public override void OnDeselection(){
-		move(this.transform.position + new Vector3(0, 0, Selector.zOffset));
 		var variabile = this.GetComponent<ReferenceWrapper>();
 		if (variabile && variabile.currentlyHighlighted)
 		{
@@ -72,9 +69,7 @@ public class SelectableVariable : Selectable {
 	}
 
 	public override void OnStaySelected(){
-		Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-		mousePos -= baseClickPosition;
-		move(new Vector3(mousePos.x, mousePos.y, -Selector.zOffset));
+        follow();
 	}
 
 }
