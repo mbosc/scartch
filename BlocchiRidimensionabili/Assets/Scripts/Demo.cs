@@ -15,7 +15,7 @@ public class Demo : MonoBehaviour {
     {
         public SumExpression()
         {
-            name = "(  ) + (  )";
+            name = "(  ) - (  )";
         }
 
         private string name;
@@ -31,7 +31,7 @@ public class Demo : MonoBehaviour {
         {
             var a1 = GetReferenceAs<float>(0);
             var a2 = GetReferenceAs<float>(1);
-            return a1 + a2;
+            return a1 - a2;
         }
     }
 
@@ -53,8 +53,8 @@ public class Demo : MonoBehaviour {
         var d = InstantiateWithComponent<OnPlayModeHatWrapper>(hat);
 		d.Init (actor2);
 
-		var i = InstantiateWithComponent<BounceOnBorderBlockWrapper>(block);
-		i.Init (actor2);
+		//var i = InstantiateWithComponent<BounceOnBorderBlockWrapper>(block);
+		//i.Init (actor2);
 
 
         var e = Instantiate(varcirc);

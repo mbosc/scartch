@@ -87,6 +87,9 @@ public class SelectableBlock : Selectable {
 
         // il codice sopra e' solo legacy per trovare i denti
         GetComponent<BlockWrapper>().Compact();
+
+
+        
     }
 
     public override void OnDeselection ()

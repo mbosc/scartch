@@ -111,10 +111,12 @@ namespace view
             variabile.transform.localPosition = Vector3.zero;
             variabile.transform.localEulerAngles = Vector3.zero;
             variabile.transform.SetParent(null);
+            Debug.Log("Riempi " + transform.parent.name);
+            this.variabile = variabile;
             if (icompct)
                 variabile.Uncompact();
 
-            this.variabile = variabile;
+            
             GetComponent<MeshRenderer>().enabled = false;
 
 
@@ -136,6 +138,7 @@ namespace view
 
         public virtual void Svuota()
         {
+            Debug.Log("Svuota " + transform.parent.name);
             lunghezza = lunghezzaOriginale;
             //		extend ();
             this.variabile = null;

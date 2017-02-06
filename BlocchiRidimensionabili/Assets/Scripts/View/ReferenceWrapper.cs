@@ -34,11 +34,13 @@ namespace view
         public bool Compacted { get { return compacted; } }
         public virtual void Compact()
         {
+            Debug.Log("Compatto " + name);
             compacted = true;
             linkedVariables.ForEach(s => { if (s) { s.transform.SetParent(this.transform); s.Compact(); } });
         }
         public virtual void Uncompact()
         {
+            Debug.Log("Decompatto " + name);
             compacted = false;
             linkedVariables.ForEach(s => { if (s) {
                     s.transform.SetParent(null);
@@ -119,6 +121,8 @@ namespace view
 
 		void OnTriggerExit (Collider collider)
 		{
+            if (!GetComponent<SelectableVariable>().selected)
+                return;
 			var bucoCorrente = collider.GetComponent<ReferenceContainer> ();
 			if (bucoCorrente && bucoCorrente.variabile && bucoCorrente.variabile.Equals (this)) {
 				bucoCorrente.Svuota ();
@@ -254,7 +258,7 @@ namespace view
                 if (testo[i].Equals('['))
                 {
                     curBucoVar = GameObject.Instantiate(bucoVarPrefab).GetComponent<ReferenceContainer>();
-                    curBucoVar.transform.position = this.transform.position + new Vector3(posBaseX + i, posBaseY, -.4f);
+                    curBucoVar.transform.position = this.transform.position + new Vector3(posBaseX + i, posBaseY, -1f);
                     curBucoVar.GetComponent<Renderer>().material = this.GetComponent<Renderer>().material;
                     slotDisplacement.Add(i);
                     inizioBucoVar = i;
@@ -272,7 +276,7 @@ namespace view
                 else if (testo[i].Equals('<'))
                 {
                     curBucoVar = GameObject.Instantiate(bucoVarAngPrefab).GetComponent<ReferenceContainer>();
-                    curBucoVar.transform.position = this.transform.position + new Vector3(posBaseX + i, posBaseY, -.4f);
+                    curBucoVar.transform.position = this.transform.position + new Vector3(posBaseX + i, posBaseY, -1f);
                     curBucoVar.GetComponent<Renderer>().material = this.GetComponent<Renderer>().material;
                     slotDisplacement.Add(i);
                     inizioBucoVar = i;
@@ -290,7 +294,7 @@ namespace view
                 else if (testo[i].Equals('('))
                 {
                     curBucoVar = GameObject.Instantiate(bucoVarCircPrefab).GetComponent<ReferenceContainer>();
-                    curBucoVar.transform.position = this.transform.position + new Vector3(posBaseX + i, posBaseY, -.4f);
+                    curBucoVar.transform.position = this.transform.position + new Vector3(posBaseX + i, posBaseY, -1f);
                     curBucoVar.GetComponent<Renderer>().material = this.GetComponent<Renderer>().material;
                     slotDisplacement.Add(i);
                     inizioBucoVar = i;

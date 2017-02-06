@@ -4,9 +4,9 @@ Lunedì:
 [x] Integrazione SteamVR (8.45 -> 10)
 [x] Adattamento sistema di puntamento a VR (10 -> 11.30)
 [x] Usare delle mesh senza denti convesse (solo parallelepipedi, niente di piu' complicato neppure per blocchi multipli) per le collisioni dei blocchi.
-[ ] Prevedere che snapping di tutti i tipi siano fatti con parenting.
+[x] Prevedere che snapping di tutti i tipi siano fatti con parenting.
 	[x] Blocchi
-	[ ] Variabili
+	[x] Variabili
 	assicurarsi che quando prendo un blocco non si stacchino le variabili come succede adesso
 	assicurarsi che qyando tolgo una variabile da un buco venga effettivamente via
 

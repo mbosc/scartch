@@ -84,6 +84,7 @@ namespace view
         //metodi per passare da/al raccoglimento in gerarchia dei prossimi blocchi (TODO variabili);
         public virtual void Compact()
         {
+            Debug.Log("Compatto " + name);
             compacted = true;
             directlyLinkedBlocks.ForEach(s => {
                 if (s)
@@ -100,6 +101,8 @@ namespace view
         }
         public virtual void Uncompact()
         {
+
+            Debug.Log("Decompatto " + name);
             compacted = false;
             directlyLinkedBlocks.ForEach(s => { if (s) { s.transform.SetParent(null); s.Uncompact(); } });
             directlyLinkedVariables.ForEach(s => { if(s) s.transform.SetParent(null); s.Uncompact(); });
