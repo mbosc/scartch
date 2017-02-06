@@ -34,17 +34,16 @@ namespace view
         public bool Compacted { get { return compacted; } }
         public virtual void Compact()
         {
-            if (compacted)
-                throw new System.Exception("Already compact");
             compacted = true;
-            linkedVariables.ForEach(s => { if (s) s.transform.SetParent(this.transform); Compact(); });
+            linkedVariables.ForEach(s => { if (s) { s.transform.SetParent(this.transform); s.Compact(); } });
         }
         public virtual void Uncompact()
         {
-            if (!compacted)
-                throw new System.Exception("Already uncompact");
             compacted = false;
-            linkedVariables.ForEach(s => { if (s) s.transform.SetParent(null); Uncompact(); });
+            linkedVariables.ForEach(s => { if (s) {
+                    s.transform.SetParent(null);
+                    s.Uncompact(); }
+            });
         }
 
 
@@ -81,13 +80,13 @@ namespace view
 			foreach (var i in verticesToEdit)
 				levert [i] = new Vector3 (originaryVertices [i].x - lunghezza + 2, levert [i].y, levert [i].z);
 			mesh.SetVertices (new List<Vector3> (levert));
-		//	myText.text = testo;
-   //         if (GetComponent<MeshCollider>())
-   //             Destroy(GetComponent<MeshCollider>());
-			//gameObject.AddComponent<MeshCollider> ();
-			//GetComponent<MeshCollider> ().convex = true;
-			//GetComponent<MeshCollider> ().isTrigger = true;
-		}
+            //myText.text = testo;
+            //if (GetComponent<MeshCollider>())
+            //    Destroy(GetComponent<MeshCollider>());
+            //gameObject.AddComponent<MeshCollider>();
+            //GetComponent<MeshCollider>().convex = true;
+            //GetComponent<MeshCollider>().isTrigger = true;
+        }
 		public ReferenceContainer currentlyHighlighted;
 
 		protected void OnTriggerEnter (Collider collider)

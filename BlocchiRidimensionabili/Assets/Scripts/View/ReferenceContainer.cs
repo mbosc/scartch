@@ -104,12 +104,15 @@ namespace view
             variabile.assigned = true;
             lunghezza = variabile.lunghezza;
 
-            variabile.Compact();
+            var icompct = !variabile.Compacted;
+            if (icompct)
+                variabile.Compact();
             variabile.transform.SetParent(this.transform);
             variabile.transform.localPosition = Vector3.zero;
             variabile.transform.localEulerAngles = Vector3.zero;
             variabile.transform.SetParent(null);
-            variabile.Uncompact();
+            if (icompct)
+                variabile.Uncompact();
 
             this.variabile = variabile;
             GetComponent<MeshRenderer>().enabled = false;

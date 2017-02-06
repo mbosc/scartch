@@ -90,6 +90,7 @@ namespace model
 
 		// TODO mettere anche l'accessor qui (non lo faccio subito per facilitare il debug in editor
 		public float StepDeltaTime;
+        public NewtonVR.NVRHand manosx;
 
         void Update()
         {
@@ -98,7 +99,11 @@ namespace model
             {
                 Environment.Instance.PlayMode = !Environment.Instance.PlayMode;
             }
-
+            if (manosx.Inputs[NewtonVR.NVRButtons.Y].PressDown)
+            {
+                Environment.Instance.PlayMode = !Environment.Instance.PlayMode;
+                
+            }
 
 
         }

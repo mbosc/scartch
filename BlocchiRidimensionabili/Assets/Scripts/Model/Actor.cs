@@ -22,7 +22,7 @@ namespace model
         private bool isMessageVisible;
 		public bool IsMessageVisible { get { return isMessageVisible; } }
         public event Action ActorChanged;
-		private bool hidden;
+		private bool hidden = false;
 		public bool Hidden {
 			get { return hidden; }
 			set {

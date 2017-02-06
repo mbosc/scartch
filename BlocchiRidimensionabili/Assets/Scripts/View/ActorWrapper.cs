@@ -40,7 +40,7 @@ namespace view
             this.transform.localScale = actor.Scale * baseScale;
 			for (int i = 2; i < this.transform.childCount; i++) {
 				try {
-					this.transform.GetChild (i).gameObject.GetComponent<Renderer> ().enabled = actor.Hidden;
+					this.transform.GetChild (i).gameObject.GetComponent<Renderer> ().enabled = !actor.Hidden;
 				} catch (MissingComponentException) {
 				}
 			}

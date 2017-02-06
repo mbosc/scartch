@@ -73,7 +73,7 @@ public class Demo : MonoBehaviour {
 		//var ifels = InstantiateWithComponent<TimeResetBlockWrapper> (block);
 		//ifels.Init (actor2);
 
-        var omega = InstantiateWithComponent<GoToPositionBlockWrapper>(block);
+        var omega = InstantiateWithComponent<MoveStepsBlockWrapper>(block);
         omega.Init(actor2);
 
         //var afispo = Instantiate(varSqr);

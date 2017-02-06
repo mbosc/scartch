@@ -43,12 +43,12 @@ public class SelectableVariable : Selectable {
 
     internal void follow()
     {
-        selectionList.Keys.ToList().ForEach(k =>
-        {
-            k.transform.position = new Vector3(this.transform.position.x - selectionList[k].position.x, this.transform.position.y - selectionList[k].position.y, this.transform.position.z - selectionList[k].position.z);
-            k.transform.eulerAngles = new Vector3(this.transform.eulerAngles.x - selectionList[k].rotation.x, this.transform.eulerAngles.y - selectionList[k].rotation.y, this.transform.eulerAngles.z - selectionList[k].rotation.z);
-        }
-        );
+        //selectionList.Keys.ToList().ForEach(k =>
+        //{
+        //    k.transform.position = new Vector3(this.transform.position.x - selectionList[k].position.x, this.transform.position.y - selectionList[k].position.y, this.transform.position.z - selectionList[k].position.z);
+        //    k.transform.eulerAngles = new Vector3(this.transform.eulerAngles.x - selectionList[k].rotation.x, this.transform.eulerAngles.y - selectionList[k].rotation.y, this.transform.eulerAngles.z - selectionList[k].rotation.z);
+        //}
+        //);
     }
 
     internal void move(Vector2 input)
@@ -76,6 +76,8 @@ public class SelectableVariable : Selectable {
             });
         }
         selectionList.Add(gameObject, new DeltaState(new Vector3(0, 0, 0), Vector3.zero));
+
+        GetComponent<ReferenceWrapper>().Compact();
     }
 
 
@@ -85,6 +87,7 @@ public class SelectableVariable : Selectable {
 		{
 			variabile.currentlyHighlighted.CompletaCon(variabile);
 		}
+        variabile.Uncompact();
 	}
 
 	public override void OnStaySelected(){
