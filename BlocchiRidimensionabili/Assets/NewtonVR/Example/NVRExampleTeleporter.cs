@@ -58,7 +58,7 @@ namespace NewtonVR.Example
                 {
                     endPoint = hitInfo.point;
 
-                    if (Hand.Inputs[NVRButtons.Trigger].PressUp == true)
+                    if (Hand.Inputs[NVRButtons.Trigger].PressUp == true && hitInfo.collider.gameObject.CompareTag("floor"))
                     {
                         NVRInteractable LHandInteractable = Player.LeftHand.CurrentlyInteracting;
                         NVRInteractable RHandInteractable = Player.RightHand.CurrentlyInteracting;

@@ -6,12 +6,12 @@ using UnityEngine;
 using model;
 using view;
 
-public class SelectableActor : MonoBehaviour {
+public class SelectableActor : LaserSelectable {
 
 	private static ActorWrapper selectedActor;
 
 
-	public void Select(){
+	public override void Select(){
 		if (selectedActor != null && selectedActor != this.GetComponent<ActorWrapper> ()) {
 			selectedActor.HideBlocks ();
 		}

@@ -88,7 +88,6 @@ public class SelectableVariable : Selectable {
 	}
 
 	public override void OnStaySelected(){
-        follow();
 	}
 
 }

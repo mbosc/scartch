@@ -3,7 +3,7 @@ ORDINE GIORNO
 Lunedì:
 [x] Integrazione SteamVR (8.45 -> 10)
 [x] Adattamento sistema di puntamento a VR (10 -> 11.30)
-[ ] Adattamento maneggiamento a VR 
+[ ] Adattamento maneggiamento a VR: rivedere selectable variable e tutti gli snapping andrebbero rivisti...
 
 
 [ ] Menu per inserimento valori immediati e altro VR (11.30 -> 13)
