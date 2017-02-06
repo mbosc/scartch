@@ -15,7 +15,7 @@ public class Selectable : MonoBehaviour
     // Use this for initialization
     protected virtual void Start()
     {
-        interactable = this.gameObject.AddComponent<NVRInteractable>();
+        interactable = this.gameObject.AddComponent<NVRInteractableItem>();
         interactable.EnableGravityOnDetach = false;
         interactable.EnableKinematicOnDetach = true;
         interactable.DisableKinematicOnAttach = true;

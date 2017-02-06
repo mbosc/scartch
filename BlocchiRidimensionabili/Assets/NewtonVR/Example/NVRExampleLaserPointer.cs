@@ -52,6 +52,8 @@ namespace NewtonVR.Example
                 if (hit == true)
                 {
                     endPoint = hitInfo.point;
+                    if (hitInfo.collider.gameObject.GetComponent<SelectableActor>())
+                        hitInfo.collider.gameObject.GetComponent<SelectableActor>().Select();
                 }
                 else
                 {

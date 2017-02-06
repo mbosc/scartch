@@ -67,18 +67,18 @@ namespace view
 				levert [i] = new Vector3 (originaryVertices [i].x - lunghezza + 2, levert [i].y, levert [i].z);
 			mesh.SetVertices (new List<Vector3> (levert));
 		//	myText.text = testo;
-            if (GetComponent<MeshCollider>())
-                Destroy(GetComponent<MeshCollider>());
-			gameObject.AddComponent<MeshCollider> ();
-			GetComponent<MeshCollider> ().convex = true;
-			GetComponent<MeshCollider> ().isTrigger = true;
+   //         if (GetComponent<MeshCollider>())
+   //             Destroy(GetComponent<MeshCollider>());
+			//gameObject.AddComponent<MeshCollider> ();
+			//GetComponent<MeshCollider> ().convex = true;
+			//GetComponent<MeshCollider> ().isTrigger = true;
 		}
 		public ReferenceContainer currentlyHighlighted;
 
 		protected void OnTriggerEnter (Collider collider)
 		{
-			if (!Selector.instance.selected || Selector.instance.selected.gameObject != this.gameObject)
-				return;
+			//if (!Selector.instance.selected || Selector.instance.selected.gameObject != this.gameObject)
+			//	return;
 			var bucoCorrente = collider.GetComponent<ReferenceContainer> ();
 			if (bucoCorrente && bucoCorrente.variabile == null && !assigned && Compatible(bucoCorrente)) {
 				if (currentlyHighlighted) {
@@ -93,8 +93,8 @@ namespace view
 
         protected void OnTriggerStay (Collider collider)
 		{
-			if (!Selector.instance.selected || Selector.instance.selected.gameObject != this.gameObject)
-				return;
+			//if (!Selector.instance.selected || Selector.instance.selected.gameObject != this.gameObject)
+			//	return;
 			var bucoCorrente = collider.GetComponent<ReferenceContainer> ();
 			try {
 				if (bucoCorrente.Equals (currentlyHighlighted))

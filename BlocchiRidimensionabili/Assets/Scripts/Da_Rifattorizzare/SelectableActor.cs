@@ -6,12 +6,12 @@ using UnityEngine;
 using model;
 using view;
 
-public class SelectableActor : Selectable {
+public class SelectableActor : MonoBehaviour {
 
 	private static ActorWrapper selectedActor;
 
 
-	public override void OnSelection(){
+	public void Select(){
 		if (selectedActor != null && selectedActor != this.GetComponent<ActorWrapper> ()) {
 			selectedActor.HideBlocks ();
 		}
