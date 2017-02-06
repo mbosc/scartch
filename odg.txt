@@ -3,13 +3,16 @@ ORDINE GIORNO
 Lunedì:
 [x] Integrazione SteamVR (8.45 -> 10)
 [x] Adattamento sistema di puntamento a VR (10 -> 11.30)
-[ ] Usare delle mesh senza denti convesse (solo parallelepipedi, niente di piu' complicato neppure per blocchi multipli) per le collisioni dei blocchi.
+[x] Usare delle mesh senza denti convesse (solo parallelepipedi, niente di piu' complicato neppure per blocchi multipli) per le collisioni dei blocchi.
 [ ] Prevedere che snapping di tutti i tipi siano fatti con parenting.
+	[x] Blocchi
+	[ ] Variabili
 
 Successivi:
 [ ] Menu per inserimento valori immediati e altro VR
 [ ] Aggiungere visualizzatore variabili 
 [ ] Aggiungere sistema per inserimento blocchi
+[ ] Usare dei puntatori piu' precisi
 [ ] Completamento elenco blocchi
 [ ] Retrofitting Diagramma analisi
 [ ] Rimessa a posto delle classi di interfaccia: il sistema si incasina altrimenti: soprattutto la gestione degli spostamenti di blocchi collegati e variabili va ripensata (parenting? forse e' piu' semplice).

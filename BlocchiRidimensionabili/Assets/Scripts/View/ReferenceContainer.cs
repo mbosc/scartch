@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using model;
 
-namespace view {
+namespace view
+{
     public class ReferenceContainer : MonoBehaviour
     {
         public string type;
@@ -28,7 +29,7 @@ namespace view {
         public ReferenceWrapper variabile;
         protected bool initialised = false;
 
-		public virtual void Init(int number)
+        public virtual void Init(int number)
         {
             this.number = number;
             _lunghezza = lunghezzaOriginale;
@@ -37,6 +38,7 @@ namespace view {
         }
 
         private int number;
+        public bool reversed = false;
         public virtual void extend()
         {
             if (lunghezza < 1)
@@ -47,13 +49,23 @@ namespace view {
             for (int i = 0; i < originaryVertices.Length; i++)
             {
                 var vertex = originaryVertices[i];
-                if (vertex.x < 0)
+                if (!reversed)
+                {
+                    if (vertex.x < 0)
+                        verticesToEdit.Add(i);
+                } else if (vertex.x > 0)
                     verticesToEdit.Add(i);
             }
 
             var levert = mesh.vertices;
             foreach (var i in verticesToEdit)
-                levert[i] = new Vector3(originaryVertices[i].x - lunghezza + 2, levert[i].y, levert[i].z);
+                if (!reversed)
+                {
+                    levert[i] = new Vector3(originaryVertices[i].x - lunghezza + 2, levert[i].y, levert[i].z);
+                } else
+                {
+                    levert[i] = new Vector3(originaryVertices[i].x + lunghezza - 2, levert[i].y, levert[i].z);
+                }
             mesh.SetVertices(new List<Vector3>(levert));
 
             //recompute mesh collider
@@ -78,6 +90,8 @@ namespace view {
             GetComponent<Renderer>().material.color = col;
         }
 
+       
+
         public virtual void CompletaCon(ReferenceWrapper variabile)
         {
             //verificare correttezza di tipo;
@@ -89,7 +103,14 @@ namespace view {
 
             variabile.assigned = true;
             lunghezza = variabile.lunghezza;
-            variabile.transform.position = this.transform.position;
+
+            variabile.Compact();
+            variabile.transform.SetParent(this.transform);
+            variabile.transform.localPosition = Vector3.zero;
+            variabile.transform.localEulerAngles = Vector3.zero;
+            variabile.transform.SetParent(null);
+            variabile.Uncompact();
+
             this.variabile = variabile;
             GetComponent<MeshRenderer>().enabled = false;
 
@@ -100,12 +121,12 @@ namespace view {
             if (d == null)
             {
                 var z = transform.parent.gameObject.GetComponent<ReferenceWrapper>();
-               
+
                 z.expression.AddReference(number, variabile.reference);
             }
             else
             {
-              
+
                 d.block.AddReference(number, variabile.reference);
             }
         }

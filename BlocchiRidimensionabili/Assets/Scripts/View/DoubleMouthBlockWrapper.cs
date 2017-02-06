@@ -55,22 +55,7 @@ namespace view
             Debug.Log(testo + ".setNextInternoSuperiore(" + candidateNext.testo + ")");
 
 
-            var selectionList = new Dictionary<GameObject, Vector2>();
-            candidateNext.linkedBlocks.ForEach(s => selectionList.Add(s.gameObject, new Vector2(candidateNext.gameObject.transform.position.x - s.gameObject.transform.position.x, candidateNext.gameObject.transform.position.y - s.gameObject.transform.position.y)));
-            selectionList.Add(candidateNext.gameObject, new Vector2(0, 0));
-            var selectionVariables = new Dictionary<GameObject, Vector2>();
-            candidateNext.linkedVariables.ForEach(s => selectionVariables.Add(s.gameObject, new Vector2(candidateNext.gameObject.transform.position.x - s.gameObject.transform.position.x, candidateNext.gameObject.transform.position.y - s.gameObject.transform.position.y)));
-
-            selectionList.Keys.ToList().ForEach(k =>
-            {
-                k.transform.position = this.transform.position + new Vector3(nextBlockInternoSuperioreOffsetX - selectionList[k].x, nextBlockInternoSuperioreOffsetY - selectionList[k].y, 0);
-                k.transform.rotation = this.transform.rotation;
-            });
-            selectionVariables.Keys.ToList().ForEach(k =>
-            {
-                Debug.Log("Sposto " + k.name);
-                k.transform.position = this.transform.position + new Vector3(nextBlockInternoSuperioreOffsetX - selectionVariables[k].x, nextBlockInternoSuperioreOffsetY - selectionVariables[k].y, 0);
-            });
+            moveUnderMe(candidateNext, new Vector3(nextBlockInternoSuperioreOffsetX, 0, nextBlockInternoSuperioreOffsetY), new Vector3(0, 0, nextBlockSpinZ));
 
 
 
@@ -175,22 +160,7 @@ namespace view
             Debug.Log(testo + ".setNextInternoInferiore(" + candidateNext.testo + ")");
 
 
-            var selectionList = new Dictionary<GameObject, Vector2>();
-            candidateNext.linkedBlocks.ForEach(s => selectionList.Add(s.gameObject, new Vector2(candidateNext.gameObject.transform.position.x - s.gameObject.transform.position.x, candidateNext.gameObject.transform.position.y - s.gameObject.transform.position.y)));
-            selectionList.Add(candidateNext.gameObject, new Vector2(0, 0));
-            var selectionVariables = new Dictionary<GameObject, Vector2>();
-            candidateNext.linkedVariables.ForEach(s => selectionVariables.Add(s.gameObject, new Vector2(candidateNext.gameObject.transform.position.x - s.gameObject.transform.position.x, candidateNext.gameObject.transform.position.y - s.gameObject.transform.position.y)));
-
-            selectionList.Keys.ToList().ForEach(k =>
-            {
-                k.transform.position = this.transform.position + new Vector3(nextBlockInternoInferioreOffsetX - selectionList[k].x, nextBlockInternoInferioreOffsetY - selectionList[k].y, 0);
-                k.transform.rotation = this.transform.rotation;
-            });
-            selectionVariables.Keys.ToList().ForEach(k =>
-            {
-                Debug.Log("Sposto " + k.name);
-                k.transform.position = this.transform.position + new Vector3(nextBlockInternoInferioreOffsetX - selectionVariables[k].x, nextBlockInternoInferioreOffsetY - selectionVariables[k].y, 0);
-            });
+            moveUnderMe(candidateNext, new Vector3(nextBlockInternoInferioreOffsetX, 0, nextBlockInternoInferioreOffsetY), new Vector3(0, 0, nextBlockSpinZ));
 
             var oldNext = lowerInternalNext;
             lowerInternalNext = candidateNext;
@@ -329,9 +299,7 @@ namespace view
                 levert[i] = new Vector3(levert[i].x, levert[i].y, levert[i].z - (secondStretchSize - 1) * 2);
             dente.gameObject.transform.localPosition = new Vector3(dente.gameObject.transform.localPosition.x, dente.gameObject.transform.localPosition.y, 0.5f - 6 - (firstStretchSize + secondStretchSize) * 2);
             mesh.SetVertices(new List<Vector3>(levert));
-            if (GetComponent<MeshCollider>())
-                Destroy(GetComponent<MeshCollider>());
-            gameObject.AddComponent<MeshCollider>();
+   
             initialised = false;
             nextBlockOffsetY = -6 - firstStretchSize * 2 - secondStretchSize * 2;
             secondoCampoTesto.transform.parent.transform.localPosition = posizioneBaseSecondoCampoTesto + new Vector3(0, 0, -(firstStretchSize - 1) * 2);

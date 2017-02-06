@@ -86,11 +86,7 @@ public class SelectableBlock : Selectable {
 
 
         // il codice sopra e' solo legacy per trovare i denti
-        var b2 = GetComponent<BlockWrapper>();
-        if (b2)
-        {
-            b2.linkedBlocks.ForEach(s => s.transform.SetParent(this.transform));
-        }
+        GetComponent<BlockWrapper>().Compact();
     }
 
     public override void OnDeselection ()
@@ -117,10 +113,7 @@ public class SelectableBlock : Selectable {
 			}
 		}
         var blocco = GetComponent<BlockWrapper>();
-        if (blocco)
-        {
-            blocco.linkedBlocks.ForEach(s => s.transform.SetParent(null));
-        }
+        blocco.Uncompact();
     }
 	public override void OnStaySelected ()
 	{

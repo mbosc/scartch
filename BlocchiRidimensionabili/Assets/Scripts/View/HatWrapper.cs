@@ -29,21 +29,7 @@ namespace view
         {
             Debug.Log(testo + ".setNext(" + candidateNext.testo + ")");
 
-            var selectionList = new Dictionary<GameObject, Vector2>();
-            candidateNext.linkedBlocks.ForEach(s => selectionList.Add(s.gameObject, new Vector2(candidateNext.gameObject.transform.position.x - s.gameObject.transform.position.x, candidateNext.gameObject.transform.position.y - s.gameObject.transform.position.y)));
-            selectionList.Add(candidateNext.gameObject, new Vector2(0, 0));
-            var selectionVariables = new Dictionary<GameObject, Vector2>();
-            candidateNext.linkedVariables.ForEach(s => selectionVariables.Add(s.gameObject, new Vector2(candidateNext.gameObject.transform.position.x - s.gameObject.transform.position.x, candidateNext.gameObject.transform.position.y - s.gameObject.transform.position.y)));
-
-            selectionList.Keys.ToList().ForEach(k =>
-                {
-                    k.transform.position = this.transform.position + new Vector3(nextBlockOffsetX - selectionList[k].x, nextBlockOffsetY - selectionList[k].y, 0);
-                    k.transform.eulerAngles = this.transform.eulerAngles + new Vector3(0, 0, 180);
-                });
-            selectionVariables.Keys.ToList().ForEach(k =>
-            {
-                k.transform.position = this.transform.position + new Vector3(nextBlockOffsetX - selectionVariables[k].x, nextBlockOffsetY - selectionVariables[k].y, 0);
-            });
+            moveUnderMe(candidateNext, new Vector3(nextBlockOffsetX, 0, nextBlockOffsetY), new Vector3(0, 0, nextBlockSpinZ));
 
             var oldNext = next;
             next = candidateNext;
@@ -93,7 +79,8 @@ namespace view
 				campoTesto.text = testo;
 				if (lastBlock)
 					evaluateLastBlock ();
-				nextBlockOffsetX = 2;
+				nextBlockOffsetX = -2;
+            nextBlockSpinZ = 180;
 				offsetTestoBaseX = 0;
 				initialised = autoinit;
 			}

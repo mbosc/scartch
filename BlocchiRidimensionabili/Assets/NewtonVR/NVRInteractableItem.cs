@@ -43,7 +43,6 @@ namespace NewtonVR
         protected override void Awake()
         {
             base.Awake();
-
             this.Rigidbody.maxAngularVelocity = 100f;
         }
 

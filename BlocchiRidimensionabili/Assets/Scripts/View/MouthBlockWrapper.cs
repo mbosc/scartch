@@ -41,22 +41,23 @@ namespace view
             Debug.Log(testo + ".setNextInterno(" + candidateNext.testo + ")");
 
 
-            var selectionList = new Dictionary<GameObject, Vector2>();
-            candidateNext.linkedBlocks.ForEach(s => selectionList.Add(s.gameObject, new Vector2(candidateNext.gameObject.transform.position.x - s.gameObject.transform.position.x, candidateNext.gameObject.transform.position.y - s.gameObject.transform.position.y)));
-            selectionList.Add(candidateNext.gameObject, new Vector2(0, 0));
-            var selectionVariables = new Dictionary<GameObject, Vector2>();
-            candidateNext.linkedVariables.ForEach(s => selectionVariables.Add(s.gameObject, new Vector2(candidateNext.gameObject.transform.position.x - s.gameObject.transform.position.x, candidateNext.gameObject.transform.position.y - s.gameObject.transform.position.y)));
+            //var selectionList = new Dictionary<GameObject, Vector2>();
+            //candidateNext.linkedBlocks.ForEach(s => selectionList.Add(s.gameObject, new Vector2(candidateNext.gameObject.transform.position.x - s.gameObject.transform.position.x, candidateNext.gameObject.transform.position.y - s.gameObject.transform.position.y)));
+            //selectionList.Add(candidateNext.gameObject, new Vector2(0, 0));
+            //var selectionVariables = new Dictionary<GameObject, Vector2>();
+            //candidateNext.linkedVariables.ForEach(s => selectionVariables.Add(s.gameObject, new Vector2(candidateNext.gameObject.transform.position.x - s.gameObject.transform.position.x, candidateNext.gameObject.transform.position.y - s.gameObject.transform.position.y)));
 
-            selectionList.Keys.ToList().ForEach(k =>
-            {
-                k.transform.position = this.transform.position + new Vector3(nextBlockInternoOffsetX - selectionList[k].x, nextBlockInternoOffsetY - selectionList[k].y, 0);
-                k.transform.rotation = this.transform.rotation;
-            });
-            selectionVariables.Keys.ToList().ForEach(k =>
-            {
-                //Debug.Log("Sposto " + k.name);
-                k.transform.position = this.transform.position + new Vector3(nextBlockInternoOffsetX - selectionVariables[k].x, nextBlockInternoOffsetY - selectionVariables[k].y, 0);
-            });
+            //selectionList.Keys.ToList().ForEach(k =>
+            //{
+            //    k.transform.position = this.transform.position + new Vector3(nextBlockInternoOffsetX - selectionList[k].x, nextBlockInternoOffsetY - selectionList[k].y, 0);
+            //    k.transform.rotation = this.transform.rotation;
+            //});
+            //selectionVariables.Keys.ToList().ForEach(k =>
+            //{
+            //    //Debug.Log("Sposto " + k.name);
+            //    k.transform.position = this.transform.position + new Vector3(nextBlockInternoOffsetX - selectionVariables[k].x, nextBlockInternoOffsetY - selectionVariables[k].y, 0);
+            //});
+            moveUnderMe(candidateNext, new Vector3(nextBlockInternoOffsetX, 0, nextBlockInternoOffsetY), new Vector3(0, 0, nextBlockSpinZ));
 
             var oldNext = internalNext;
             internalNext = candidateNext;
@@ -183,9 +184,7 @@ namespace view
                 levert[i] = new Vector3(levert[i].x, levert[i].y, originaryVertices[i].z - (stretchSize - 1) * 2);
             if (!lastBlock) dente.gameObject.transform.localPosition = new Vector3(dente.gameObject.transform.localPosition.x, dente.gameObject.transform.localPosition.y, 0.5f - 4 - stretchSize * 2);
             mesh.SetVertices(new List<Vector3>(levert));
-            if (GetComponent<MeshCollider>())
-                Destroy(GetComponent<MeshCollider>());
-            gameObject.AddComponent<MeshCollider>();
+          
             initialised = false;
             nextBlockOffsetY = -4 - stretchSize * 2;
 

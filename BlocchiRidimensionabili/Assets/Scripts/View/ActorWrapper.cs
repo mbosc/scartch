@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using model;
+using System;
+using System.Linq;
 
 namespace view
 {
@@ -63,14 +65,18 @@ namespace view
 		}
 
 		public void ShowBlocks(){
-            if (highlight)
-                highlight.SetActive(true);
+            Highlight(true);
 			scriptingElements.ForEach (b => b.gameObject.SetActive (true));
 		}
-		public void HideBlocks(){
-            if (highlight)
-                highlight.SetActive(false);
-			scriptingElements.ForEach (b => b.gameObject.SetActive (false));
+
+        private void Highlight(bool doing)
+        {
+            GetComponentsInChildren<Highlightable>().ToList().ForEach(s => s.Highlight(doing));
+        }
+
+        public void HideBlocks(){
+            Highlight(false);
+            scriptingElements.ForEach (b => b.gameObject.SetActive (false));
 		}
     }
 }

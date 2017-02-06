@@ -29,8 +29,23 @@ namespace view
                 return reference;
             }
         }
-        
-        
+
+        protected bool compacted = false;
+        public bool Compacted { get { return compacted; } }
+        public virtual void Compact()
+        {
+            if (compacted)
+                throw new System.Exception("Already compact");
+            compacted = true;
+            linkedVariables.ForEach(s => { if (s) s.transform.SetParent(this.transform); Compact(); });
+        }
+        public virtual void Uncompact()
+        {
+            if (!compacted)
+                throw new System.Exception("Already uncompact");
+            compacted = false;
+            linkedVariables.ForEach(s => { if (s) s.transform.SetParent(null); Uncompact(); });
+        }
 
 
         public int lunghezza;

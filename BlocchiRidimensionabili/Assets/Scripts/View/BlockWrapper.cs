@@ -58,8 +58,7 @@ namespace view
         protected Mesh mesh;
         protected float nextBlockOffsetX = 0;
         protected float nextBlockOffsetY = -2;
-        protected float prevBlockOffsetX = 0;
-        protected float prevBlockOffsetY = 2;
+        protected float nextBlockSpinZ = 0;
         protected float dongExt;
 
         protected float deformConst = 1;
@@ -80,31 +79,50 @@ namespace view
             return testo;
         }
 
+        protected bool compacted = false;
+        public bool Compacted { get { return compacted; } }
+        //metodi per passare da/al raccoglimento in gerarchia dei prossimi blocchi (TODO variabili);
+        public virtual void Compact()
+        {
+            compacted = true;
+            directlyLinkedBlocks.ForEach(s => {
+                if (s)
+                {
+                    s.transform.SetParent(this.transform);
+                    s.Compact();
+                }
+            });
+            directlyLinkedVariables.ForEach(s => {
+                if (s)
+                    s.transform.SetParent(this.transform);
+                    s.Compact();
+                });
+        }
+        public virtual void Uncompact()
+        {
+            compacted = false;
+            directlyLinkedBlocks.ForEach(s => { if (s) { s.transform.SetParent(null); s.Uncompact(); } });
+            directlyLinkedVariables.ForEach(s => { if(s) s.transform.SetParent(null); s.Uncompact(); });
+        }
+
+        protected void moveUnderMe(BlockWrapper candidateNext, Vector3 positionOffset, Vector3 rotationOffset)
+        {
+            var contextualCompacting = !candidateNext.compacted;
+            if (contextualCompacting)
+                candidateNext.Compact();
+            candidateNext.transform.SetParent(this.transform);
+            candidateNext.transform.localPosition = positionOffset;
+            candidateNext.transform.localEulerAngles = rotationOffset;
+            candidateNext.transform.SetParent(null);
+            if (contextualCompacting)
+               candidateNext.Uncompact();
+        }
+
         public virtual void setNext(BlockWrapper candidateNext)
         {
             Debug.Log(testo + ".setNext(" + candidateNext.testo + ")");
 
-            var selectionList = new Dictionary<GameObject, Vector2>();
-            candidateNext.linkedBlocks.ForEach(s => selectionList.Add(s.gameObject, new Vector2(candidateNext.gameObject.transform.position.x - s.gameObject.transform.position.x, candidateNext.gameObject.transform.position.y - s.gameObject.transform.position.y)));
-            selectionList.Add(candidateNext.gameObject, new Vector2(0, 0));
-
-
-
-            var selectionVariables = new Dictionary<GameObject, Vector2>();
-            candidateNext.linkedVariables.ForEach(s => selectionVariables.Add(s.gameObject, new Vector2(candidateNext.gameObject.transform.position.x - s.gameObject.transform.position.x, candidateNext.gameObject.transform.position.y - s.gameObject.transform.position.y)));
-
-            selectionList.Keys.ToList().ForEach(k =>
-            {
-                k.transform.position = this.transform.position + new Vector3(nextBlockOffsetX - selectionList[k].x, nextBlockOffsetY - selectionList[k].y, 0);
-                k.transform.rotation = this.transform.rotation;
-            });
-
-            selectionVariables.Keys.ToList().ForEach(k =>
-            {
-                //Debug.Log("Sposto " + k.name);
-                k.transform.position = this.transform.position + new Vector3(nextBlockOffsetX - selectionVariables[k].x, nextBlockOffsetY - selectionVariables[k].y, 0);
-            });
-
+            moveUnderMe(candidateNext, new Vector3(nextBlockOffsetX, 0, nextBlockOffsetY), new Vector3(0, 0, nextBlockSpinZ));
 
             var oldNext = next;
             next = candidateNext;
@@ -135,14 +153,12 @@ namespace view
                 return ex;
             }
         }
-        public virtual List<ReferenceWrapper> linkedVariables
+        public virtual List<ReferenceWrapper> directlyLinkedVariables
         {
             get
             {
                 var ex = new List<ReferenceWrapper>();
-                linkedBlocks.ForEach(s => { s.slotVariabili.ForEach(z => { if (z.variabile) ex.Add(z.variabile); }); });
                 slotVariabili.ForEach(s => { if (s.variabile) { ex.Add(s.variabile); s.variabile.linkedVariables.ForEach(ex.Add); } });
-                //ex.ForEach(Debug.Log);
                 return ex;
             }
         }
@@ -452,7 +468,6 @@ namespace view
 			if (!meshCalculated)
             {
 				meshCalculated = true;
-                this.gameObject.AddComponent<MeshCollider>();
             }
         }
     }
