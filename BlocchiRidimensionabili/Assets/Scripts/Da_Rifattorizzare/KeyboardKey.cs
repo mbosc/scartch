@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class KeyboardKey : LaserSelectable {
 
+    public bool ignoreText = false;
     public char mychar;
     private UnityEngine.UI.Text text;
 
@@ -16,8 +17,11 @@ public class KeyboardKey : LaserSelectable {
 
     public virtual void Init()
     {
-        text = transform.GetChild(0).GetChild(0).GetComponent<UnityEngine.UI.Text>();
-        text.text = mychar + "";
+        if (!ignoreText)
+        {
+            text = transform.GetChild(0).GetChild(0).GetComponent<UnityEngine.UI.Text>();
+            text.text = mychar + "";
+        }
     }
 
     public virtual void Init(char c)

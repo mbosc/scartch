@@ -98,7 +98,7 @@ public class Demo : MonoBehaviour {
 		actor2.HideBlocks ();
 		actor3.HideBlocks ();
 
-        FindObjectOfType<Numpad>().InnerStringChanged += ChangeTxt;
+        FindObjectOfType<Boolpad>().InnerStringChanged += ChangeTxt;
     }
 
     private void ChangeTxt(string obj)
