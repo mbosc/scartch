@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using model;
+using System.Linq;
 using view;
 
 public class Demo : MonoBehaviour {
@@ -34,6 +35,8 @@ public class Demo : MonoBehaviour {
             return a1 - a2;
         }
     }
+
+    public UnityEngine.UI.Text output;
 
     // Use this for initialization
     void Start () {
@@ -83,7 +86,7 @@ public class Demo : MonoBehaviour {
 
   //      var f = Instantiate(varcirc);
   //      f.GetComponent<NumberReferenceWrapper>().reference = new model.NumberVariable("sd", 1);
-
+        
 
 		var g = InstantiateWithComponent<IfElseBlockWrapper> (mmblock);
 	    g.Init(actor2);
@@ -95,9 +98,20 @@ public class Demo : MonoBehaviour {
 		actor2.HideBlocks ();
 		actor3.HideBlocks ();
 
-        
+        FindObjectsOfType<KeyboardKey>().ToList().ForEach(s => { s.CharSelected += AddCharToOutput; s.Init(); });
+        FindObjectOfType<SpecialKey>().CharSelected += RemoveCharFromOutput;
     }
 
+    private void RemoveCharFromOutput()
+    {
+        output.text = output.text.Substring(0, output.text.Length - 1);
+    }
+
+    private void AddCharToOutput(char c)
+    {
+        output.text += c;
+    }
+    
     private T InstantiateWithComponent<T>(GameObject prefab) where T:MonoBehaviour
     {
         GameObject b = GameObject.Instantiate(prefab);
