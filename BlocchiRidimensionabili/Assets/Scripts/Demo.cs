@@ -98,12 +98,16 @@ public class Demo : MonoBehaviour {
 		actor2.HideBlocks ();
 		actor3.HideBlocks ();
 
-        FindObjectOfType<Keyboard>().OutputChanged += ChangeTxt;
+        FindObjectOfType<Numpad>().InnerStringChanged += ChangeTxt;
     }
 
     private void ChangeTxt(string obj)
     {
         output.text = obj;
+    }
+    private void ChangeTxt(float obj)
+    {
+        output.text = obj.ToString();
     }
 
     private T InstantiateWithComponent<T>(GameObject prefab) where T:MonoBehaviour
