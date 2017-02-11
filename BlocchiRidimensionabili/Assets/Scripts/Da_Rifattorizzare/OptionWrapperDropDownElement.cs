@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using model;
+using System;
 
 namespace view
 {
 
-	public class OptionWrapperDropDownElement : Selectable
+	public class OptionWrapperDropDownElement : LaserSelectable
 	{
 		public UnityEngine.UI.Text myText;
 		protected Mesh mesh;
@@ -37,12 +38,6 @@ namespace view
 			gameObject.AddComponent<MeshCollider> ();
 		}
 
-		public override void OnDeselection(){
-			transform.parent.GetComponent<OptionWrapper> ().SetValue (number);
-            transform.parent.GetComponent<OptionWrapper>().HideOptions();
-
-        }
-
 		private int number;
 		public void Init(string text, int number, int length)
 		{
@@ -53,6 +48,11 @@ namespace view
 			extend ();
 		}
 
-		
-	}
+        public override void Select()
+        {
+            transform.parent.GetComponent<OptionWrapper>().SetValue(number);
+            transform.parent.GetComponent<OptionWrapper>().HideOptions();
+
+        }
+    }
 }

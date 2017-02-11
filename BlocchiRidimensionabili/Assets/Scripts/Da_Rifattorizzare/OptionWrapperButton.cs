@@ -2,18 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 using model;
+using System;
 
 namespace view
 {
 
-	public class OptionWrapperButton : Selectable
+	public class OptionWrapperButton : LaserSelectable
 	{
-		public override void OnDeselection(){
-			var wrap = transform.parent.GetComponent<OptionWrapper> ();
-			if (wrap.showing)
-				wrap.HideOptions ();
-			else
-				wrap.ShowOptions ();
-		}
-	}
+        public override void Select()
+        {
+            var wrap = transform.parent.GetComponent<OptionWrapper>();
+            if (wrap.showing)
+                wrap.HideOptions();
+            else
+                wrap.ShowOptions();
+        }
+    }
 }

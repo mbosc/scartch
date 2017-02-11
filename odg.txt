@@ -17,9 +17,10 @@ Successivi:
 [ ] Aggiungere sistema per inserimento blocchi
 [ ] Usare dei puntatori piu' precisi
 [ ] Completamento elenco blocchi
+[ ] Impedisci edit in play mode
 [ ] Retrofitting Diagramma analisi
-[ ] Rimessa a posto delle classi di interfaccia: il sistema si incasina altrimenti: soprattutto la gestione degli spostamenti di blocchi collegati e variabili va ripensata (parenting? forse e' piu' semplice).
-[ ] Relazione (serve anche il cartaceo o solo diapositive?)
+[x] Rimessa a posto delle classi di interfaccia: il sistema si incasina altrimenti: soprattutto la gestione degli spostamenti di blocchi collegati e variabili va ripensata (parenting? forse e' piu' semplice).
+[ ] Relazione (solo diapositive)
 [ ] Rimbalza quando tocchi il bordo: fare controllo sulla direzione.
 [ ] Se spostato di poco, il blocco deve ri-snappare in posizione <Meno facile del previsto>
 [ ] Realizzazione demo: Gioco labirinto? Fattoriale (per mostrare ricorsione con chiamata di messaggi)? 
