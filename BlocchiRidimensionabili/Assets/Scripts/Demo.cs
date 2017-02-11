@@ -98,20 +98,14 @@ public class Demo : MonoBehaviour {
 		actor2.HideBlocks ();
 		actor3.HideBlocks ();
 
-        FindObjectsOfType<KeyboardKey>().ToList().ForEach(s => { s.CharSelected += AddCharToOutput; s.Init(); });
-        FindObjectOfType<SpecialKey>().CharSelected += RemoveCharFromOutput;
+        FindObjectOfType<Keyboard>().OutputChanged += ChangeTxt;
     }
 
-    private void RemoveCharFromOutput()
+    private void ChangeTxt(string obj)
     {
-        output.text = output.text.Substring(0, output.text.Length - 1);
+        output.text = obj;
     }
 
-    private void AddCharToOutput(char c)
-    {
-        output.text += c;
-    }
-    
     private T InstantiateWithComponent<T>(GameObject prefab) where T:MonoBehaviour
     {
         GameObject b = GameObject.Instantiate(prefab);
