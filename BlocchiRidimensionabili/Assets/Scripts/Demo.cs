@@ -11,6 +11,7 @@ public class Demo : MonoBehaviour {
     public GameObject block, hat, mblock, mmblock, varcirc, varAng, varSqr;
     public ActorWrapper actor1, actor2, actor3;
     public Transform spawnTransform;
+    public static Demo instance;
 
     private class SumExpression : NumberExpression
     {
@@ -40,6 +41,8 @@ public class Demo : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        instance = this;
+
 		actor1.actor = new Actor (new Vector3 (0, 0, 0), new Vector3 (0, 0, 0), 1, 100, "", new Model ("s"));
 		actor2.actor = new Actor (new Vector3 (40, 0, 0), new Vector3 (0, 0, 0), 1, 100, "", new Model ("s"));
 		actor3.actor = new Actor (new Vector3 (-40, 0, 0), new Vector3 (0, 0, 0), 1, 100, "", new Model ("s"));
@@ -88,8 +91,8 @@ public class Demo : MonoBehaviour {
   //      f.GetComponent<NumberReferenceWrapper>().reference = new model.NumberVariable("sd", 1);
         
 
-		var g = InstantiateWithComponent<IfElseBlockWrapper> (mmblock);
-	    g.Init(actor2);
+		//var g = InstantiateWithComponent<IfElseBlockWrapper> (mmblock);
+	 //   g.Init(actor2);
 
         var z = InstantiateWithComponent<ForeverBlockWrapper>(mblock);
 		z.Init(actor2);
@@ -98,7 +101,7 @@ public class Demo : MonoBehaviour {
 		actor2.HideBlocks ();
 		actor3.HideBlocks ();
 
-        FindObjectOfType<Boolpad>().InnerStringChanged += ChangeTxt;
+       // FindObjectOfType<Boolpad>().InnerStringChanged += ChangeTxt;
     }
 
     private void ChangeTxt(string obj)

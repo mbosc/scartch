@@ -10,6 +10,8 @@ public class Numpad : MonoBehaviour {
 
     public Action<float> OutputChanged;
     public Action<string> InnerStringChanged;
+    public Action<object> Confirmed;
+
     private float output;
     public float Output { get { return output; } }
     private string innerString;
@@ -25,9 +27,9 @@ public class Numpad : MonoBehaviour {
             {
                 
                 innerString = value;
-                if (InnerString != null)
+                if (InnerStringChanged != null)
                     InnerStringChanged(InnerString);
-                output = empty ? 0 : float.Parse(value);
+                output = empty ? 0 : temp;
                 if (OutputChanged != null)
                     OutputChanged(Output);
             }
@@ -35,13 +37,14 @@ public class Numpad : MonoBehaviour {
     }
     // Use this for initialization
     void Start () {
+        innerString = "";
         keys.ForEach(s =>
         {
             s.CharSelected += OnKeyPressed;
             s.Init();
         });
         cancel.CharSelected += EraseKey;
-        confirm.CharSelected += Confirmed;
+        confirm.CharSelected += Condrifemd;
     }
 	
     private void OnKeyPressed(char key)
@@ -54,8 +57,10 @@ public class Numpad : MonoBehaviour {
         InnerString = InnerString.Substring(0, InnerString.Length - 1);
     }
 
-    private void Confirmed()
+    private void Condrifemd()
     {
-
+        if (Confirmed != null)
+            Confirmed(this);
+        this.gameObject.SetActive(false);
     }
 }

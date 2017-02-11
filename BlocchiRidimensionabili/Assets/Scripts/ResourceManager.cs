@@ -8,6 +8,9 @@ public class ResourceManager : MonoBehaviour {
 	public Material bloccoMovimento, bloccoAspetto, bloccoSuono, bloccoSensori, bloccoOperatori, bloccoVariabili, bloccoControllo;
     public static ResourceManager Instance;
     public Material materialeSelezione;
+    public Numpad numpad;
+    public Keyboard keyboard;
+    public Boolpad boolpad;
 
     private void Start()
     {

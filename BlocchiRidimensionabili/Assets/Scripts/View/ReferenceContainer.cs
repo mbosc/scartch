@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using model;
+using System;
 
 namespace view
 {
-    public class ReferenceContainer : MonoBehaviour
+    public class ReferenceContainer : LaserSelectable
     {
         public string type;
         protected int _lunghezza = 1;
@@ -90,7 +91,7 @@ namespace view
             GetComponent<Renderer>().material.color = col;
         }
 
-       
+
 
         public virtual void CompletaCon(ReferenceWrapper variabile)
         {
@@ -116,7 +117,7 @@ namespace view
             if (icompct)
                 variabile.Uncompact();
 
-            
+
             GetComponent<MeshRenderer>().enabled = false;
 
 
@@ -149,10 +150,56 @@ namespace view
 
         }
 
+        private UnityEngine.UI.Text ImmediateText;
+        private NumberVariable innerVariable;
+
         // Use this for initialization
         protected virtual void Start()
         {
+            ImmediateText = GetComponentInChildren<UnityEngine.UI.Text>();
+            ImmediateText.text = "";
+        }
 
+        public override void Select()
+        {
+            if (variabile == null)
+            {
+                this.innerVariable = new NumberVariable("temp");
+
+                var d = transform.parent.gameObject.GetComponent<BlockWrapper>();
+                if (d == null)
+                {
+                    var z = transform.parent.gameObject.GetComponent<ReferenceWrapper>();
+
+                    z.expression.AddReference(number, innerVariable);
+                }
+                else
+                {
+                    d.block.AddReference(number, innerVariable);
+                }
+                AttachTo(ResourceManager.Instance.numpad);
+            }
+        }
+
+        private void changeImmediateValue(float val)
+        {
+            innerVariable.Value = val;
+            ImmediateText.text = val.ToString();
+        }
+
+        private void AttachTo(Numpad numpad)
+        {
+            numpad.OutputChanged += changeImmediateValue;
+            numpad.Confirmed += DetachTo;
+            numpad.gameObject.SetActive(true);
+        }
+
+        private void DetachTo(object numpad)
+        {
+            var np = numpad as Numpad;
+            np.OutputChanged -= changeImmediateValue;
+            np.Confirmed -= DetachTo;
+            
         }
     }
 

@@ -11,8 +11,10 @@ Lunedì:
 	assicurarsi che qyando tolgo una variabile da un buco venga effettivamente via
 
 Successivi:
+[ ] Aggiungere testo e immediati anche in bool e stringhe
+[ ] Assicurarsi che la gestione degli immediati funzioni
 [ ] Appigli molto approssimativi: soprattutto per le espressioni composte e' difficile prendere tutto.
-[ ] Menu per inserimento valori immediati e altro VR
+[x] Menu per inserimento valori immediati e altro VR
 [ ] Aggiungere visualizzatore variabili 
 [ ] Aggiungere sistema per inserimento blocchi
 [ ] Usare dei puntatori piu' precisi
