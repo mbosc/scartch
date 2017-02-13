@@ -11,6 +11,7 @@ Lunedì:
 	assicurarsi che qyando tolgo una variabile da un buco venga effettivamente via
 
 Successivi:
+[ ] Provare a capire perché dopo l'inserimento di un immediato non si possono più mettere altre variabili
 [ ] Aggiungere testo e immediati anche in bool e stringhe
 [ ] Assicurarsi che la gestione degli immediati funzioni
 [ ] Appigli molto approssimativi: soprattutto per le espressioni composte e' difficile prendere tutto.

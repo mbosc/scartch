@@ -70,11 +70,21 @@ namespace view
             mesh.SetVertices(new List<Vector3>(levert));
 
             //recompute mesh collider
+            var oldparent = transform.parent;
+            transform.parent = null;
             if (GetComponent<MeshCollider>())
                 Destroy(GetComponent<MeshCollider>());
-            gameObject.AddComponent<MeshCollider>();
-            GetComponent<MeshCollider>().convex = true;
-            GetComponent<MeshCollider>().isTrigger = true;
+
+
+
+            var meshcol = gameObject.AddComponent<MeshCollider>();
+            meshcol.convex = true;
+            meshcol.isTrigger = true;
+
+            
+            
+            //GetComponent<BoxCollider>().isTrigger = true;
+            transform.SetParent(oldparent);
         }
 
         protected virtual void loadOriginaryMesh()
@@ -127,12 +137,22 @@ namespace view
             if (d == null)
             {
                 var z = transform.parent.gameObject.GetComponent<ReferenceWrapper>();
-
+                if (innerVariable != null)
+                {
+                    z.expression.RemoveReference(number);
+                    innerVariable = null;
+                    ImmediateText.text = "";
+                }
                 z.expression.AddReference(number, variabile.reference);
             }
             else
             {
-
+                if (innerVariable != null)
+                {
+                    d.block.RemoveReference(number);
+                    innerVariable = null;
+                    ImmediateText.text = "";
+                }
                 d.block.AddReference(number, variabile.reference);
             }
         }
@@ -162,7 +182,7 @@ namespace view
 
         public override void Select()
         {
-            if (variabile == null)
+            if (innerVariable == null && variabile == null)
             {
                 this.innerVariable = new NumberVariable("temp");
 
@@ -179,16 +199,23 @@ namespace view
                 }
                 AttachTo(ResourceManager.Instance.numpad);
             }
+            if (innerVariable != null)
+            {
+                AttachTo(ResourceManager.Instance.numpad);
+            }
         }
 
         private void changeImmediateValue(float val)
         {
             innerVariable.Value = val;
             ImmediateText.text = val.ToString();
+            lunghezza = Mathf.Max(ImmediateText.text.Length, lunghezzaOriginale);
+            extend();
         }
 
         private void AttachTo(Numpad numpad)
         {
+            numpad.DetachAll();
             numpad.OutputChanged += changeImmediateValue;
             numpad.Confirmed += DetachTo;
             numpad.gameObject.SetActive(true);
@@ -199,7 +226,6 @@ namespace view
             var np = numpad as Numpad;
             np.OutputChanged -= changeImmediateValue;
             np.Confirmed -= DetachTo;
-            
         }
     }
 

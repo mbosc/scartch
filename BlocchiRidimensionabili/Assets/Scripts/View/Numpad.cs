@@ -46,6 +46,15 @@ public class Numpad : MonoBehaviour {
         cancel.CharSelected += EraseKey;
         confirm.CharSelected += Condrifemd;
     }
+
+    public void DetachAll()
+    {
+        if (Confirmed != null)
+            Confirmed(this);
+        OutputChanged = null;
+        InnerStringChanged = null;
+        Confirmed = null;
+    }
 	
     private void OnKeyPressed(char key)
     {
@@ -54,7 +63,13 @@ public class Numpad : MonoBehaviour {
 
     private void EraseKey()
     {
-        InnerString = InnerString.Substring(0, InnerString.Length - 1);
+        try
+        {
+            InnerString = InnerString.Substring(0, InnerString.Length - 1);
+        } catch (ArgumentException)
+        {
+            InnerString = "";
+        }
     }
 
     private void Condrifemd()
