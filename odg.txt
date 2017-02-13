@@ -1,6 +1,6 @@
 ORDINE GIORNO
 
-[ ] Aggiungere visualizzatore variabili 
+[x] Aggiungere visualizzatore variabili 
 [ ] Usare dei puntatori piu' precisi
 
 [ ] Completamento elenco blocchi

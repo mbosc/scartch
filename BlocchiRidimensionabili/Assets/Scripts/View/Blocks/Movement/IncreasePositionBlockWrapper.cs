@@ -10,7 +10,7 @@ namespace view
 		public override void Init(ActorWrapper wrapper, bool autoinit = true){
 			GetComponent<Renderer> ().material = ResourceManager.Instance.bloccoMovimento;
 			testo = "Cambia {  } di (  )";
-			block = new IncreasePositionBlock (wrapper.actor);
+			block = new IncreasePositionBlock (wrapper.Actor);
 			base.Init (wrapper, autoinit);
 		}
 

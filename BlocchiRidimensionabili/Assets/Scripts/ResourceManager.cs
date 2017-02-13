@@ -12,6 +12,7 @@ public class ResourceManager : MonoBehaviour {
     public Numpad numpad;
     public Keyboard keypad;
     public Boolpad boolpad;
+    public GameObject varviewer;
 
     private void Start()
     {

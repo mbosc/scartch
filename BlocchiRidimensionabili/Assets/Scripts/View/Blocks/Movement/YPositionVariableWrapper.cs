@@ -13,7 +13,7 @@ namespace view
         protected override void Start()
         {
 			GetComponent<Renderer> ().material = ResourceManager.Instance.bloccoMovimento;
-            reference = new DynamicNumberVariable("_py", () => Owner.actor.Position.y);
+            reference = new DynamicNumberVariable("_py", () => Owner.Actor.Position.y);
             base.Start();
         }
     }

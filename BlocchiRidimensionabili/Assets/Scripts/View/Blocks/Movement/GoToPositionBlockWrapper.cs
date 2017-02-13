@@ -10,7 +10,7 @@ namespace view
 		public override void Init(ActorWrapper wrapper, bool autoinit = true){
 			GetComponent<Renderer> ().material = ResourceManager.Instance.bloccoMovimento;
 			testo = "Vai alla posizione x: (  ) y: (  ) z: (  )";
-			block = new GoToPositionBlock (wrapper.actor);
+			block = new GoToPositionBlock (wrapper.Actor);
 			base.Init (wrapper, autoinit);
 		}
 

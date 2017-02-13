@@ -10,7 +10,7 @@ namespace view
 		public override void Init(ActorWrapper wrapper, bool autoinit = true){
 			GetComponent<Renderer> ().material = ResourceManager.Instance.bloccoAspetto;
 			testo = "Imposta dimensioni al (  )%";
-			block = new ChangeSizeByBlock (wrapper.actor);
+			block = new ChangeSizeByBlock (wrapper.Actor);
 			base.Init (wrapper,autoinit);
 		}
 

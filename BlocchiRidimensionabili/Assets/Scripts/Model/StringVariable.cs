@@ -5,6 +5,7 @@ namespace model
     public class StringVariable : Variable, StringReference
     {
         private string value;
+        
 
         public StringVariable(string name, string value)
         {
@@ -18,7 +19,8 @@ namespace model
         public string Value
         {
             get { return value; }
-            set { this.value = value; }
+            set { this.value = value; OnVariableChanged();
+            }
         }
 
         public string Evaluate()
@@ -26,7 +28,7 @@ namespace model
             return value;
         }
 
-        public string EvaluateAsString()
+        public override string EvaluateAsString()
         {
             return value;
         }

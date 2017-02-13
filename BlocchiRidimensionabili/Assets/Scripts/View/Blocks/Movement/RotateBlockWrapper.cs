@@ -10,7 +10,7 @@ namespace view
 		public override void Init(ActorWrapper wrapper, bool autoinit = true){
 			GetComponent<Renderer> ().material = ResourceManager.Instance.bloccoMovimento;
 			testo = "Ruota di (  ) ° intorno all'asse {  }";
-			block = new RotateBlock (wrapper.actor);
+			block = new RotateBlock (wrapper.Actor);
 			base.Init (wrapper, autoinit);
 		}
 

@@ -2,9 +2,15 @@
 using System;
 namespace model
 {
-    public abstract class Variable
+    public abstract class Variable : Reference
     {
         private string name;
+        public event EventHandler VariableChanged;
+        public void OnVariableChanged()
+        {
+            if (VariableChanged != null)
+                VariableChanged(this, EventArgs.Empty);
+        }
 
         public string Name
         {
@@ -17,5 +23,6 @@ namespace model
             }
         }
 
+        public abstract string EvaluateAsString();
     }
 }

@@ -10,7 +10,7 @@ namespace view
 		public override void Init(ActorWrapper wrapper, bool autoinit = true){
 			GetComponent<Renderer> ().material = ResourceManager.Instance.bloccoAspetto;
 			testo = "Rimuovi Fumetto";
-			block = new HideMessageBlock (wrapper.actor);
+			block = new HideMessageBlock (wrapper.Actor);
 			base.Init (wrapper,autoinit);
 		}
 

@@ -10,7 +10,7 @@ namespace view
 		public override void Init(ActorWrapper wrapper, bool autoinit = true){
 			GetComponent<Renderer> ().material = ResourceManager.Instance.bloccoControllo;
 			testo = "Ferma script";
-			block = new StopScriptBlock (wrapper.actor);
+			block = new StopScriptBlock (wrapper.Actor);
 			base.Init (wrapper,autoinit);
 		}
 

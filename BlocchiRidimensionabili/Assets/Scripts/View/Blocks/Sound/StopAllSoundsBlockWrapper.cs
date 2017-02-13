@@ -10,7 +10,7 @@ namespace view
 		public override void Init(ActorWrapper wrapper, bool autoinit = true){
 			GetComponent<Renderer> ().material = ResourceManager.Instance.bloccoSuono;
 			testo = "Arresta tutti i suoni";
-			block = new StopAllSoundsBlock (wrapper.actor);
+			block = new StopAllSoundsBlock (wrapper.Actor);
 			base.Init (wrapper,autoinit);
 		}
 

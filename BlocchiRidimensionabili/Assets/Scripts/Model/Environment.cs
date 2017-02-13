@@ -21,6 +21,7 @@ namespace model
             else
                 instance = this;
             PlayModeStarted += () => StartCoroutine(playRoutine(StepDeltaTime));
+            variables = new List<Variable>();
 			actors = new List<Actor> ();
 			controllers = new List<InteractionItem> ();
 			timer = GetComponent<Timer> ();
@@ -48,6 +49,24 @@ namespace model
             }
         }
 
+        // TODO non in diagramma
+        private IList<Variable> variables;
+        public List<Variable> Variables
+        {
+            get
+            {
+                return variables.ToList();
+            }
+        }
+        public void AddVariable(Variable var)
+        {
+            variables.Add(var);
+        }
+        public void RemoveVariable(Variable var)
+        {
+            variables.Remove(var);
+        }
+        
         private IList<Actor> actors;
 		public List<Actor> Actors {
 			get {

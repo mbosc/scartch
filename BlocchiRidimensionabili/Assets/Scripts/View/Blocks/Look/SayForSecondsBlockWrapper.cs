@@ -10,7 +10,7 @@ namespace view
 		public override void Init(ActorWrapper wrapper, bool autoinit = true){
 			GetComponent<Renderer> ().material = ResourceManager.Instance.bloccoAspetto;
 			testo = "Di' [  ] per (  ) secondi";
-			block = new SayForSecondsBlock (wrapper.actor);
+			block = new SayForSecondsBlock (wrapper.Actor);
 			base.Init (wrapper,autoinit);
 		}
 

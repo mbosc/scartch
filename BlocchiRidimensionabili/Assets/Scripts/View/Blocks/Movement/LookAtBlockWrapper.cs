@@ -11,7 +11,7 @@ namespace view
 		public override void Init(ActorWrapper wrapper, bool autoinit = true){
 			GetComponent<Renderer> ().material = ResourceManager.Instance.bloccoMovimento;
 			testo = "Rivolgiti verso {  }";
-			block = new LookAtBlock (wrapper.actor);
+			block = new LookAtBlock (wrapper.Actor);
 			base.Init (wrapper, autoinit);
 		}
 

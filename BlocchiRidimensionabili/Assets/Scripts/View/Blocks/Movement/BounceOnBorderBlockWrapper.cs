@@ -10,7 +10,7 @@ namespace view
 		public override void Init(ActorWrapper wrapper, bool autoinit = true){
 			GetComponent<Renderer> ().material = ResourceManager.Instance.bloccoMovimento;
 			testo = "Rimbalza quando tocchi il bordo";
-			block = new BounceOnBorderBlock (wrapper.actor);
+			block = new BounceOnBorderBlock (wrapper.Actor);
 			base.Init (wrapper, autoinit);
 		}
 

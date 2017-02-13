@@ -5,6 +5,7 @@ namespace model
     public class BooleanVariable : Variable, BooleanReference
     {
         private bool value;
+        
 
         public BooleanVariable(string name, bool value)
         {
@@ -18,7 +19,9 @@ namespace model
         public bool Value
         {
             get { return value; }
-            set { this.value = value; }
+            set { this.value = value;
+                OnVariableChanged();
+            }
         }
 
         public bool Evaluate()
@@ -26,7 +29,7 @@ namespace model
             return value;
         }
 
-        public string EvaluateAsString()
+        public override string EvaluateAsString()
         {
             return value.ToString();
         }

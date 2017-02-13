@@ -10,7 +10,7 @@ namespace view
 		public override void Init(ActorWrapper wrapper, bool autoinit = true){
 			GetComponent<Renderer> ().material = ResourceManager.Instance.bloccoAspetto;
 			testo = "Di' [  ]";
-			block = new SayBlock (wrapper.actor);
+			block = new SayBlock (wrapper.Actor);
 			base.Init (wrapper,autoinit);
 		}
 

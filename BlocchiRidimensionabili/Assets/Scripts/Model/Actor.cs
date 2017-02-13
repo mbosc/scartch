@@ -15,7 +15,11 @@ namespace model
         private HashSet<ScriptingElement> scriptingElements;
 
 		// variables defined within this actor's scope
-        private HashSet<Variable> variables;
+        
+            //aggiornare diagramma
+        public HashSet<Variable> variables;
+        private string name;
+        public string Name { get { return name; } }
 
         private Model model;
 		private Sound sound;
@@ -31,10 +35,11 @@ namespace model
 					ActorChanged ();
 			}
 		}
-        public Actor(Vector3 position, Vector3 rotation, float scale, float volume, string message, Model model)
+        public Actor(String name, Vector3 position, Vector3 rotation, float scale, float volume, string message, Model model)
         {
             scriptingElements = new HashSet<ScriptingElement>();
             variables = new HashSet<Variable>();
+            this.name = name;
             this.position = position;
             this.rotation = rotation;
             this.scale = scale;
@@ -44,8 +49,8 @@ namespace model
 			this.sound = null;
         }
 
-        public Actor(Model model)
-            : this(new Vector3(0, 0, 0), new Vector3(0, 0, 0), 1, 75, "", model)
+        public Actor(String name, Model model)
+            : this(name, new Vector3(0, 0, 0), new Vector3(0, 0, 0), 1, 75, "", model)
         {
 
         }

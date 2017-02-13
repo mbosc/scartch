@@ -10,7 +10,7 @@ namespace view
 		public override void Init(ActorWrapper wrapper, bool autoinit = true){
 			GetComponent<Renderer> ().material = ResourceManager.Instance.bloccoSensori;
 			testo = "Resetta il timer";
-			block = new TimeResetBlock (wrapper.actor);
+			block = new TimeResetBlock (wrapper.Actor);
 			base.Init (wrapper,autoinit);
 		}
 

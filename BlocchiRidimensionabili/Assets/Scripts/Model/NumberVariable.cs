@@ -5,7 +5,9 @@ namespace model
     public class NumberVariable : Variable, NumberReference
     {
         private float value;
-		public NumberVariable(string name, float value)
+        
+
+        public NumberVariable(string name, float value)
         {
             //da controllare
             Name = name;
@@ -17,7 +19,9 @@ namespace model
         public virtual float Value
         {
             get { return value; }
-            set { this.value = value; }
+            set { this.value = value;
+                OnVariableChanged();
+            }
         }
 
         public float Evaluate()
@@ -25,7 +29,7 @@ namespace model
             return value;
         }
 
-        public string EvaluateAsString()
+        public override string EvaluateAsString()
         {
             return string.Format("{0:0.######}", value);
         }

@@ -9,16 +9,18 @@ namespace view
 {
     public class ActorWrapper : MonoBehaviour
     {
-        public Actor actor;// TODO set private
+        private Actor actor;// TODO set private
+        public Actor Actor { get { return actor; } }
         private Vector3 baseScale;
         public Vector3 centerOffset;
 		private List<ScriptingElementWrapper> scriptingElements = new List<ScriptingElementWrapper>();
         private GameObject highlight;
 		public ActorMessage message;
         // Use this for initialization
-        void Start()
+        public void Init(Actor actor)
         {
-			
+            this.actor = actor;
+            this.name = actor.Name;
             highlight = this.transform.GetChild(0).gameObject;
 			message = this.transform.GetChild (1).GetComponent<ActorMessage> ();
 			this.transform.localPosition = actor.Position + centerOffset;

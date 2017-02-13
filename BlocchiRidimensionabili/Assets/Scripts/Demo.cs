@@ -43,9 +43,9 @@ public class Demo : MonoBehaviour {
     void Start () {
         instance = this;
 
-		actor1.actor = new Actor (new Vector3 (0, 0, 0), new Vector3 (0, 0, 0), 1, 100, "", new Model ("s"));
-		actor2.actor = new Actor (new Vector3 (40, 0, 0), new Vector3 (0, 0, 0), 1, 100, "", new Model ("s"));
-		actor3.actor = new Actor (new Vector3 (-40, 0, 0), new Vector3 (0, 0, 0), 1, 100, "", new Model ("s"));
+		actor1.Init(new Actor ("Ciro", new Vector3 (0, 0, 0), new Vector3 (0, 0, 0), 1, 100, "", new Model ("s")));
+		actor2.Init(new Actor ("Pino", new Vector3 (40, 0, 0), new Vector3 (0, 0, 0), 1, 100, "", new Model ("s")));
+		actor3.Init(new Actor ("Lino", new Vector3 (-40, 0, 0), new Vector3 (0, 0, 0), 1, 100, "", new Model ("s")));
 //        var b = InstantiateWithComponent<EndPlayModeBlockWrapper>(block);
 //        b.GetComponent<BlockWrapper>().Owner = actor;
 
@@ -66,20 +66,21 @@ public class Demo : MonoBehaviour {
         var e = Instantiate(varcirc);
         e.GetComponent<NumberReferenceWrapper>().Init(actor2, new model.NumberVariable("three", 3));
         var e2 = Instantiate(varcirc);
-        e2.GetComponent<NumberReferenceWrapper>().Init(actor2, new model.NumberVariable("two", 2));
-        var e3 = Instantiate(varcirc);
-        e3.GetComponent<NumberReferenceWrapper>().Init(actor2, new SumExpression());
+        v2 = new DynamicNumberVariable("Posiz. z", () => actor2.Actor.Position.z);
+        e2.GetComponent<NumberReferenceWrapper>().Init(actor2, v2);
+        GameObject.Instantiate(ResourceManager.Instance.varviewer).GetComponent<VariableViewer>().Init(v2);
+        
 
   //      var zz = Instantiate(varAng);
   //      zz.GetComponent<BooleanReferenceWrapper>().Init(actor2, new model.BooleanVariable("tru story", true));
 
-        var soso = InstantiateWithComponent<SayBlockWrapper>(block);
+        var soso = InstantiateWithComponent<BounceOnBorderBlockWrapper>(block);
         soso.Init(actor2);
 
 		//var ifels = InstantiateWithComponent<TimeResetBlockWrapper> (block);
 		//ifels.Init (actor2);
 
-        var omega = InstantiateWithComponent<RotateBlockWrapper>(block);
+        var omega = InstantiateWithComponent<MoveStepsBlockWrapper>(block);
         omega.Init(actor2);
 
         //var afispo = Instantiate(varSqr);
@@ -94,7 +95,7 @@ public class Demo : MonoBehaviour {
 		//var g = InstantiateWithComponent<IfElseBlockWrapper> (mmblock);
 	 //   g.Init(actor2);
 
-        var z = InstantiateWithComponent<IfBlockWrapper>(mblock);
+        var z = InstantiateWithComponent<ForeverBlockWrapper>(mblock);
 		z.Init(actor2);
 
 		actor1.HideBlocks ();
@@ -121,9 +122,12 @@ public class Demo : MonoBehaviour {
         Destroy(b);
 		return c.GetComponent<T>();
     }
-	
+
+    NumberVariable v2;
+
 	// Update is called once per frame
 	void Update () {
-		
+        if (GameObject.Find("LeftHand").GetComponent<NewtonVR.NVRHand>().Inputs[NewtonVR.NVRButtons.X].IsPressed)
+            v2.Value += 1;
 	}
 }

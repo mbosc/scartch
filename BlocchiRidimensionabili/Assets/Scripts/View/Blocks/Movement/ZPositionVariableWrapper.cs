@@ -13,7 +13,7 @@ namespace view
         protected override void Start()
         {
 			GetComponent<Renderer> ().material = ResourceManager.Instance.bloccoMovimento;
-            reference = new DynamicNumberVariable("_pz", () => Owner.actor.Position.z);
+            reference = new DynamicNumberVariable("_pz", () => Owner.Actor.Position.z);
             base.Start();
         }
     }
