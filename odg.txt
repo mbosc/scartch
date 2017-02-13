@@ -2,6 +2,7 @@ ORDINE GIORNO
 
 [x] Aggiungere visualizzatore variabili 
 [ ] Usare dei puntatori piu' precisi
+[ ] I mesh collider delle variabili non crescono
 
 [ ] Completamento elenco blocchi
 [ ] Aggiungere sistema per inserimento blocchi
