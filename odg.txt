@@ -1,28 +1,13 @@
 ORDINE GIORNO
 
-Lunedì:
-[x] Integrazione SteamVR (8.45 -> 10)
-[x] Adattamento sistema di puntamento a VR (10 -> 11.30)
-[x] Usare delle mesh senza denti convesse (solo parallelepipedi, niente di piu' complicato neppure per blocchi multipli) per le collisioni dei blocchi.
-[x] Prevedere che snapping di tutti i tipi siano fatti con parenting.
-	[x] Blocchi
-	[x] Variabili
-	assicurarsi che quando prendo un blocco non si stacchino le variabili come succede adesso
-	assicurarsi che qyando tolgo una variabile da un buco venga effettivamente via
-
-Successivi:
-[ ] Provare a capire perché dopo l'inserimento di un immediato non si possono più mettere altre variabili
-[ ] Aggiungere testo e immediati anche in bool e stringhe
-[ ] Assicurarsi che la gestione degli immediati funzioni
-[ ] Appigli molto approssimativi: soprattutto per le espressioni composte e' difficile prendere tutto.
-[x] Menu per inserimento valori immediati e altro VR
 [ ] Aggiungere visualizzatore variabili 
-[ ] Aggiungere sistema per inserimento blocchi
 [ ] Usare dei puntatori piu' precisi
+
 [ ] Completamento elenco blocchi
+[ ] Aggiungere sistema per inserimento blocchi
+[ ] Quando si toglie una variabile da un buco, a volte si inceppa
 [ ] Impedisci edit in play mode
 [ ] Retrofitting Diagramma analisi
-[x] Rimessa a posto delle classi di interfaccia: il sistema si incasina altrimenti: soprattutto la gestione degli spostamenti di blocchi collegati e variabili va ripensata (parenting? forse e' piu' semplice).
 [ ] Relazione (solo diapositive)
 [ ] Rimbalza quando tocchi il bordo: fare controllo sulla direzione.
 [ ] Se spostato di poco, il blocco deve ri-snappare in posizione <Meno facile del previsto>

@@ -222,6 +222,9 @@ namespace view
             foreach (var i in verticesToEdit)
                 levert[i] = new Vector3(originaryVertices[i].x + dongExt, levert[i].y, levert[i].z);
             mesh.SetVertices(new List<Vector3>(levert));
+
+            GetComponent<BoxCollider>().center = new Vector3(lunghezzaTesto / 2 - 1, 0, 0);
+            GetComponent<BoxCollider>().size = new Vector3(lunghezzaTesto + 4, 2, 2);
         }
 
         protected virtual void loadOriginaryMesh()
@@ -230,11 +233,12 @@ namespace view
             originaryVertices = mesh.vertices;
         }
 
-
+        public int debugLunghezza;
         protected virtual int lunghezzaTesto
         {
             get
             {
+                debugLunghezza = campoTesto.text.Length;
                 return campoTesto.text.Length;
             }
         }

@@ -6,9 +6,8 @@ using System;
 
 namespace view
 {
-    public class ReferenceContainer : LaserSelectable
+    public abstract class ReferenceContainer : LaserSelectable
     {
-        public string type;
         protected int _lunghezza = 1;
         public System.Action OnLunghezzaChange;
         public int lunghezza
@@ -38,7 +37,7 @@ namespace view
             def = GetComponent<Renderer>().material.color;
         }
 
-        private int number;
+        protected int number;
         public bool reversed = false;
         public virtual void extend()
         {
@@ -70,21 +69,23 @@ namespace view
             mesh.SetVertices(new List<Vector3>(levert));
 
             //recompute mesh collider
-            var oldparent = transform.parent;
-            transform.parent = null;
-            if (GetComponent<MeshCollider>())
-                Destroy(GetComponent<MeshCollider>());
+            //var oldparent = transform.parent;
+            
+            if (GetComponent<BoxCollider>() == null)
+                gameObject.AddComponent<BoxCollider>();
 
 
 
-            var meshcol = gameObject.AddComponent<MeshCollider>();
-            meshcol.convex = true;
-            meshcol.isTrigger = true;
+            var boxcol = GetComponent<BoxCollider>();
+            var reverseFact = reversed ? 1 : -1;
+            boxcol.center = new Vector3(reverseFact*(lunghezza / 2 - 1), reverseFact*1.5f, 0);
+            boxcol.size = new Vector3(lunghezza, 1, 2);
+            boxcol.isTrigger = true;
 
             
             
             //GetComponent<BoxCollider>().isTrigger = true;
-            transform.SetParent(oldparent);
+            //transform.SetParent(oldparent);
         }
 
         protected virtual void loadOriginaryMesh()
@@ -157,6 +158,8 @@ namespace view
             }
         }
 
+        protected Variable innerVariable;
+
         public virtual void Svuota()
         {
             Debug.Log("Svuota " + transform.parent.name);
@@ -170,8 +173,7 @@ namespace view
 
         }
 
-        private UnityEngine.UI.Text ImmediateText;
-        private NumberVariable innerVariable;
+        protected UnityEngine.UI.Text ImmediateText;
 
         // Use this for initialization
         protected virtual void Start()
@@ -179,54 +181,9 @@ namespace view
             ImmediateText = GetComponentInChildren<UnityEngine.UI.Text>();
             ImmediateText.text = "";
         }
+       
 
-        public override void Select()
-        {
-            if (innerVariable == null && variabile == null)
-            {
-                this.innerVariable = new NumberVariable("temp");
-
-                var d = transform.parent.gameObject.GetComponent<BlockWrapper>();
-                if (d == null)
-                {
-                    var z = transform.parent.gameObject.GetComponent<ReferenceWrapper>();
-
-                    z.expression.AddReference(number, innerVariable);
-                }
-                else
-                {
-                    d.block.AddReference(number, innerVariable);
-                }
-                AttachTo(ResourceManager.Instance.numpad);
-            }
-            if (innerVariable != null)
-            {
-                AttachTo(ResourceManager.Instance.numpad);
-            }
-        }
-
-        private void changeImmediateValue(float val)
-        {
-            innerVariable.Value = val;
-            ImmediateText.text = val.ToString();
-            lunghezza = Mathf.Max(ImmediateText.text.Length, lunghezzaOriginale);
-            extend();
-        }
-
-        private void AttachTo(Numpad numpad)
-        {
-            numpad.DetachAll();
-            numpad.OutputChanged += changeImmediateValue;
-            numpad.Confirmed += DetachTo;
-            numpad.gameObject.SetActive(true);
-        }
-
-        private void DetachTo(object numpad)
-        {
-            var np = numpad as Numpad;
-            np.OutputChanged -= changeImmediateValue;
-            np.Confirmed -= DetachTo;
-        }
+        
     }
 
 }

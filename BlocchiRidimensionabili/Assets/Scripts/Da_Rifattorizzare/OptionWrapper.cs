@@ -9,7 +9,16 @@ namespace view
 
 	public class OptionWrapper : ReferenceContainer
 	{
-		private Option _option;
+
+        public override void Select()
+        {
+            if (showing)
+                HideOptions();
+            else
+                ShowOptions();
+        }
+
+        private Option _option;
 		public Option option {
 			get { return _option; }
 			set {

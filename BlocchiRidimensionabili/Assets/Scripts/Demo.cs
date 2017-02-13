@@ -73,8 +73,8 @@ public class Demo : MonoBehaviour {
   //      var zz = Instantiate(varAng);
   //      zz.GetComponent<BooleanReferenceWrapper>().Init(actor2, new model.BooleanVariable("tru story", true));
 
-  //      var soso = InstantiateWithComponent<SayBlockWrapper>(block);
-  //      soso.Init(actor2);
+        var soso = InstantiateWithComponent<SayBlockWrapper>(block);
+        soso.Init(actor2);
 
 		//var ifels = InstantiateWithComponent<TimeResetBlockWrapper> (block);
 		//ifels.Init (actor2);
@@ -94,7 +94,7 @@ public class Demo : MonoBehaviour {
 		//var g = InstantiateWithComponent<IfElseBlockWrapper> (mmblock);
 	 //   g.Init(actor2);
 
-        var z = InstantiateWithComponent<ForeverBlockWrapper>(mblock);
+        var z = InstantiateWithComponent<IfBlockWrapper>(mblock);
 		z.Init(actor2);
 
 		actor1.HideBlocks ();

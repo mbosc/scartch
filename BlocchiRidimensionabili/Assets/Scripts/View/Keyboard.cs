@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class Keyboard : MonoBehaviour
 {
+    public Action<string> OutputChanged;
+    public Action<string> InnerStringChanged;
+    public Action<object> Confirmed;
 
     public List<KeyboardKey> keys;
     public SpecialKey confirm, cancel, shift;
@@ -21,8 +24,7 @@ public class Keyboard : MonoBehaviour
                 OutputChanged(Output);
         }
     }
-    public Action<string> OutputChanged;
-
+    
     protected void Start()
     {
         shifted = false;
@@ -33,7 +35,7 @@ public class Keyboard : MonoBehaviour
             s.Init();
         });
         cancel.CharSelected += EraseKey;
-        confirm.CharSelected += Confirmed;
+        confirm.CharSelected += Condrimefd;
         shift.CharSelected += ShiftKeys;
     }
 
@@ -47,9 +49,11 @@ public class Keyboard : MonoBehaviour
         });
     }
 
-    private void Confirmed()
+    private void Condrimefd()
     {
-
+        if (Confirmed != null)
+            Confirmed(this);
+        this.gameObject.SetActive(false);
     }
 
     private void OnKeyPressed(char key)
@@ -61,5 +65,13 @@ public class Keyboard : MonoBehaviour
     {
         Output = Output.Substring(0, Output.Length - 1);
     }
-
+    public void DetachAll()
+    {
+        if (Confirmed != null)
+            Confirmed(this);
+        OutputChanged = null;
+        InnerStringChanged = null;
+        Confirmed = null;
+        output = "";
+    }
 }

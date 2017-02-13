@@ -7,10 +7,11 @@ public class Numpad : MonoBehaviour {
 
     public List<KeyboardKey> keys;
     public SpecialKey confirm, cancel;
-
     public Action<float> OutputChanged;
     public Action<string> InnerStringChanged;
     public Action<object> Confirmed;
+
+
 
     private float output;
     public float Output { get { return output; } }
@@ -54,6 +55,7 @@ public class Numpad : MonoBehaviour {
         OutputChanged = null;
         InnerStringChanged = null;
         Confirmed = null;
+        innerString = "";
     }
 	
     private void OnKeyPressed(char key)

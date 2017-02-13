@@ -29,7 +29,7 @@ namespace view
 
         protected override bool Compatible(ReferenceContainer bucoCorrente)
         {
-            return bucoCorrente.type.Equals("<") || bucoCorrente.type.Equals("[");
+            return bucoCorrente is BooleanReferenceContainer || bucoCorrente is StringReferenceContainer;
         }
     }
 
