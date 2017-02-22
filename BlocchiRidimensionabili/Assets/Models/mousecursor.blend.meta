@@ -6,10 +6,19 @@ ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
     100000: //RootNode
+    100002: Cube
+    100004: manico
     400000: //RootNode
+    400002: Cube
+    400004: manico
     2300000: //RootNode
+    2300002: Cube
+    2300004: manico
     3300000: //RootNode
+    3300002: Cube
+    3300004: manico
     4300000: Cube
+    4300002: manico
     7400000: Default Take
     9500000: //RootNode
   materials:

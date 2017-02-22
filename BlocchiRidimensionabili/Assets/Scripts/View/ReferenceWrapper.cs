@@ -82,12 +82,9 @@ namespace view
 			foreach (var i in verticesToEdit)
 				levert [i] = new Vector3 (originaryVertices [i].x - lunghezza + 2, levert [i].y, levert [i].z);
 			mesh.SetVertices (new List<Vector3> (levert));
-            //myText.text = testo;
-            //if (GetComponent<MeshCollider>())
-            //    Destroy(GetComponent<MeshCollider>());
-            //gameObject.AddComponent<MeshCollider>();
-            //GetComponent<MeshCollider>().convex = true;
-            //GetComponent<MeshCollider>().isTrigger = true;
+
+            GetComponent<BoxCollider>().center = new Vector3(-(lunghezza - 2.0f) / 2, -1.5f, 0);
+            GetComponent<BoxCollider>().size = new Vector3(lunghezza + 0.5f, 1, 2);
         }
 		public ReferenceContainer currentlyHighlighted;
 

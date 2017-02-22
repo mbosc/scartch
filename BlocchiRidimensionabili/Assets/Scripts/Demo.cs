@@ -71,8 +71,11 @@ public class Demo : MonoBehaviour {
         GameObject.Instantiate(ResourceManager.Instance.varviewer).GetComponent<VariableViewer>().Init(v2);
         
 
-  //      var zz = Instantiate(varAng);
-  //      zz.GetComponent<BooleanReferenceWrapper>().Init(actor2, new model.BooleanVariable("tru story", true));
+        var zz = Instantiate(varAng);
+        zz.GetComponent<BooleanReferenceWrapper>().Init(actor2, new model.BooleanVariable("tru story", true));
+
+        var syi = Instantiate(varSqr);
+        syi.GetComponent<StringReferenceWrapper>().Init(actor2, new model.StringVariable("stringo", "stringo"));
 
         var soso = InstantiateWithComponent<BounceOnBorderBlockWrapper>(block);
         soso.Init(actor2);
