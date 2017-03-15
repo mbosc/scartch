@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ResourceManager : MonoBehaviour {
@@ -13,9 +14,17 @@ public class ResourceManager : MonoBehaviour {
     public Keyboard keypad;
     public Boolpad boolpad;
     public GameObject varviewer;
+    public blockPrefab[] prototypes;
 
     private void Start()
     {
         Instance = this;
+    }
+
+    [Serializable]
+    public class blockPrefab
+    {
+        public GameObject prefab;
+        public Sprite icon;
     }
 }
