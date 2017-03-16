@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
+using view;
 
 public class MenuOption : LaserSelectable {
 
@@ -21,8 +22,14 @@ public class MenuOption : LaserSelectable {
     public override void Select()
     {
         view.BlockWrapper c = contained.prefab.GetComponent<view.BlockWrapper>();
+
         if (contained.prefab.GetComponent<view.ReferenceWrapper>() != null)
         {
+            if (contained.icon.Equals(ResourceManager.Instance.numbicon))
+            {
+                var reference = Instantiate(FindObjectOfType<Demo>().varcirc);
+                reference.GetComponent<NumberReferenceWrapper>().Init(GameObject.Find("Lino").GetComponent<view.ActorWrapper>(), new model.NumberVariable("three", 3));
+            }
             //var reference = Instantiate(TIPO DI VARIABILE)
             //reference.GetComponent<TIPO DI VARIABILE>().Init(actor2, new model.MODELLO CORRISPONDENTE(NOME, VALORE));
         } else if (c != null)
@@ -38,6 +45,9 @@ public class MenuOption : LaserSelectable {
             else if (contained.icon.Equals(ResourceManager.Instance.tripleicon))
             {
                 blockType = FindObjectOfType<Demo>().mmblock;
+            } else if (contained.icon.Equals(ResourceManager.Instance.haticon))
+            {
+                blockType = FindObjectOfType<Demo>().hat;
             }
             MethodInfo method = typeof(Demo).GetMethod("InstantiateWithComponent");
             MethodInfo generic = method.MakeGenericMethod(c.GetType());

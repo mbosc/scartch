@@ -15,7 +15,7 @@ public class ResourceManager : MonoBehaviour {
     public Boolpad boolpad;
     public GameObject varviewer;
     public blockPrefab[] prototypes;
-    public Sprite singleicon, doubleicon, tripleicon;
+    public Sprite singleicon, doubleicon, tripleicon, haticon, boolicon, numbicon, stringicon;
 
     private void Start()
     {
