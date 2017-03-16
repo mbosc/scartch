@@ -27,9 +27,21 @@ public class MenuOption : LaserSelectable {
             //reference.GetComponent<TIPO DI VARIABILE>().Init(actor2, new model.MODELLO CORRISPONDENTE(NOME, VALORE));
         } else if (c != null)
         {
+            object blockType = null;
+            if (contained.icon.Equals(ResourceManager.Instance.singleicon))
+            {
+                blockType = FindObjectOfType<Demo>().block;
+            } else if (contained.icon.Equals(ResourceManager.Instance.doubleicon))
+            {
+                blockType = FindObjectOfType<Demo>().mblock;
+            }
+            else if (contained.icon.Equals(ResourceManager.Instance.tripleicon))
+            {
+                blockType = FindObjectOfType<Demo>().mmblock;
+            }
             MethodInfo method = typeof(Demo).GetMethod("InstantiateWithComponent");
             MethodInfo generic = method.MakeGenericMethod(c.GetType());
-            var block = (view.BlockWrapper) generic.Invoke(null, new object[] { FindObjectOfType<Demo>().block });
+            var block = (view.BlockWrapper) generic.Invoke(null, new object[] { blockType });
             var actor = GameObject.Find("Lino").GetComponent<view.ActorWrapper>();
             block.Init(actor);
         }

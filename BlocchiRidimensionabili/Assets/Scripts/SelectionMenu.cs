@@ -66,7 +66,7 @@ public class SelectionMenu : MonoBehaviour {
 
         if (screenChanged != null)
                 screenChanged(currentScreen[selectedPage]);
-
+        UpdateOptions(0);
     }
 
     private void UpdateOptions(int obj)
