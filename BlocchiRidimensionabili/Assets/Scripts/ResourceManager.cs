@@ -14,12 +14,21 @@ public class ResourceManager : MonoBehaviour {
     public Keyboard keypad;
     public Boolpad boolpad;
     public GameObject varviewer;
-    public blockPrefab[] prototypes;
+    public blockPrefab[] motionPrototypes, lookPrototypes, soundPrototypes, controlPrototypes, sensingPrototypes, operatorsPrototypes, variablesPrototypes;
     public Sprite singleicon, doubleicon, tripleicon, haticon, boolicon, numbicon, stringicon;
+    public blockPrefab[][] prototypes;
 
     private void Start()
     {
         Instance = this;
+        prototypes = new blockPrefab[7][];
+        prototypes[0] = motionPrototypes;
+        prototypes[1] = lookPrototypes;
+        prototypes[2] = soundPrototypes;
+        prototypes[3] = controlPrototypes;
+        prototypes[4] = sensingPrototypes;
+        prototypes[5] = operatorsPrototypes;
+        prototypes[6] = variablesPrototypes;
     }
 
     [Serializable]

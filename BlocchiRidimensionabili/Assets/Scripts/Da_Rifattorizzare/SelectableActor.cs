@@ -8,7 +8,7 @@ using view;
 
 public class SelectableActor : LaserSelectable {
 
-	private static ActorWrapper selectedActor;
+	public static ActorWrapper selectedActor;
 
 
 	public override void Select(){

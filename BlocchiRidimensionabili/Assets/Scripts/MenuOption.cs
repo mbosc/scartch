@@ -21,14 +21,17 @@ public class MenuOption : LaserSelectable {
 
     public override void Select()
     {
+        var actor = SelectableActor.selectedActor;
+        if (actor == null)
+            return;
         view.BlockWrapper c = contained.prefab.GetComponent<view.BlockWrapper>();
-
+        
         if (contained.prefab.GetComponent<view.ReferenceWrapper>() != null)
         {
             if (contained.icon.Equals(ResourceManager.Instance.numbicon))
             {
                 var reference = Instantiate(FindObjectOfType<Demo>().varcirc);
-                reference.GetComponent<NumberReferenceWrapper>().Init(GameObject.Find("Lino").GetComponent<view.ActorWrapper>(), new model.NumberVariable("three", 3));
+                reference.GetComponent<NumberReferenceWrapper>().Init(SelectableActor.selectedActor, new model.NumberVariable("three", 3));
             }
             //var reference = Instantiate(TIPO DI VARIABILE)
             //reference.GetComponent<TIPO DI VARIABILE>().Init(actor2, new model.MODELLO CORRISPONDENTE(NOME, VALORE));
@@ -52,10 +55,10 @@ public class MenuOption : LaserSelectable {
             MethodInfo method = typeof(Demo).GetMethod("InstantiateWithComponent");
             MethodInfo generic = method.MakeGenericMethod(c.GetType());
             var block = (view.BlockWrapper) generic.Invoke(null, new object[] { blockType });
-            var actor = GameObject.Find("Lino").GetComponent<view.ActorWrapper>();
+            
             block.Init(actor);
         }
-        GameObject.Instantiate(contained.prefab, this.transform.position, Quaternion.identity);
+        
 
     }
 

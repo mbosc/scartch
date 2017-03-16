@@ -21,11 +21,11 @@ public class SelectionMenu : MonoBehaviour {
 
     public bool HasNextScreen
     {
-        get { return true; }
+        get { return currentScreen[selectedPage] < (totalScreenNumber[selectedPage] - 1); }
     }
     public bool HasPreviousScreen
     {
-        get { return true; }
+        get { return currentScreen[selectedPage] > 0; }
     }
 
     public void ChangePage(int page)
@@ -34,6 +34,8 @@ public class SelectionMenu : MonoBehaviour {
             throw new System.Exception("Bad number");
         selectedPage = page;
         this.GetComponent<Renderer>().material = states[page];
+        if (screenChanged != null)
+            screenChanged(currentScreen[selectedPage]);
         UpdateOptions(page);
     }
     public void NextScreen()
@@ -44,6 +46,7 @@ public class SelectionMenu : MonoBehaviour {
             if (screenChanged != null)
                 screenChanged(currentScreen[selectedPage]);
         }
+        UpdateOptions(selectedPage);
     }
     public void PrevScreen()
     {
@@ -53,6 +56,7 @@ public class SelectionMenu : MonoBehaviour {
             if (screenChanged != null)
                 screenChanged(currentScreen[selectedPage]);
         }
+        UpdateOptions(selectedPage);
     }
 
     private void Start()
@@ -60,7 +64,9 @@ public class SelectionMenu : MonoBehaviour {
         totalScreenNumber = new int[7];
         currentScreen = new int[7];
         this.screenChanged += UpdateScreenNumber;
-        
+
+        int i = 0;
+        totalScreenNumber.ToList().ForEach(s => { totalScreenNumber[i] = ResourceManager.Instance.prototypes[i].Length / options.Length + 1; i++; });
 
         options.ToList().ForEach(s => s.Contained = null);
 
@@ -69,23 +75,18 @@ public class SelectionMenu : MonoBehaviour {
         UpdateOptions(0);
     }
 
-    private void UpdateOptions(int obj)
+    private void UpdateOptions(int page)
     {
-        if (obj == 0)
-        {
-            for (int i = 0; i < ResourceManager.Instance.prototypes.Length; i++)
-            {
-                options[i].Contained = ResourceManager.Instance.prototypes[i];
-            }
-        } else
-        {
-            options.ToList().ForEach(s => s.Contained = null);
-        }
+        options.ToList().ForEach(s => s.Contained = null);
+        int i = currentScreen[page] * 9;
+        options.ToList().ForEach(s => {
+            if (i < ResourceManager.Instance.prototypes[page].Length)
+                s.Contained = ResourceManager.Instance.prototypes[page][i++];
+        });
     }
 
     private void OnDestroy()
     {
         this.screenChanged -= UpdateScreenNumber;
-     
     }
 }
