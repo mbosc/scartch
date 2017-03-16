@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 public class MenuOption : LaserSelectable {
@@ -19,7 +20,21 @@ public class MenuOption : LaserSelectable {
 
     public override void Select()
     {
+        view.BlockWrapper c = contained.prefab.GetComponent<view.BlockWrapper>();
+        if (contained.prefab.GetComponent<view.ReferenceWrapper>() != null)
+        {
+            //var reference = Instantiate(TIPO DI VARIABILE)
+            //reference.GetComponent<TIPO DI VARIABILE>().Init(actor2, new model.MODELLO CORRISPONDENTE(NOME, VALORE));
+        } else if (c != null)
+        {
+            MethodInfo method = typeof(Demo).GetMethod("InstantiateWithComponent");
+            MethodInfo generic = method.MakeGenericMethod(c.GetType());
+            var block = (view.BlockWrapper) generic.Invoke(null, new object[] { FindObjectOfType<Demo>().block });
+            var actor = GameObject.Find("Lino").GetComponent<view.ActorWrapper>();
+            block.Init(actor);
+        }
         GameObject.Instantiate(contained.prefab, this.transform.position, Quaternion.identity);
+
     }
 
     public ResourceManager.blockPrefab Contained

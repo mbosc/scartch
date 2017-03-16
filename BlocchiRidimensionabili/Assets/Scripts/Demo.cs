@@ -117,7 +117,7 @@ public class Demo : MonoBehaviour {
         output.text = obj.ToString();
     }
 
-    private T InstantiateWithComponent<T>(GameObject prefab) where T:MonoBehaviour
+    public static T InstantiateWithComponent<T>(GameObject prefab) where T:MonoBehaviour
     {
         GameObject b = GameObject.Instantiate(prefab);
         b.AddComponent<T>();
