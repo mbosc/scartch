@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Numpad : MonoBehaviour {
+public class Numpad : LaserSelectable {
 
     public List<KeyboardKey> keys;
     public SpecialKey confirm, cancel;
@@ -79,5 +79,13 @@ public class Numpad : MonoBehaviour {
         if (Confirmed != null)
             Confirmed(this);
         this.gameObject.SetActive(false);
+    }
+
+    public override void SelectA()
+    {
+    }
+    public override void SelectB()
+    {
+        Condrifemd();
     }
 }

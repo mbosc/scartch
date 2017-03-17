@@ -8,7 +8,7 @@ public class SelectableBookmark : LaserSelectable {
     private SelectionMenu menu;
     public int page;
 
-    public override void Select()
+    public override void SelectA()
     {
         menu.ChangePage(page);
     }

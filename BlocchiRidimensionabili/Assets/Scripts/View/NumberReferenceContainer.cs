@@ -13,7 +13,7 @@ namespace view
             get { return base.innerVariable as NumberVariable; }
             set { base.innerVariable = value; }
         }
-        public override void Select()
+        public override void SelectA()
         {
             if (innerVariable == null && variabile == null)
             {

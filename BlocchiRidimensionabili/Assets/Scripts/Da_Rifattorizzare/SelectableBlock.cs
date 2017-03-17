@@ -12,7 +12,6 @@ public class SelectableBlock : Selectable {
     private List<GameObject> selectionList;
 
 
-
     public List<BlockWrapperCog> denti
     {
         get

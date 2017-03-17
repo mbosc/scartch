@@ -19,7 +19,7 @@ public class SelectableActor : LaserSelectable {
 		selectedActorChanged -= showActorBlocks;
 	}
 
-	public override void Select(){
+	public override void SelectA(){
 		if (selectedActor != null && selectedActor != this.GetComponent<ActorWrapper> ()) {
 			selectedActor.HideBlocks ();
 		}

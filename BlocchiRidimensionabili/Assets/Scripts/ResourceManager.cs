@@ -18,6 +18,7 @@ public class ResourceManager : MonoBehaviour
 	public MenuVoiceBlockPrefab[] motionPrototypes, lookPrototypes, soundPrototypes, controlPrototypes, sensingPrototypes, operatorsPrototypes;
 	public Sprite singleicon, doubleicon, tripleicon, haticon, boolicon, numbicon, stringicon;
 	public MenuVoiceBlockPrefab[][] prototypes;
+    private SelectionMenu selectionMenu;
 
 	private void Start ()
 	{
@@ -29,6 +30,7 @@ public class ResourceManager : MonoBehaviour
 		prototypes [3] = controlPrototypes;
 		prototypes [4] = sensingPrototypes;
 		prototypes [5] = operatorsPrototypes;
+        selectionMenu = FindObjectOfType<SelectionMenu>();
 	}
 
 	[Serializable]
@@ -45,8 +47,9 @@ public class ResourceManager : MonoBehaviour
 	public class MenuVoiceVariablePrefab : MenuVoiceBlockPrefab
 	{
 		private String name;
+        public model.Reference reference;
 
-		public override string Name {
+        public override string Name {
 			get {
 				return name;
 			}
@@ -54,11 +57,11 @@ public class ResourceManager : MonoBehaviour
 
 		public MenuVoiceVariablePrefab (model.Reference refe)
 		{
+            reference = refe;
 			name = refe.Name;
-			GameObject Prefab = new GameObject (refe.Name);
-			Prefab.AddComponent<view.ReferenceWrapper>().Init (null, refe);
-			base.prefab = Prefab;
-			Prefab.SetActive(false);
+			
+            base.prefab = null;
+			
 			if (refe is model.NumberReference)
 				base.Icon = ResourceManager.Instance.numbicon;
 			else if (refe is model.StringReference)
@@ -68,5 +71,14 @@ public class ResourceManager : MonoBehaviour
 
 		}
 
-	}
+    }
+
+    private void Update()
+    {
+        if (GameObject.Find("LeftHand").GetComponent<NewtonVR.NVRHand>().Inputs[NewtonVR.NVRButtons.X].PressDown)
+        {
+            selectionMenu.gameObject.SetActive(!selectionMenu.gameObject.activeInHierarchy);
+        }
+    }
+    
 }

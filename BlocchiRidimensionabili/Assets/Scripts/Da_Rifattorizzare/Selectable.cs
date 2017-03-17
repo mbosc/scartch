@@ -22,6 +22,18 @@ public class Selectable : MonoBehaviour
         interactable.Selected += OnSelection;
         interactable.Unselected += OnDeselection;
         interactable.StaySelected += OnStaySelected;
+        model.Environment.Instance.PlayModeStarted += InhibitItem;
+        model.Environment.Instance.PlayModeEnded += DehibitItem;
+    }
+
+    private void DehibitItem()
+    {
+        interactable.enabled = true;
+    }
+
+    private void InhibitItem()
+    {
+        interactable.enabled = false;
     }
 
     //private void PointerOver(object sender, PointerEventArgs e)
@@ -41,10 +53,11 @@ public class Selectable : MonoBehaviour
 
     private void OnDestroy()
     {
+        model.Environment.Instance.PlayModeStarted -= InhibitItem;
+        model.Environment.Instance.PlayModeEnded -= DehibitItem;
         interactable.Selected -= OnSelection;
         interactable.Unselected -= OnDeselection;
         interactable.StaySelected -= OnStaySelected;
-        Destroy(interactable);
     }
 
     //  protected virtual void OnMouseOver()

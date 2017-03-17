@@ -53,7 +53,9 @@ namespace NewtonVR.Example
                 {
                     endPoint = hitInfo.point;
                     if (hitInfo.collider.gameObject.GetComponent<LaserSelectable>() && Hand.Inputs[NVRButtons.A].PressDown)
-                        hitInfo.collider.gameObject.GetComponent<LaserSelectable>().Select();
+                        hitInfo.collider.gameObject.GetComponent<LaserSelectable>().SelectA();
+                    if (hitInfo.collider.gameObject.GetComponent<LaserSelectable>() && Hand.Inputs[NVRButtons.B].PressDown)
+                        hitInfo.collider.gameObject.GetComponent<LaserSelectable>().SelectB();
                 }
                 else
                 {

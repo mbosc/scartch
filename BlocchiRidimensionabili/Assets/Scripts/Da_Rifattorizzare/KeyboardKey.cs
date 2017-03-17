@@ -9,7 +9,7 @@ public class KeyboardKey : LaserSelectable {
     public char mychar;
     private UnityEngine.UI.Text text;
 
-    public override void Select()
+    public override void SelectA()
     {
         if (CharSelected != null)
             CharSelected(mychar);
@@ -29,6 +29,7 @@ public class KeyboardKey : LaserSelectable {
         mychar = c;
         Init();
     }
+    
 
     public event Action<char> CharSelected;
 }

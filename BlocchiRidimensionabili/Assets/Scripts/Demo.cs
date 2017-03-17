@@ -129,11 +129,10 @@ public class Demo : MonoBehaviour {
 		return c.GetComponent<T>();
     }
 
-    NumberVariable v2;
+    
 
 	// Update is called once per frame
 	void Update () {
-        if (GameObject.Find("LeftHand").GetComponent<NewtonVR.NVRHand>().Inputs[NewtonVR.NVRButtons.X].IsPressed)
-            v2.Value += 1;
+        
 	}
 }

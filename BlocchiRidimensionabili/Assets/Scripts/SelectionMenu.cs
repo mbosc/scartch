@@ -101,14 +101,21 @@ public class SelectionMenu : MonoBehaviour
 			var actor = SelectableActor.selectedActor;
 			if (actor != null)
 				actor.Actor.variables.ToList().ForEach (s => variables.Add(new ResourceManager.MenuVoiceVariablePrefab(s)));
-		}
+            int i = currentScreen[page] * 9;
+            options.ToList().ForEach(s => {
+                if (i < variables.Count)
+                    s.Contained = variables[i++];
+            });
+        }
 	}
 	private void UpdateActor()
 	{
 		UpdateOptions (selectedPage);
 	}
 
-	private void OnDestroy ()
+    
+
+    private void OnDestroy ()
 	{
 		this.screenChanged -= UpdateScreenNumber;
 		SelectableActor.selectedActorChanged -= UpdateActor;

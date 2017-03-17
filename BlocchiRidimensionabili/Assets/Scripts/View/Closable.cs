@@ -7,7 +7,7 @@ public class Closable : LaserSelectable {
 
     public event Action Closed;
 
-    public override void Select()
+    public override void SelectA()
     {
         if (Closed != null)
             Closed();

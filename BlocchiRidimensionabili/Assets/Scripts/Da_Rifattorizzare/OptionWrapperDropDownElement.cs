@@ -48,7 +48,7 @@ namespace view
 			extend ();
 		}
 
-        public override void Select()
+        public override void SelectA()
         {
             transform.parent.GetComponent<OptionWrapper>().SetValue(number);
             transform.parent.GetComponent<OptionWrapper>().HideOptions();

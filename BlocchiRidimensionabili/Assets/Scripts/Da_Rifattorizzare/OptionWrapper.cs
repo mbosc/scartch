@@ -10,7 +10,7 @@ namespace view
 	public class OptionWrapper : ReferenceContainer
 	{
 
-        public override void Select()
+        public override void SelectA()
         {
             if (showing)
                 HideOptions();

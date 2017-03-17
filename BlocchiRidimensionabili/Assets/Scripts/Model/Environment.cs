@@ -46,6 +46,8 @@ namespace model
                 Debug.Log("Play mode: " + PlayMode);
                 if (playMode && PlayModeStarted != null)
                     PlayModeStarted();
+                else if (!playMode && PlayModeEnded != null)
+                    PlayModeEnded();
             }
         }
 
@@ -98,6 +100,7 @@ namespace model
 			}
 		}
         public event Action PlayModeStarted;
+        public event Action PlayModeEnded;
         private EvaluationEngine evaluationEngine;
         public EvaluationEngine EvaluationEngine
         {

@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-    public abstract class LaserSelectable : MonoBehaviour
-    {
+public abstract class LaserSelectable : MonoBehaviour
+{
 
-        public abstract void Select();
-    }
+    public abstract void SelectA();
+    public virtual void SelectB() { }
+}

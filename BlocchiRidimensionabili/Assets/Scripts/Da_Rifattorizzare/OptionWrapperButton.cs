@@ -9,7 +9,7 @@ namespace view
 
 	public class OptionWrapperButton : LaserSelectable
 	{
-        public override void Select()
+        public override void SelectA()
         {
             var wrap = transform.parent.GetComponent<OptionWrapper>();
             if (wrap.showing)

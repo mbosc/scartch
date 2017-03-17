@@ -7,7 +7,7 @@ public class SelectableNextPage : LaserSelectable
 
     private SelectionMenu menu;
 
-    public override void Select()
+    public override void SelectA()
     {
         menu.NextScreen();
     }
