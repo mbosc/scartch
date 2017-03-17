@@ -9,7 +9,7 @@ public class MenuOption : LaserSelectable {
 
     public UnityEngine.UI.Image icon;
     public UnityEngine.UI.Text text;
-    private ResourceManager.blockPrefab contained;
+    private ResourceManager.MenuVoiceBlockPrefab contained;
 
     private void SetVisible(bool visible)
     {
@@ -24,31 +24,39 @@ public class MenuOption : LaserSelectable {
         var actor = SelectableActor.selectedActor;
         if (actor == null)
             return;
-        view.BlockWrapper c = contained.prefab.GetComponent<view.BlockWrapper>();
+		bool isBlock = contained.prefab.GetComponent<view.BlockWrapper>() != null;
         
-        if (contained.prefab.GetComponent<view.ReferenceWrapper>() != null)
+        if (!isBlock)
         {
-            if (contained.icon.Equals(ResourceManager.Instance.numbicon))
+			view.ReferenceWrapper w = contained.prefab.GetComponent<view.ReferenceWrapper> ();
+            if (contained.Icon.Equals(ResourceManager.Instance.numbicon))
             {
                 var reference = Instantiate(FindObjectOfType<Demo>().varcirc);
-                reference.GetComponent<NumberReferenceWrapper>().Init(SelectableActor.selectedActor, new model.NumberVariable("three", 3));
-            }
-            //var reference = Instantiate(TIPO DI VARIABILE)
-            //reference.GetComponent<TIPO DI VARIABILE>().Init(actor2, new model.MODELLO CORRISPONDENTE(NOME, VALORE));
-        } else if (c != null)
+				reference.GetComponent<NumberReferenceWrapper>().Init(SelectableActor.selectedActor, w.reference);
+					} else if (contained.Icon.Equals(ResourceManager.Instance.boolicon))
+					{
+						var reference = Instantiate(FindObjectOfType<Demo>().varAng);
+						reference.GetComponent<BooleanReferenceWrapper>().Init(SelectableActor.selectedActor, w.reference);
+							} else if (contained.Icon.Equals(ResourceManager.Instance.numbicon))
+							{
+				var reference = Instantiate(FindObjectOfType<Demo>().varSqr);
+				reference.GetComponent<NumberReferenceWrapper>().Init(SelectableActor.selectedActor, w.reference);
+									}
+        } else
         {
+			view.BlockWrapper c = contained.prefab.GetComponent<view.BlockWrapper>();
             object blockType = null;
-            if (contained.icon.Equals(ResourceManager.Instance.singleicon))
+            if (contained.Icon.Equals(ResourceManager.Instance.singleicon))
             {
                 blockType = FindObjectOfType<Demo>().block;
-            } else if (contained.icon.Equals(ResourceManager.Instance.doubleicon))
+            } else if (contained.Icon.Equals(ResourceManager.Instance.doubleicon))
             {
                 blockType = FindObjectOfType<Demo>().mblock;
             }
-            else if (contained.icon.Equals(ResourceManager.Instance.tripleicon))
+            else if (contained.Icon.Equals(ResourceManager.Instance.tripleicon))
             {
                 blockType = FindObjectOfType<Demo>().mmblock;
-            } else if (contained.icon.Equals(ResourceManager.Instance.haticon))
+            } else if (contained.Icon.Equals(ResourceManager.Instance.haticon))
             {
                 blockType = FindObjectOfType<Demo>().hat;
             }
@@ -62,7 +70,7 @@ public class MenuOption : LaserSelectable {
 
     }
 
-    public ResourceManager.blockPrefab Contained
+    public ResourceManager.MenuVoiceBlockPrefab Contained
     {
         get { return contained; }
         set
@@ -71,8 +79,8 @@ public class MenuOption : LaserSelectable {
                 SetVisible(false);
             else
             {
-                icon.sprite = value.icon;
-                text.text = value.prefab.name;
+                icon.sprite = value.Icon;
+                text.text = value.Name;
                 SetVisible(true);
             }
             contained = value;

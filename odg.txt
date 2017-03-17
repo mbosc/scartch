@@ -3,13 +3,16 @@ ORDINE GIORNO
 [x] Aggiungere visualizzatore variabili 
 [x] Usare dei puntatori piu' precisi
 [x] I mesh collider delle variabili non crescono
+[x] Aggiungere sistema per inserimento blocchi
 
-[ ] Completamento elenco blocchi
-[ ] Aggiungere sistema per inserimento blocchi
-[ ] Quando si toglie una variabile da un buco, a volte si inceppa
+[ ] Gestione variabili (aggiunta, rimozione) [DA PROVARE]
+
+[ ] Rimozione blocchi
 [ ] Impedisci edit in play mode
+[ ] Completamento elenco blocchi
+[ ] Rimbalza quando tocchi il bordo: fare controllo sulla direzione.
+[ ] Quando si toglie una variabile da un buco, a volte si inceppa
 [ ] Retrofitting Diagramma analisi
 [ ] Relazione (solo diapositive)
-[ ] Rimbalza quando tocchi il bordo: fare controllo sulla direzione.
 [ ] Se spostato di poco, il blocco deve ri-snappare in posizione <Meno facile del previsto>
 [ ] Realizzazione demo: Gioco labirinto? Fattoriale (per mostrare ricorsione con chiamata di messaggi)? 

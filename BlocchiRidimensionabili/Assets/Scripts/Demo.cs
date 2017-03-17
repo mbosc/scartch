@@ -55,36 +55,39 @@ public class Demo : MonoBehaviour {
 //        var c2 = InstantiateWithComponent<MoveStepsBlockWrapper>(block);
 //        c2.GetComponent<BlockWrapper>().Owner = actor;
 
-
-        var d = InstantiateWithComponent<OnPlayModeHatWrapper>(hat);
-		d.Init (actor2);
+		model.Environment.Instance.AddVariable(new NumberVariable("globalNumberVariableTwo", 2));
+		model.Environment.Instance.AddVariable(new StringVariable("globalStringVariableHello", "Hello"));
+		actor3.Actor.AddVariable (new StringVariable ("VariabileDiQuestoTizio", "Salve!"));
+//
+//        var d = InstantiateWithComponent<OnPlayModeHatWrapper>(hat);
+//		d.Init (actor2);
 
 		//var i = InstantiateWithComponent<BounceOnBorderBlockWrapper>(block);
 		//i.Init (actor2);
 
 
-        var e = Instantiate(varcirc);
-        e.GetComponent<NumberReferenceWrapper>().Init(actor2, new model.NumberVariable("three", 3));
-        var e2 = Instantiate(varcirc);
-        v2 = new DynamicNumberVariable("Posiz. z", () => actor2.Actor.Position.z);
-        e2.GetComponent<NumberReferenceWrapper>().Init(actor2, v2);
-        GameObject.Instantiate(ResourceManager.Instance.varviewer).GetComponent<VariableViewer>().Init(v2);
-        
-
-        var zz = Instantiate(varAng);
-        zz.GetComponent<BooleanReferenceWrapper>().Init(actor2, new model.BooleanVariable("tru story", true));
-
-        var syi = Instantiate(varSqr);
-        syi.GetComponent<StringReferenceWrapper>().Init(actor2, new model.StringVariable("stringo", "stringo"));
-
-        var soso = InstantiateWithComponent<BounceOnBorderBlockWrapper>(block);
-        soso.Init(actor2);
+//        var e = Instantiate(varcirc);
+//        e.GetComponent<NumberReferenceWrapper>().Init(actor2, new model.NumberVariable("three", 3));
+//        var e2 = Instantiate(varcirc);
+//        v2 = new DynamicNumberVariable("Posiz. z", () => actor2.Actor.Position.z);
+//        e2.GetComponent<NumberReferenceWrapper>().Init(actor2, v2);
+//        GameObject.Instantiate(ResourceManager.Instance.varviewer).GetComponent<VariableViewer>().Init(v2);
+//        
+//
+//        var zz = Instantiate(varAng);
+//        zz.GetComponent<BooleanReferenceWrapper>().Init(actor2, new model.BooleanVariable("tru story", true));
+//
+//        var syi = Instantiate(varSqr);
+//        syi.GetComponent<StringReferenceWrapper>().Init(actor2, new model.StringVariable("stringo", "stringo"));
+//
+//        var soso = InstantiateWithComponent<BounceOnBorderBlockWrapper>(block);
+//        soso.Init(actor2);
 
 		//var ifels = InstantiateWithComponent<TimeResetBlockWrapper> (block);
 		//ifels.Init (actor2);
 
-        var omega = InstantiateWithComponent<MoveStepsBlockWrapper>(block);
-        omega.Init(actor2);
+//        var omega = InstantiateWithComponent<MoveStepsBlockWrapper>(block);
+//        omega.Init(actor2);
 
         //var afispo = Instantiate(varSqr);
         //afispo.GetComponent<StringReferenceWrapper>().Init(actor2, new model.StringVariable("one thing", "one thing"));
@@ -98,8 +101,8 @@ public class Demo : MonoBehaviour {
 		//var g = InstantiateWithComponent<IfElseBlockWrapper> (mmblock);
 	 //   g.Init(actor2);
 
-        var z = InstantiateWithComponent<ForeverBlockWrapper>(mblock);
-		z.Init(actor2);
+//        var z = InstantiateWithComponent<ForeverBlockWrapper>(mblock);
+//		z.Init(actor2);
 
 		actor1.HideBlocks ();
 		actor2.HideBlocks ();
