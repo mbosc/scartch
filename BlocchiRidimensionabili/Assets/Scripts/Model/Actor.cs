@@ -176,9 +176,9 @@ namespace model
         {
             variables.Add(variable);
         }
-        public void RemoveVariable(Variable variable)
+        public bool RemoveVariable(Variable variable)
         {
-            variables.Remove(variable);
+            return variables.Remove(variable);
         }
 
         public Model Model

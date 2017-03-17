@@ -31,9 +31,14 @@ public class ResourceManager : MonoBehaviour
 		prototypes [4] = sensingPrototypes;
 		prototypes [5] = operatorsPrototypes;
         selectionMenu = FindObjectOfType<SelectionMenu>();
-	}
+    }
+    private void OnDestroy()
+    {
+        model.Environment.Instance.PlayModeStarted -= mayHideMenu;
+        model.Environment.Instance.PlayModeEnded -= mayShowMenu;
+    }
 
-	[Serializable]
+    [Serializable]
 	public class MenuVoiceBlockPrefab
 	{
 		public GameObject prefab;
@@ -73,9 +78,32 @@ public class ResourceManager : MonoBehaviour
 
     }
 
+
+    private bool activebefore = false;
+
+    private void mayHideMenu()
+    {
+        activebefore = selectionMenu.gameObject.activeInHierarchy;
+        if (activebefore)
+            selectionMenu.gameObject.SetActive(false);
+    }
+    private void mayShowMenu()
+    {
+        if (activebefore)
+            selectionMenu.gameObject.SetActive(true);
+    }
+
+
+    bool lateInitialised = false; 
     private void Update()
     {
-        if (GameObject.Find("LeftHand").GetComponent<NewtonVR.NVRHand>().Inputs[NewtonVR.NVRButtons.X].PressDown)
+        if (!lateInitialised)
+        {
+            model.Environment.Instance.PlayModeStarted += mayHideMenu;
+            model.Environment.Instance.PlayModeEnded += mayShowMenu;
+            lateInitialised = true;
+        }
+        if (!model.Environment.Instance.PlayMode && GameObject.Find("LeftHand").GetComponent<NewtonVR.NVRHand>().Inputs[NewtonVR.NVRButtons.X].PressDown)
         {
             selectionMenu.gameObject.SetActive(!selectionMenu.gameObject.activeInHierarchy);
         }

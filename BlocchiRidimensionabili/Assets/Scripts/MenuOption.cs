@@ -20,6 +20,24 @@ public class MenuOption : LaserSelectable
         text.gameObject.SetActive(visible);
     }
 
+    public override void SelectB()
+    {
+        var actor = SelectableActor.selectedActor;
+        if (actor == null)
+            return;
+        bool isBlock = contained.prefab != null;
+
+        if (!isBlock)
+        {
+            var w = contained as ResourceManager.MenuVoiceVariablePrefab;
+            if (actor.Actor.RemoveVariable(w.reference as model.Variable))
+            {
+                this.GetComponentInParent<SelectionMenu>().UpdateActor();
+            }
+        
+        }
+    }
+
     public override void SelectA()
     {
         var actor = SelectableActor.selectedActor;

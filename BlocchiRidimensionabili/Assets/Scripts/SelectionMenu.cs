@@ -108,7 +108,7 @@ public class SelectionMenu : MonoBehaviour
             });
         }
 	}
-	private void UpdateActor()
+	public void UpdateActor()
 	{
 		UpdateOptions (selectedPage);
 	}
