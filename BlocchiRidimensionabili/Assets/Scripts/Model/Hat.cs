@@ -4,10 +4,11 @@ namespace model
 {
 	public class Hat : ScriptingElement
     {
-		private Actor owner;
-		public Actor Owner {
-			get { return owner; }
-		}
+
+
+        public event Action PrepareForDetachment;
+
+	
         private Block next;
 
 		public Hat(Actor owner)
@@ -34,6 +35,16 @@ namespace model
         {
 			if (Next != null)
             	Environment.Instance.EvaluationEngine.AddFlux(Next);
+        }
+
+        protected void SubscribeToMessage(string message)
+        {
+            Environment.Instance.EvaluationEngine.AddSubscriber(message, this);
+        }
+
+        protected void UnsubscribeFromMessage(string message)
+        {
+            Environment.Instance.EvaluationEngine.RemoveSubscriber(message, this);
         }
     }
 }
