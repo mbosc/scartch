@@ -4,8 +4,8 @@ using System;
 
 namespace Scripting
 {
-    public class ScriptingType
+    public enum ScriptingType
     {
-        
+        control, look, movement, sensor, sound, variable
     }
 }

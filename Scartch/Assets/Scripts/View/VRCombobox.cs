@@ -4,8 +4,11 @@ using UnityEngine;
 
 namespace View
 {
-    public class VRCombobox
+    namespace Resources
     {
-        
+        public class VRCombobox
+        {
+
+        }
     }
 }

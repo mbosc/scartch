@@ -97,7 +97,7 @@ namespace Model
             }
         }
 
-        private IList<Variable> localVariables;
+        private List<Variable> localVariables;
 
         public static int MaxX = 240, MaxY = 180, MaxZ = 240, BorderTolerance = 15;
 

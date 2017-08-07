@@ -4,8 +4,12 @@ using UnityEngine;
 
 namespace View
 {
-    public class RayHittable
+    namespace Resources
     {
-        
+        public interface RayHittable
+        {
+            void HitByBlueRay();
+            void HitByRedRay();
+        }   
     }
 }

@@ -4,8 +4,11 @@ using UnityEngine;
 
 namespace View
 {
-    public class VRWindow
+    namespace Resources
     {
-        
+        public class VRWindow
+        {
+
+        }
     }
 }
