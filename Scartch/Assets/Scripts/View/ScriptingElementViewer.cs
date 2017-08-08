@@ -22,14 +22,14 @@ namespace View
             public event Action Grabbed;
             public event EventHandler Deleted;
 
-            public void HitByBlueRay()
+            public virtual void HitByBlueRay()
             {
-                throw new NotImplementedException();
+                // Do nothing
             }
 
             public void HitByRedRay()
             {
-                throw new NotImplementedException();
+                Delete();
             }
 
             public void Move(Vector3 pos, Vector3 rot)

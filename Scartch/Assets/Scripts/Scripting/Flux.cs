@@ -6,6 +6,36 @@ namespace Scripting
 {
     public class Flux
     {
-        
+        public Flux(Hat initiator)
+        {
+            this.initiator = initiator;
+        }
+
+        private Hat initiator;
+
+        private bool executing;
+
+        public bool Executing
+        {
+            get { return executing; }
+            set { executing = value; }
+        }
+
+        private Block currentBlock;
+
+        public Block CurrentBlock
+        {
+            get { return currentBlock; }
+            set { currentBlock = value; }
+        }
+
+        public event Action Callbacks;
+
+        public void EndExecution()
+        {
+            Executing = false;
+            if (Callbacks != null)
+                Callbacks();
+        }
     }
 }

@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Scripting
 {
-    public class ScriptingElement
+    public abstract class ScriptingElement
     {
         protected Actor owner;
         protected Dictionary<int, Reference> referenceList;
@@ -60,7 +60,7 @@ namespace Scripting
             return optionList[num];
         }
 
-        public void Destroy()
+        public virtual void Destroy()
         {
             referenceSlotViewers.ForEach(x =>
             {
