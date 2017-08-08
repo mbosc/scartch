@@ -13,7 +13,8 @@ namespace View
         public Model.RefType Type
         {
             get { return type; }
-            set { type = value; //TODO gestire cambio di aspetto}
+            set { type = value; //TODO gestire cambio di aspetto
+            }
         }
 
     }

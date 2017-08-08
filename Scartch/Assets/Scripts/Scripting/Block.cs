@@ -13,6 +13,7 @@ namespace Scripting
         public Block(Actor owner, List<RefType> referenceTypes, List<Option> optionList, ScriptingType type, List<ReferenceSlotViewer> referenceSlotViewers, BlockViewer viewer) : base(owner, referenceTypes, optionList, type, referenceSlotViewers)
         {
             this.viewer = viewer;
+            viewer.Block = this;
 
             viewer.SnappedNext += OnViewerSnappedNext;
             viewer.UnsnappedNext += OnViewerUnsnappedNext;

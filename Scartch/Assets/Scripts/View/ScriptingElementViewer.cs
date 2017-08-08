@@ -7,7 +7,7 @@ namespace View
 {
     namespace Resources
     {
-        public class ScriptingElementViewer : MonoBehaviour, RayHittable
+        public class ScriptingElementViewer : RayHittable
         {
             private bool visible;
 
@@ -22,12 +22,12 @@ namespace View
             public event Action Grabbed;
             public event EventHandler Deleted;
 
-            public virtual void HitByBlueRay()
+            public override void HitByBlueRay()
             {
                 // Do nothing
             }
 
-            public void HitByRedRay()
+            public override void HitByRedRay()
             {
                 Delete();
             }

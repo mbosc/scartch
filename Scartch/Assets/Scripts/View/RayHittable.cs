@@ -6,10 +6,10 @@ namespace View
 {
     namespace Resources
     {
-        public interface RayHittable
+        public abstract class RayHittable : MonoBehaviour
         {
-            void HitByBlueRay();
-            void HitByRedRay();
+            public abstract void HitByBlueRay();
+            public abstract void HitByRedRay();
         }   
     }
 }

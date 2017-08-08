@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Scripting
+namespace Controller
 {
     public class ActorController 
     {

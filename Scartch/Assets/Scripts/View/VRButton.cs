@@ -7,19 +7,21 @@ namespace View
 {
     namespace Resources
     {
-        public class VRButton : MonoBehaviour, RayHittable
+        public class VRButton : RayHittable
         {
             public event System.EventHandler Pressed;
 
-            public void HitByBlueRay()
+            public override void HitByBlueRay()
             {
                 if (Pressed != null)
                     Pressed(this, EventArgs.Empty);
+                Debug.Log("Hit by blue");
             }
 
-            public void HitByRedRay()
+            public override void HitByRedRay()
             {
                 // do nothing
+                Debug.Log("Hit by red");
             }
         }
     }
