@@ -15,13 +15,11 @@ namespace View
             {
                 if (Pressed != null)
                     Pressed(this, EventArgs.Empty);
-                Debug.Log("Hit by blue");
             }
 
             public override void HitByRedRay()
             {
                 // do nothing
-                Debug.Log("Hit by red");
             }
         }
     }

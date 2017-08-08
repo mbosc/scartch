@@ -4,9 +4,10 @@ using System.Collections;
 namespace NewtonVR.Example
 {
     [RequireComponent(typeof(NVRHand))]
+    [RequireComponent(typeof(Rigidbody))]
     public class NVRTeleporter : MonoBehaviour
     {
-        private Color LineColor = new Color(0, 255/255.0f, 76/255.0f);
+        private Color LineColor = new Color(0, 255 / 255.0f, 76 / 255.0f);
         private float LineWidth = 0.2f;
 
         private LineRenderer Line;
@@ -46,10 +47,8 @@ namespace NewtonVR.Example
         private void LateUpdate()
         {
             if ((Hand.Inputs[NVRButtons.Y].IsPressed || Hand.Inputs[NVRButtons.B].IsPressed))
-                Line.enabled = true;
-
-            if (Line.enabled == true)
             {
+                Line.enabled = true;
                 Line.material.SetColor("_Color", LineColor);
                 NVRHelpers.LineRendererSetColor(Line, LineColor, LineColor);
                 NVRHelpers.LineRendererSetWidth(Line, LineWidth, LineWidth);

@@ -7,7 +7,7 @@ namespace View
 {
     namespace Resources
     {
-        public class VRKeyboard : MonoBehaviour
+        public class VRKeyboard : VRWindow
         {
 
             private static VRKeyboard instance;
@@ -28,43 +28,54 @@ namespace View
                 else
                     Destroy(this.gameObject);
 
+                base.Start();
+
                 // buttons reference initialisation
                 List<System.Reflection.FieldInfo> result = (from field in this.GetType().GetFields()
                                                             where field.Name.Length == 2
                                                             where field.Name.StartsWith("b")
                                                             select field).ToList();
-                buttons = result.ToDictionary(x => (VRButton)(x.GetValue(x)), x => x.Name.Substring(1));
+                buttons = result.ToDictionary(x => (VRButton)(x.GetValue(this)), x => x.Name.Substring(1));
                 buttons.Add(bDOT, ".");
 
                 // buttons event subscription
                 buttons.Keys.ToList().ForEach(x => x.Pressed += OnCharButtonPressed);
                 bCONFIRM.Pressed += OnConfirmPressed;
                 bBACK.Pressed += OnBackPressed;
+
             }
+
+
 
             private void OnBackPressed(object sender, System.EventArgs e)
             {
-                if (text.Length > 0)
-                    text = text.Substring(0, text.Length);
+                if (Text.Length > 0)
+                    Text = Text.Substring(0, Text.Length -1);
             }
 
             private void OnConfirmPressed(object sender, System.EventArgs e)
             {
                 if (focus != null)
-                    focus.Text = text;
+                    focus.Text = Text;
             }
 
             private void OnCharButtonPressed(object sender, System.EventArgs e)
             {
-                text += buttons[sender as VRButton];
+                Text += buttons[sender as VRButton];
             }
+
+            public UnityEngine.UI.Text textBox;
 
             private string text;
 
             public string Text
             {
                 get { return text; }
-                set { text = value; }
+                set
+                {
+                    text = value;
+                    textBox.text = text;
+                }
             }
 
             private VRTextbox focus;
