@@ -40,7 +40,7 @@ namespace View
                 get { return text; }
                 set
                 {
-                    if (Model.RefTypeHelper.Validate(value, type))
+                    if (value != text && Model.RefTypeHelper.Validate(value, type))
                     {
                         text = value;
                         if (TextChanged != null)
