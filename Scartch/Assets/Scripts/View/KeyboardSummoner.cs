@@ -20,14 +20,19 @@ namespace View.Resources
 
         void Update()
         {
-            if (hand.Inputs[NVRButtons.Touchpad].IsPressed && !keyboard.gameObject.activeInHierarchy)
-                ActiveateKeyboard();
+            if (hand.Inputs[NVRButtons.Touchpad].PressDown)
+                if (!keyboard.gameObject.activeInHierarchy)
+                    ActiveateKeyboard();
+                else
+                    keyboard.Close();
         }
 
         private void ActiveateKeyboard()
         {
-            keyboard.gameObject.transform.position = this.transform.position + new Vector3(0, 0, 10);
+            keyboard.gameObject.transform.position = this.transform.position + this.transform.forward * 10;
             keyboard.gameObject.transform.eulerAngles = Vector3.zero;
+            var angle = Vector3.Angle(this.transform.forward, keyboard.transform.forward);
+            keyboard.gameObject.transform.eulerAngles -= new Vector3(0, angle, 0);
             keyboard.Open();
            
         }

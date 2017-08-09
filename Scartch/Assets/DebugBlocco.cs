@@ -43,7 +43,7 @@ public class DebugBlocco : MonoBehaviour
             {
                 next.transform.SetParent(this.transform);
                 next.transform.localEulerAngles = Vector3.zero;
-                next.transform.localPosition = new Vector3(0, -2 /** this.transform.localScale.x*/, 0);
+                next.transform.localPosition = new Vector3(0, -2, 0);
                 next.transform.SetParent(null);
             }
 
@@ -167,8 +167,6 @@ public class DebugBlocco : MonoBehaviour
         }
     }
 
-    public float threshold = 2.2f;
-
     private DebugBlocco FindNearest()
     {
         var min = float.PositiveInfinity;
@@ -177,18 +175,11 @@ public class DebugBlocco : MonoBehaviour
 
         var compatibleBlocchi = FindObjectsOfType<DebugBlocco>().ToList().Where(x => !x.Equals(this) && Mathf.Cos(Mathf.PI / 180 * Vector3.Angle(this.transform.up, x.transform.up)) > 0 &&
             Mathf.Abs(Vector3.Angle(-this.transform.up, (x.transform.position - this.transform.position).normalized)) > 90 && x.Next == null);
-        Debug.DrawRay(this.transform.position, this.transform.up, Color.blue);
-
-        //FindObjectsOfType<DebugBlocco>().ToList().ForEach(x => Debug.Log("Examining blocco " + x.gameObject.name + " angle " + Vector3.Angle(this.transform.up, x.transform.up) + "; cosine " + Mathf.Cos(Mathf.PI / 180 * Vector3.Angle(this.transform.up, x.transform.up))));
         compatibleBlocchi.ToList().ForEach(x => { if (Vector3.Distance(this.transform.position, x.transform.position) < min) { result = x; min = Vector3.Distance(this.transform.position, x.transform.position); } });
-        compatibleBlocchi.ToList().ForEach(x => Debug.DrawRay(this.transform.position, (x.transform.position - this.transform.position).normalized, Color.white));
-        //Debug.Log("Nearest: " + result.name + "; Dist: " + min);
-        if (min < threshold * this.transform.localScale.x)
-        {
-            Debug.DrawRay(this.transform.position, (
-                result.transform.position - this.transform.position).normalized, Color.red);
+        
+        if (min < ScartchResourceManager.instance.blockSnapThreshold * this.transform.localScale.x)
             return result;
-        }
+        
         else return null;
     }
 }

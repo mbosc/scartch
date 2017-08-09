@@ -48,4 +48,7 @@ public class ScartchResourceManager : MonoBehaviour
     public Dictionary<RefType, GameObject> referenceHeads;
     public Vector3 headRotation, tailRotation, bodyRotation;
 
+    [Header("Snapping Dynamics")]
+    public float referenceSnapThreshold = 1.0f;
+    public float blockSnapThreshold = 2.2f;
 }
