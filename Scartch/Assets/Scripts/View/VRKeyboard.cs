@@ -43,6 +43,9 @@ namespace View
                 bCONFIRM.Pressed += OnConfirmPressed;
                 bBACK.Pressed += OnBackPressed;
 
+                //close at start
+                Close();
+
             }
 
 
@@ -78,6 +81,12 @@ namespace View
                 }
             }
 
+            public override void Close()
+            {
+                base.Close();
+                Focus = null;
+            }
+
             private VRTextbox focus;
 
             public VRTextbox Focus
@@ -85,8 +94,13 @@ namespace View
                 get { return focus; }
                 set
                 {
+                    if (focus != null) focus.LostFocus();
                     focus = value;
-                    Text = focus.Text;
+                    if (focus != null)
+                    {
+                        focus.Focus();
+                        Text = focus.Text;
+                    }
                 }
             }
 

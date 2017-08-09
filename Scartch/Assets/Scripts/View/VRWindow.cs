@@ -21,6 +21,14 @@ namespace View
                 EnableGravityOnDetach = false;
             }
 
+            protected override void Awake()
+            {
+                base.Awake();
+                visible = true;
+            }
+            
+            
+
             private bool visible;
 
             public bool Visible
@@ -34,7 +42,7 @@ namespace View
             }
 
 
-            public void Close()
+            public virtual void Close()
             {
                 Visible = false;
             }

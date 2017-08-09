@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using NewtonVR;
+using System;
 
 namespace View.Resources
 {
@@ -9,7 +10,7 @@ namespace View.Resources
     {
 
         private NVRHand hand;
-        public VRKeyboard keyboard;
+        private VRKeyboard keyboard;
 
         void Start()
         {
@@ -20,12 +21,15 @@ namespace View.Resources
         void Update()
         {
             if (hand.Inputs[NVRButtons.Touchpad].IsPressed && !keyboard.gameObject.activeInHierarchy)
-                keyboard.gameObject.SetActive(true);
-            if (Input.GetKeyDown(KeyCode.K))
-            {
-                Debug.Log("Provo ad attivare la tastiera");
-                keyboard.gameObject.SetActive(true);
-            }
+                ActiveateKeyboard();
+        }
+
+        private void ActiveateKeyboard()
+        {
+            keyboard.gameObject.transform.position = this.transform.position + new Vector3(0, 0, 10);
+            keyboard.gameObject.transform.eulerAngles = Vector3.zero;
+            keyboard.Open();
+           
         }
     }
 }

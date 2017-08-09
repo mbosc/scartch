@@ -32,5 +32,19 @@ namespace Model
             }
             return valid;
         }
+
+        public static string Name(RefType type)
+        {
+            switch (type)
+            {
+                case RefType.boolType:
+                    return "BOOLEAN";
+                case RefType.numberType:
+                    return "NUMBER";
+                case RefType.stringType:
+                    return "STRING";
+                default: throw new ArgumentException("Invalid Ref Type");
+            }
+        }
     }
 }
