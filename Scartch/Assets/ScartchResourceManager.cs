@@ -15,7 +15,7 @@ public class ScartchResourceManager : MonoBehaviour
             instance = this;
         else Destroy(this.gameObject);
 
-        BlockTypeMaterials = new Dictionary<Scripting.ScriptingType, Material>
+        blockTypeMaterials = new Dictionary<Scripting.ScriptingType, Material>
         {
             { ScriptingType.control, controlMaterial },
             { ScriptingType.look, lookMaterial },
@@ -23,6 +23,13 @@ public class ScartchResourceManager : MonoBehaviour
             { ScriptingType.sensor, sensorMaterial },
             { ScriptingType.sound, soundMaterial },
             { ScriptingType.variable, variableMaterial }
+        };
+
+        referenceHeads = new Dictionary<RefType, GameObject>
+        {
+            { RefType.boolType, boolHead },
+            { RefType.numberType, numberHead },
+            { RefType.stringType, stringHead }
         };
     }
 
@@ -33,6 +40,12 @@ public class ScartchResourceManager : MonoBehaviour
     [Header("Scripting Type materials")]
     public Material controlMaterial;
     public Material lookMaterial, movementMaterial, sensorMaterial, soundMaterial, variableMaterial;
-    public Dictionary<ScriptingType, Material> BlockTypeMaterials;
+    public Dictionary<ScriptingType, Material> blockTypeMaterials;
+
+    [Header("References components")]
+    public GameObject referenceBody;
+    public GameObject boolHead, stringHead, numberHead;
+    public Dictionary<RefType, GameObject> referenceHeads;
+    public Vector3 headRotation, tailRotation, bodyRotation;
 
 }

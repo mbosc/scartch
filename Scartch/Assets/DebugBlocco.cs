@@ -40,7 +40,7 @@ public class DebugBlocco : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.L))
         {
             var r = color > 4 ? color = 0 : color++;
-            var mat = ScartchResourceManager.instance.BlockTypeMaterials[(Scripting.ScriptingType)color];
+            var mat = ScartchResourceManager.instance.blockTypeMaterials[(Scripting.ScriptingType)color];
             corpo.GetComponent<Renderer>().material = mat;
             dente.GetComponent<Renderer>().material = mat;
             var deltawhite = Vector3.Distance(new Vector3(1, 1, 1), new Vector3(mat.color.r, mat.color.g, mat.color.b));
