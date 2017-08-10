@@ -15,8 +15,9 @@ public class DebugAudioSource : MonoBehaviour {
     {
         this.GetComponent<AudioSource>().Play();
     }
-
-    public void Update()
+    public void PlayDebug(AudioClip a)
     {
+        this.GetComponent<AudioSource>().clip = a;
+        PlayDebug();
     }
 }

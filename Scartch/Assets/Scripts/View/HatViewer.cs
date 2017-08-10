@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,6 +17,16 @@ namespace View
 
         public event System.Action<BlockViewer> SnappedNext;
         public event System.Action UnsnappedNext;
+
+        public override void Moving()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Release()
+        {
+            throw new NotImplementedException();
+        }
 
         public void SnapNext(BlockViewer next)
         {

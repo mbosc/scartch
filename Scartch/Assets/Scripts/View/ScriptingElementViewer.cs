@@ -7,8 +7,26 @@ namespace View
 {
     namespace Resources
     {
-        public class ScriptingElementViewer : RayHittable
+        [RequireComponent(typeof(ScriptingElementRayRec))]
+        [RequireComponent(typeof(Rigidbody))]
+        public abstract class ScriptingElementViewer : NewtonVR.NVRInteractableItem
         {
+            protected override void Start()
+            {
+                base.Start();
+                CanAttach = true;
+                AllowTwoHanded = false;
+                DisableKinematicOnAttach = true;
+                EnableKinematicOnDetach = true;
+                EnableGravityOnDetach = false;
+            }
+
+            protected override void Awake()
+            {
+                base.Awake();
+                visible = true;
+            }
+
             private bool visible;
 
             public bool Visible
@@ -21,40 +39,20 @@ namespace View
 
             public event Action Grabbed;
             public event EventHandler Deleted;
-
-            public override void HitByBlueRay()
-            {
-                // Do nothing
-            }
-
-            public override void HitByRedRay()
-            {
-                Delete();
-            }
-
-            public void Move(Vector3 pos, Vector3 rot)
-            {
-                //TODO
-                // Sposta con interpolazione
-            }
-
+            
             public void Delete()
             {
                 if (Deleted != null)
                     Deleted(this, EventArgs.Empty);
             }
 
-            public void Grab()
+            public virtual void Grab()
             {
-                //TODO
-                // de-snappare tutto quello che e' sopra
+                if (Grabbed != null)
+                    Grabbed();
             }
-
-            public void Release()
-            {
-                //TODO
-                // verificare se sei in possibile posizione per snappare qualcosa sotto
-            }
+            public abstract void Moving();
+            public abstract void Release();
 
         }
     }

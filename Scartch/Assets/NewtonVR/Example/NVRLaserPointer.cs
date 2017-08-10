@@ -68,12 +68,17 @@ namespace NewtonVR.Example
                 {
                     endPoint = hitInfo.point;
 
-                    if (Hand.Inputs[NVRButtons.Trigger].PressDown && hitInfo.collider.gameObject.GetComponent<View.Resources.RayHittable>() != null)
-                        if (state == 1)
-                            hitInfo.collider.gameObject.GetComponent<View.Resources.RayHittable>().HitByBlueRay();
-                        else if (state == 2)
-                            hitInfo.collider.gameObject.GetComponent<View.Resources.RayHittable>().HitByRedRay();
+                    if (Hand.Inputs[NVRButtons.Trigger].PressDown)
+                    {
+                        Debug.Log(this.gameObject.name + " pointed at " + hitInfo.collider.gameObject.name + " (state " + state + ", RayHittable " + (hitInfo.collider.gameObject.GetComponentInParent<View.Resources.RayHittable>() != null ? "yes" : "no") + ")");
+                        if (hitInfo.collider.gameObject.GetComponentInParent<View.Resources.RayHittable>() != null)
+                            if (state == 1)
+                                hitInfo.collider.gameObject.GetComponentInParent<View.Resources.RayHittable>().HitByBlueRay();
+                            else if (state == 2)
+                                hitInfo.collider.gameObject.GetComponentInParent<View.Resources.RayHittable>().HitByRedRay();
+                    }
                 }
+
                 else
                 {
                     endPoint = this.transform.position + (this.transform.forward * 1000f);
