@@ -8,9 +8,10 @@ namespace View
     {
         public class VRCombobox : MonoBehaviour
         {
-            public VRButton menuButton;
-            public List<VRButton> optionButtons;
+            public VRComboboxVoice menuButton;
+            private List<VRComboboxVoice> optionButtons;
             public List<string> options;
+            private int currentLength;
             private int selected;
             private bool listVisible;
 
@@ -19,22 +20,36 @@ namespace View
                 get { return listVisible; }
                 set
                 {
-                    if (value)
-                    {
-                        //rendi visibili tutti i sottoelementi
-                    }
-                    else
-                    {
-                        //nascondi tutti i sottoelementi
-                    }
+                    optionButtons.ForEach(x => x.gameObject.SetActive(value));
                     listVisible = value;
                 }
             }
 
             private void Start()
             {
+                Init();
+            }
+
+            public void Init()
+            {
+                currentLength = 2;
+                optionButtons = new List<VRComboboxVoice>();
+                options.ForEach(x =>
+                {
+                    var voice = GameObject.Instantiate(ScartchResourceManager.instance.comboboxVoice);
+                    optionButtons.Add(voice);
+                    voice.Text = x;
+                    voice.transform.SetParent(this.transform);
+                });
+                optionButtons.ForEach(x => { if (x.Text.Length > currentLength) currentLength = x.Text.Length; });
+                currentLength += 2;
+                menuButton.Length = currentLength;
+                int offset = 1;
+                optionButtons.ForEach(x => { x.Length = currentLength; x.transform.localPosition = new Vector3(0, -offset++ * 4, 0); });
                 menuButton.Pressed += OnMenuPressed;
                 optionButtons.ForEach(x => x.Pressed += OnOptionPressed);
+                menuButton.Text = "  " + options[0];
+                ListVisible = false;
             }
 
             private void OnDestroy()
@@ -45,7 +60,7 @@ namespace View
 
             private void OnOptionPressed(object sender, System.EventArgs e)
             {
-                Selected = optionButtons.IndexOf(sender as VRButton);
+                Selected = optionButtons.IndexOf(sender as VRComboboxVoice);
                 ListVisible = false;
             }
 
@@ -64,9 +79,12 @@ namespace View
                     if (value != selected && SelectionChanged != null)
                         SelectionChanged(value);
                     selected = value;
+                    menuButton.Text = "  " + options[selected];
                 }
             }
             public event System.Action<int> SelectionChanged;
+
+
         }
     }
 }

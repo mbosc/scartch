@@ -6,15 +6,16 @@ using UnityEngine;
 
 namespace View
 {
-    public class BlockViewer : Resources.ScriptingElementViewer
+    public class BlockViewer : BlockoidViewer
     {
         private BlockViewer next;
 
-        public BlockViewer Next
+        public override BlockViewer Next
         {
             get { return next; }
             set
-            { //unsubscribe old
+            { 
+                //unsubscribe old
                 if (next != null)
                     next.Grabbed -= Detach;
 
@@ -144,8 +145,8 @@ namespace View
             }
         }
 
-        private BlockViewer nearest;
-        public BlockViewer Nearest
+        private BlockoidViewer nearest;
+        public BlockoidViewer Nearest
         {
             get { return nearest; }
             set
@@ -158,7 +159,7 @@ namespace View
             }
         }
         public List<GameObject> highlightElements;
-        public void Highlight(bool doing)
+        public override void Highlight(bool doing)
         {
             highlightElements.ForEach(x => x.SetActive(doing));
         }
@@ -189,13 +190,13 @@ namespace View
                 Nearest = FindNearest();
         }
 
-        private BlockViewer FindNearest()
+        private BlockoidViewer FindNearest()
         {
             var min = float.PositiveInfinity;
-            BlockViewer result = null;
+            BlockoidViewer result = null;
             //coseno positivo
 
-            var compatibleBlocchi = FindObjectsOfType<BlockViewer>().ToList().Where(x => !x.Equals(this) && Mathf.Cos(Mathf.PI / 180 * Vector3.Angle(this.transform.up, x.transform.up)) > 0 &&
+            var compatibleBlocchi = FindObjectsOfType<BlockoidViewer>().ToList().Where(x => !x.Equals(this) && Mathf.Cos(Mathf.PI / 180 * Vector3.Angle(this.transform.up, x.transform.up)) > 0 &&
                 Mathf.Abs(Vector3.Angle(-this.transform.up, (x.transform.position - this.transform.position).normalized)) > 90 && x.Next == null);
             compatibleBlocchi.ToList().ForEach(x => { if (Vector3.Distance(this.transform.position, x.transform.position) < min) { result = x; min = Vector3.Distance(this.transform.position, x.transform.position); } });
 

@@ -16,7 +16,6 @@ public class ScriptingElementRayRec : RayHittable
 
     public override void HitByRedRay()
     {
-        Debug.Log("hit");
         viewer.Delete();
     }
 

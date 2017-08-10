@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Model;
 using Scripting;
+using View.Resources;
 
 public class ScartchResourceManager : MonoBehaviour
 {
@@ -51,4 +52,7 @@ public class ScartchResourceManager : MonoBehaviour
     [Header("Snapping Dynamics")]
     public float referenceSnapThreshold = 1.0f;
     public float blockSnapThreshold = 2.2f;
+
+    [Header("Comboboxes")]
+    public VRComboboxVoice comboboxVoice;
 }
