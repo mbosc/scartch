@@ -46,5 +46,19 @@ namespace Model
                 default: throw new ArgumentException("Invalid Ref Type");
             }
         }
+
+        internal static string Default(RefType type)
+        {
+            switch (type)
+            {
+                case RefType.boolType:
+                    return "FALSE";
+                case RefType.numberType:
+                    return "0";
+                case RefType.stringType:
+                    return "";
+                default: throw new ArgumentException("Invalid Ref Type");
+            }
+        }
     }
 }

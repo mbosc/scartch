@@ -99,12 +99,12 @@ namespace View
             tail = GameObject.Instantiate(ScartchResourceManager.instance.referenceHeads[refType]);
 
             // Set hierarchy up
-            head.transform.SetParent(this.transform);
-            tail.transform.SetParent(this.transform);
+            head.transform.SetParent(this.transform, false);
+            tail.transform.SetParent(this.transform, false);
 
             // Set up body on first execution
             if (body == null) body = GameObject.Instantiate(ScartchResourceManager.instance.referenceBody);
-            body.transform.SetParent(this.transform);
+            body.transform.SetParent(this.transform, false);
 
             // Update positions
             head.transform.localEulerAngles = ScartchResourceManager.instance.headRotation;

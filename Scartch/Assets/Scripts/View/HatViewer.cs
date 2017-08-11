@@ -24,7 +24,7 @@ namespace View
                 //align it
                 if (next != null)
                 {
-                    next.transform.SetParent(this.transform);
+                    next.transform.SetParent(this.transform, false);
                     next.transform.localEulerAngles = Vector3.zero;
                     next.transform.localPosition = new Vector3(0, -2, 0);
                     next.transform.SetParent(null);

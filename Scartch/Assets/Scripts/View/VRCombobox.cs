@@ -12,6 +12,7 @@ namespace View
             private List<VRComboboxVoice> optionButtons;
             public List<string> options;
             private int currentLength;
+            public int minLength = 2;
             private int selected;
             private bool listVisible;
 
@@ -24,31 +25,26 @@ namespace View
                     listVisible = value;
                 }
             }
-
-            private void Start()
-            {
-                Init();
-            }
-
+            
             public void Init()
             {
-                currentLength = 2;
+                currentLength = minLength;
                 optionButtons = new List<VRComboboxVoice>();
                 options.ForEach(x =>
                 {
                     var voice = GameObject.Instantiate(ScartchResourceManager.instance.comboboxVoice);
                     optionButtons.Add(voice);
                     voice.Text = x;
-                    voice.transform.SetParent(this.transform);
+                    voice.transform.SetParent(this.transform, false);
                 });
                 optionButtons.ForEach(x => { if (x.Text.Length > currentLength) currentLength = x.Text.Length; });
                 currentLength += 2;
                 menuButton.Length = currentLength;
                 int offset = 1;
-                optionButtons.ForEach(x => { x.Length = currentLength; x.transform.localPosition = new Vector3(0, -offset++ * 4, 0); });
+                optionButtons.ForEach(x => { x.Length = currentLength; x.transform.localPosition = new Vector3(0, -offset++ * 4, -0.4f); });
                 menuButton.Pressed += OnMenuPressed;
                 optionButtons.ForEach(x => x.Pressed += OnOptionPressed);
-                menuButton.Text = "  " + options[0];
+                menuButton.Text = "  " + options[selected];
                 ListVisible = false;
             }
 

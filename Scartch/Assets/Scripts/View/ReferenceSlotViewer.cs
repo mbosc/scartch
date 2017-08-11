@@ -19,8 +19,8 @@ namespace View
                     type = value;
                     var newTail = GameObject.Instantiate(ScartchResourceManager.instance.referenceHeads[type]);
                     var newHead = GameObject.Instantiate(ScartchResourceManager.instance.referenceHeads[type]);
-                    newTail.transform.SetParent(this.transform);
-                    newHead.transform.SetParent(this.transform);
+                    newTail.transform.SetParent(this.transform, false);
+                    newHead.transform.SetParent(this.transform, false);
                     newTail.transform.position = tail.transform.position;
                     newTail.transform.rotation = tail.transform.rotation;
                     newHead.transform.position = head.transform.position;
@@ -83,7 +83,7 @@ namespace View
                 //align it
                 if (filler != null)
                 {
-                    filler.transform.SetParent(this.transform);
+                    filler.transform.SetParent(this.transform, false);
                     filler.transform.localEulerAngles = Vector3.zero;
                     filler.transform.localPosition = new Vector3(0, 0, 0);
                     filler.transform.SetParent(null);

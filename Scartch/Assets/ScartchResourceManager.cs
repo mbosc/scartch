@@ -4,6 +4,7 @@ using UnityEngine;
 using Model;
 using Scripting;
 using View.Resources;
+using View;
 
 public class ScartchResourceManager : MonoBehaviour
 {
@@ -55,4 +56,11 @@ public class ScartchResourceManager : MonoBehaviour
 
     [Header("Comboboxes")]
     public VRComboboxVoice comboboxVoice;
+
+    [Header("Windows Dimensions")]
+    public VariableEntry entryPrototype;
+    public float varWindowStep = 0.307f;
+    public Vector3 varWindowButtonPoint = new Vector3(0.945f, 0.036f, -0.785f);
+    public Vector3 varWindowEntryPoint = new Vector3(0.107f, 0.036f, -.785f);
+    public Vector3 varWindowEntryScale = new Vector3(0.037f, 0.051f, 5.5f);
 }

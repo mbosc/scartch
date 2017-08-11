@@ -13,14 +13,23 @@ namespace Model
 
         public static Timer instance;
 
+
+        private void Start()
+        {
+            if (instance == null)
+            {
+                instance = this;
+            }
+            else
+            {
+                Destroy(this.gameObject);
+            }
+        }
         public static Timer Instance
         {
             get
             {
-                if (instance == null)
-                {
-                    instance = new Timer();
-                }
+
                 return instance;
             }
         }
@@ -75,7 +84,7 @@ namespace Model
         {
             if (Running)
             {
-                time += UnityEngine.Time.deltaTime;
+                Time += UnityEngine.Time.deltaTime;
             }
         }
     }

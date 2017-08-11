@@ -11,6 +11,7 @@ namespace View
         {
             private string text;
             private VRButton button;
+            public Renderer bodyRenderer;
             public UnityEngine.UI.Text outputText, alertText;
             private Model.RefType type;
             public event EventHandler TextChanged;
@@ -38,12 +39,12 @@ namespace View
 
             public void Focus()
             {
-                gameObject.GetComponent<Renderer>().material = Focusmat;
+                bodyRenderer.material = Focusmat;
             }
 
             public void LostFocus()
             {
-                gameObject.GetComponent<Renderer>().material = Basemat;
+                bodyRenderer.material = Basemat;
             }
 
             private void Start()
