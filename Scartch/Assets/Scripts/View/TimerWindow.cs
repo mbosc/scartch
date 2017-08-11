@@ -10,9 +10,9 @@ namespace View
         private Timer timer;
         public UnityEngine.UI.Text value;
 
-        protected override void Start()
+        public void Init()
         {
-            base.Start();
+
             timer = Timer.instance;
             timer.TimeChanged += UpdateMe;
         }

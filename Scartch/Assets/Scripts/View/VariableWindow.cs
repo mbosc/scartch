@@ -74,18 +74,6 @@ namespace View
             UpdateLayout();
         }
 
-        protected override void Update()
-        {
-            base.Update();
-            if (Input.GetKeyDown(KeyCode.I))
-            {
-                Init(null);
-            } if (Input.GetKeyDown(KeyCode.O))
-            {
-                AddVariable();
-            }
-        }
-
         protected override void Start()
         {
             base.Start();

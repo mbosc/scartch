@@ -63,4 +63,18 @@ public class ScartchResourceManager : MonoBehaviour
     public Vector3 varWindowButtonPoint = new Vector3(0.945f, 0.036f, -0.785f);
     public Vector3 varWindowEntryPoint = new Vector3(0.107f, 0.036f, -.785f);
     public Vector3 varWindowEntryScale = new Vector3(0.037f, 0.051f, 5.5f);
+
+    [Header("Environment Buttons")]
+    public Material editButtonMaterial;
+    public Material playButtonMaterial;
+    public Sprite editButtonSprite;
+    public Sprite playButtonSprite;
+
+    [Header("Utility Windows")]
+    public VariableWindow variableWindow;
+    public TimerWindow timerWindow;
+    public VariableMonitorWindow variableMonitorWindow;
+    public ChooseModelWindow chooseModelWindow;
+    public ChooseScriptingElementWindow chooseBlockWindow;
+
 }
