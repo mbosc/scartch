@@ -71,7 +71,7 @@ namespace View
 
         public GameObject hook, body;
         private Scripting.ScriptingType type;
-        public Scripting.ScriptingType Type
+        public override Scripting.ScriptingType Type
         {
             get
             {
@@ -196,9 +196,9 @@ namespace View
             BlockoidViewer result = null;
             //coseno positivo
 
-            var compatibleBlocchi = FindObjectsOfType<BlockoidViewer>().ToList().Where(x => !x.Equals(this) && Mathf.Cos(Mathf.PI / 180 * Vector3.Angle(this.transform.up, x.transform.up)) > 0 &&
+            var compatibleBlocks = FindObjectsOfType<BlockoidViewer>().ToList().Where(x => !x.Equals(this) && Mathf.Cos(Mathf.PI / 180 * Vector3.Angle(this.transform.up, x.transform.up)) > 0 &&
                 Mathf.Abs(Vector3.Angle(-this.transform.up, (x.transform.position - this.transform.position).normalized)) > 90 && x.Next == null);
-            compatibleBlocchi.ToList().ForEach(x => { if (Vector3.Distance(this.transform.position, x.transform.position) < min) { result = x; min = Vector3.Distance(this.transform.position, x.transform.position); } });
+            compatibleBlocks.ToList().ForEach(x => { if (Vector3.Distance(this.transform.position, x.transform.position) < min) { result = x; min = Vector3.Distance(this.transform.position, x.transform.position); } });
 
             if (min < ScartchResourceManager.instance.blockSnapThreshold * this.transform.localScale.x)
                 return result;

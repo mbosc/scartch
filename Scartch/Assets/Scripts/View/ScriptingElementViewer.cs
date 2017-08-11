@@ -39,7 +39,9 @@ namespace View
 
             public event Action Grabbed;
             public event EventHandler Deleted;
-            
+
+            public abstract Scripting.ScriptingType Type { set; get; }
+
             public void Delete()
             {
                 if (Deleted != null)

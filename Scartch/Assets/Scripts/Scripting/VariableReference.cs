@@ -27,7 +27,7 @@ namespace Scripting
 
         private void OnVariableTypeChanged(RefType obj)
         {
-            viewer.Type = obj;
+            viewer.RefType = obj;
         }
 
         private void OnVariableNameChanged(string obj)

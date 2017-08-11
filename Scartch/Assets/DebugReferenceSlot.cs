@@ -18,7 +18,6 @@ public class DebugReferenceSlot : MonoBehaviour {
             //align it
             if (filler != null)
             {
-                //QUESTO VA RIVISTO
                 filler.transform.SetParent(this.transform);
                 filler.transform.localEulerAngles = Vector3.zero;
                 filler.transform.localPosition = new Vector3(0, 0, 0);

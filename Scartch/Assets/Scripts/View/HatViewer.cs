@@ -66,7 +66,7 @@ namespace View
 
         public GameObject hook, body, cap;
         private Scripting.ScriptingType type;
-        public Scripting.ScriptingType Type
+        public override Scripting.ScriptingType Type
         {
             get
             {
