@@ -11,6 +11,15 @@ namespace Model
         {
         }
 
+        private Actor owner;
+
+        public Actor Owner
+        {
+            get { return owner; }
+            set { owner = value; }
+        }
+
+
         private int refCount;
 
         public int RefCount

@@ -6,6 +6,15 @@ namespace Model
 {
     public class Actor
     {
+        private string name;
+
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
+
+
         private Vector3 position;
 
         public Vector3 Position
