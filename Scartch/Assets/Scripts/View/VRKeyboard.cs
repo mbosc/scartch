@@ -20,8 +20,11 @@ namespace View
                 }
             }
 
-            private void Start()
+            protected override void Start()
             {
+
+
+                base.Start();
                 // singleton
                 if (instance == null)
                     instance = this;

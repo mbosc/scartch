@@ -16,6 +16,14 @@ namespace Scripting
             set { upperInnerNext = value; }
         }
 
+        public override UnityEngine.Sprite Sprite
+        {
+            get
+            {
+                return ScartchResourceManager.instance.iconDMBlock;
+            }
+        }
+
         private Block lowerInnerNext;
 
         public Block LowerInnerNext

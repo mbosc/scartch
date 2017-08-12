@@ -16,6 +16,13 @@ namespace Scripting
             set { variable = value; }
         }
 
+        public override string Description
+        {
+            get
+            {
+                return variable.Name;
+            }
+        }
 
         public VariableReference(Actor owner, List<RefType> referenceTypes, List<Option> optionList, ScriptingType type, List<ReferenceSlotViewer> referenceSlotViewers, ReferenceViewer viewer, Variable var) : base(owner, referenceTypes, optionList, type, referenceSlotViewers, viewer)
         {

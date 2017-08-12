@@ -3,14 +3,23 @@ using System.Collections.Generic;
 using System;
 using View;
 using Model;
+using UnityEngine;
 
 namespace Scripting
 {
-    public class Hat : ScriptingElement
+    public abstract class Hat : ScriptingElement
     {
         private HatViewer viewer;
 
         private Block next;
+
+        public override Sprite Sprite
+        {
+            get
+            {
+                return ScartchResourceManager.instance.iconHat;
+            }
+        }
 
         public Hat(Actor owner, List<RefType> referenceTypes, List<Option> optionList, ScriptingType type, List<ReferenceSlotViewer> referenceSlotViewers, HatViewer viewer) : base(owner, referenceTypes, optionList, type, referenceSlotViewers)
         {

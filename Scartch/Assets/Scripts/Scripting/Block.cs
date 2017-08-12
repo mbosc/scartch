@@ -20,6 +20,14 @@ namespace Scripting
             viewer.Tested += OnViewerTested;
         }
 
+        public override UnityEngine.Sprite Sprite
+        {
+            get
+            {
+                return ScartchResourceManager.instance.iconBlock;
+            }
+        }
+
         private void OnViewerTested()
         {
             //TODO

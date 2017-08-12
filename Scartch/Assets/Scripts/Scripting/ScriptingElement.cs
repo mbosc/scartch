@@ -17,6 +17,13 @@ namespace Scripting
         public event Action Destroyed;
         protected List<ReferenceSlotViewer> referenceSlotViewers;
 
+        public abstract string Description { get; }
+
+        public abstract UnityEngine.Sprite Sprite
+        {
+            get;
+        }
+
         public ScriptingElement(Actor owner, List<RefType> referenceTypes, List<Option> optionList, ScriptingType type, List<ReferenceSlotViewer> referenceSlotViewers)
         {
             this.owner = owner;

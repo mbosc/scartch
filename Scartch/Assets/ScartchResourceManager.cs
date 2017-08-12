@@ -5,6 +5,7 @@ using Model;
 using Scripting;
 using View.Resources;
 using View;
+using System.Linq;
 
 public class ScartchResourceManager : MonoBehaviour
 {
@@ -33,6 +34,11 @@ public class ScartchResourceManager : MonoBehaviour
             { RefType.numberType, numberHead },
             { RefType.stringType, stringHead }
         };
+
+        //TOBEREMOVED
+        scriptingElements = new List<List<ScriptingElement>>();
+        for (int i = 0; i < 7; i++)
+            scriptingElements.Add(new List<ScriptingElement>());
     }
 
     [Header("VRTextboxes materials")]
@@ -70,6 +76,17 @@ public class ScartchResourceManager : MonoBehaviour
     public Sprite editButtonSprite;
     public Sprite playButtonSprite;
 
+    [Header("Model Sprites")]
+    public List<Sprite> modelSprites;
+
+    [Header("ScriptChooser")]
+    public Sprite iconBlock;
+    public Sprite iconMBlock, iconDMBlock, iconHat, iconBool, iconString, iconNum;
+    public List<Material> pages;
+    public List<List<ScriptingElement>> scriptingElements;
+
+    
+    
     [Header("Utility Windows")]
     public VariableWindow variableWindow;
     public TimerWindow timerWindow;

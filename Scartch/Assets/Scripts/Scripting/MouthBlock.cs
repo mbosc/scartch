@@ -16,6 +16,14 @@ namespace Scripting
             set { innerNext = value; }
         }
 
+        public override UnityEngine.Sprite Sprite
+        {
+            get
+            {
+                return ScartchResourceManager.instance.iconMBlock;
+            }
+        }
+
         private MouthBlockViewer MouthViewer
         {
             get
