@@ -76,16 +76,16 @@ public class ScartchResourceManager : MonoBehaviour
     public Sprite editButtonSprite;
     public Sprite playButtonSprite;
 
-    [Header("Model Sprites")]
+    [Header("Models Sprites")]
     public List<Sprite> modelSprites;
+    public List<GameObject> modelPrefabs;
+    public GameObject actorSpawn;
 
     [Header("ScriptChooser")]
     public Sprite iconBlock;
     public Sprite iconMBlock, iconDMBlock, iconHat, iconBool, iconString, iconNum;
     public List<Material> pages;
     public List<List<ScriptingElement>> scriptingElements;
-
-    
     
     [Header("Utility Windows")]
     public VariableWindow variableWindow;

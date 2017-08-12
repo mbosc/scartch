@@ -120,6 +120,13 @@ namespace Model
         public event System.Action<bool, string> MessageChanged;
         public event System.Action<ActorModel> ModelChanged;
         public event System.Action Destroyed;
+        public event System.Action<AudioClip> SoundPlayed;
+
+        public void PlaySound(AudioClip clip)
+        {
+            if (SoundPlayed != null)
+                SoundPlayed(clip);
+        }
 
         public void Destroy()
         {

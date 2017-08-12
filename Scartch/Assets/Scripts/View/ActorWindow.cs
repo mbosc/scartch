@@ -79,6 +79,38 @@ namespace View
             addSEBtn.Pressed += AddSEBtn_Pressed;
             varWindow.VariableAdded += VarWindow_VariableAdded;
             varWindow.VariableRemoved += VarWindow_VariableRemoved;
+
+            actor.Destroyed += Actor_Destroyed;
+            actor.MessageChanged += Actor_MessageChanged;
+            actor.Moved += Actor_Moved;
+            actor.ModelChanged += Actor_ModelChanged;
+            actor.ScaleChanged += Actor_ScaleChanged;
+            actor.VolumeChanged += Actor_VolumeChanged;
+        }
+
+        private void Actor_VolumeChanged(float obj)
+        {
+            UpdateFields();
+        }
+
+        private void Actor_ScaleChanged(float obj)
+        {
+            UpdateFields();
+        }
+
+        private void Actor_ModelChanged(Model.ActorModel obj)
+        {
+            UpdateFields();
+        }
+
+        private void Actor_Moved(Vector3 arg1, Vector3 arg2)
+        {
+            UpdateFields();
+        }
+
+        private void Actor_MessageChanged(bool arg1, string arg2)
+        {
+            UpdateFields();
         }
 
         private void VarWindow_VariableRemoved(int obj)
@@ -183,6 +215,18 @@ namespace View
             addSEBtn.Pressed -= AddSEBtn_Pressed;
             varWindow.VariableAdded -= VarWindow_VariableAdded;
             varWindow.VariableRemoved -= VarWindow_VariableRemoved;
+
+            actor.Destroyed -= Actor_Destroyed;
+            actor.MessageChanged -= Actor_MessageChanged;
+            actor.Moved -= Actor_Moved;
+            actor.ModelChanged -= Actor_ModelChanged;
+            actor.ScaleChanged -= Actor_ScaleChanged;
+            actor.VolumeChanged -= Actor_VolumeChanged;
+        }
+
+        private void Actor_Destroyed()
+        {
+            Destroy(this.gameObject);
         }
 
         private void AddSEBtn_Pressed(object sender, EventArgs e)
