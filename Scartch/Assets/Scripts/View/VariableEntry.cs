@@ -41,6 +41,7 @@ namespace View
             typeBox.SelectionChanged += OnTypeChanged;
             monitorButton.Pressed += OnMonitorPressed;
             deleteButton.Pressed += OnDeletePressed;
+            inited = true;
         }
 
         private void OnDeletePressed(object sender, EventArgs e)
@@ -78,13 +79,18 @@ namespace View
                 NameChanged(vname);
         }
 
+        private bool inited = false;
+
         public void OnDestroy()
         {
-            nameBox.TextChanged -= OnNameChanged;
-            valueBox.TextChanged -= OnValChanged;
-            typeBox.SelectionChanged -= OnTypeChanged;
-            monitorButton.Pressed -= OnMonitorPressed;
-            deleteButton.Pressed -= OnDeletePressed;
+            if (inited)
+            {
+                nameBox.TextChanged -= OnNameChanged;
+                valueBox.TextChanged -= OnValChanged;
+                typeBox.SelectionChanged -= OnTypeChanged;
+                monitorButton.Pressed -= OnMonitorPressed;
+                deleteButton.Pressed -= OnDeletePressed;
+            }
         }
     }
 }

@@ -10,15 +10,21 @@ namespace View
     {
         private Model.Actor actor;
         public event Action Selected, Destroyed;
+        private GameObject spawn;
         public GameObject model;
         public GameObject message;
         public UnityEngine.UI.Text messageText;
         public AudioSource audioSource;
         public GameObject highlight;
 
-        public void Init(Model.Actor actor)
+        public void Init(Model.Actor actor, GameObject spawn)
         {
             this.actor = actor;
+            this.spawn = GameObject.Instantiate(spawn);
+            this.spawn.transform.SetParent(spawn.transform.parent, false);
+            transform.SetParent(this.spawn.transform, false);
+            transform.localPosition = transform.localEulerAngles = Vector3.zero;
+            transform.localScale = Vector3.one;
 
             actor.Destroyed += Actor_Destroyed;
             actor.MessageChanged += Actor_MessageChanged;
@@ -76,6 +82,7 @@ namespace View
         private void Actor_ScaleChanged(float obj)
         {
             transform.localScale = Vector3.one * obj;
+            Actor_Moved(actor.Position, actor.Rotation);
         }
 
         private void Actor_ModelChanged(ActorModel obj)
@@ -91,7 +98,7 @@ namespace View
 
         private void Actor_Moved(Vector3 arg1, Vector3 arg2)
         {
-            transform.localPosition = arg1;
+            spawn.transform.localPosition = arg1 + new Vector3(0,23*actor.Scale,0);
             transform.localEulerAngles = arg2;
         }
 

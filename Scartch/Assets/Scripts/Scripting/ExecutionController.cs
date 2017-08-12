@@ -18,7 +18,7 @@ namespace Scripting
 
         private static ExecutionController instance;
 
-        private static ExecutionController Instance
+        public static ExecutionController Instance
         {
             get { return instance; }
         }
@@ -59,6 +59,11 @@ namespace Scripting
         public void Execute()
         {
             StartCoroutine(Run());
+        }
+
+        public void Stop()
+        {
+            StopCoroutine(Run());
         }
 
         private IEnumerator Run()

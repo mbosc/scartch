@@ -27,7 +27,7 @@ namespace View
             addVarButton.transform.localPosition = mgr.varWindowButtonPoint - new Vector3(0, mgr.varWindowStep * offset++, 0);
         }
 
-        public event System.Action VariableAdded;
+        public event Action<VariableEntry> VariableAdded;
         public event System.Action<int> VariableRemoved;
 
         public void AddVariable()
@@ -35,13 +35,12 @@ namespace View
             var entr = GameObject.Instantiate(ScartchResourceManager.instance.entryPrototype);
             entr.transform.SetParent(this.transform, false);
             entr.transform.localScale = ScartchResourceManager.instance.varWindowEntryScale;
-            entr.Init("NEW VARIABLE", Model.RefTypeHelper.Default(Model.RefType.stringType), Model.RefType.stringType);
             entr.DeletePressed += OnVarDeletePressed;
             variableEntries.Add(entr);
             UpdateLayout();
 
             if (VariableAdded != null)
-                VariableAdded();
+                VariableAdded(entr);
         }
 
         private void OnVarDeletePressed(object sender, EventArgs e)

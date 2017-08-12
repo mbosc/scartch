@@ -31,7 +31,7 @@ namespace View
         public event Action<Model.ActorModel> ModelChanged;
         public event Action<bool> ChangedScriptingElementVisibility;
         public event Action<Scripting.ScriptingElement> ScriptingElementAdded;
-        public event Action VariableAdded;
+        public event Action<VariableEntry> VariableAdded;
         public event Action<int> VariableRemoved;
 
         public UnityEngine.UI.Text title, messageShowHide;
@@ -125,10 +125,10 @@ namespace View
                 VariableRemoved(obj);
         }
 
-        private void VarWindow_VariableAdded()
+        private void VarWindow_VariableAdded(VariableEntry ent)
         {
             if (VariableAdded != null)
-                VariableAdded();
+                VariableAdded(ent);
         }
 
         private void SeChooser_ChosenScriptingElement(Scripting.ScriptingElement obj)

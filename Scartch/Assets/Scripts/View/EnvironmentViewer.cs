@@ -14,8 +14,9 @@ namespace View
 
         private bool inPlayMode = false;
 
-        public event System.Action AddedVariable, AddedActor, ChangedMode;
+        public event System.Action AddedActor, ChangedMode;
         public event System.Action<int> RemovedVariable;
+        public event System.Action<VariableEntry> AddedVariable;
 
         private void Start()
         {
@@ -42,10 +43,10 @@ namespace View
                 RemovedVariable(obj);
         }
 
-        private void GlobalVariablesWindow_VariableAdded()
+        private void GlobalVariablesWindow_VariableAdded(VariableEntry entr)
         {
             if (AddedVariable != null)
-                AddedVariable();
+                AddedVariable(entr);
         }
 
         private void OnDestroy()

@@ -15,21 +15,22 @@ namespace Controller
         private ActorViewer actorViewer;
         private ActorWindow actorWindow;
         private Dictionary<ScriptingElementViewer, ScriptingElement> scriptingElementViewers;
+        private List<VariableController> localVariables;
 
-
-        public ActorController(Actor actor, ActorViewer viewer, ActorWindow window) : this(actor, viewer, window, new Dictionary<ScriptingElementViewer, ScriptingElement>())
+        public ActorController(Actor actor, ActorViewer viewer, ActorWindow window) : this(actor, viewer, window, new Dictionary<ScriptingElementViewer, ScriptingElement>(), new List<VariableController>())
         {
         }
 
-        public ActorController(Actor actor, ActorViewer viewer, ActorWindow window, Dictionary<ScriptingElementViewer, ScriptingElement> viewers)
+        public ActorController(Actor actor, ActorViewer viewer, ActorWindow window, Dictionary<ScriptingElementViewer, ScriptingElement> viewers, List<VariableController> localVariables)
         {
             this.actor = actor;
             this.actorViewer = viewer;
             this.actorWindow = window;
             scriptingElementViewers = viewers;
+            this.localVariables = localVariables;
 
             window.Init(actor);
-            viewer.Init(actor);
+            viewer.Init(actor, ScartchResourceManager.instance.actorSpawn);
 
             actorViewer.Selected += ActorViewer_Selected;
             actorViewer.Destroyed += ActorViewer_Destroyed;
@@ -48,9 +49,6 @@ namespace Controller
             scriptingElementViewers.Keys.ToList().ForEach(x => x.Deleted += OnScriptingElementDeleted);
 
             actorWindow.Close();
-            actorViewer.transform.SetParent(ScartchResourceManager.instance.actorSpawn.transform, false);
-            actorViewer.transform.localPosition = actorViewer.transform.localEulerAngles = Vector3.zero;
-            actorViewer.transform.localScale = Vector3.one;
         }
 
         private void OnScriptingElementDeleted(object sender, System.EventArgs e)
@@ -96,6 +94,7 @@ namespace Controller
             actorWindow.VolumeChanged -= ActorWindow_VolumeChanged;
             scriptingElementViewers.Keys.ToList().ForEach(x => x.Deleted -= OnScriptingElementDeleted);
 
+            EnvironmentController.Instance.RemoveActor(this);
             actor.Destroy();
         }
 
@@ -104,21 +103,9 @@ namespace Controller
             scriptingElementViewers.Keys.ToList().ForEach(x => x.Visible = show);
         }
 
-        public void AddLocalVariable()
+        public void AddLocalVariable(VariableEntry entr)
         {
-            var varLoc = new Variable()
-            {
-                Owner = this.actor,
-                Name = "VAR",
-                Type = RefType.stringType,
-                Value = RefTypeHelper.Default(RefType.stringType)
-            };
-            actor.AddVariable(varLoc);
-            var varViewer = new ReferenceViewer();
-            var varRef = new VariableReference(this.actor, null, null, ScriptingType.variable, null, varViewer, varLoc);
-            varViewer.Text = varLoc.Name;
-            varViewer.Type = ScriptingType.variable;
-            varViewer.RefType = varLoc.Type;
+            localVariables.Add(VariableController.AddVariable(entr, actor));
         }
 
         private void ActorWindow_VolumeChanged(float obj)
@@ -130,6 +117,7 @@ namespace Controller
         {
             try
             {
+                localVariables[obj].Remove();
                 this.actor.RemoveVariable(obj);
             }
             catch (System.Exception exc)
@@ -138,9 +126,9 @@ namespace Controller
             }
         }
 
-        private void ActorWindow_VariableAdded()
+        private void ActorWindow_VariableAdded(VariableEntry entr)
         {
-            AddLocalVariable();
+            AddLocalVariable(entr);
         }
 
         private void ActorWindow_ScriptingElementAdded(Scripting.ScriptingElement obj)
@@ -187,6 +175,7 @@ namespace Controller
 
         private void ActorViewer_Destroyed()
         {
+
             DeleteActor();
         }
 

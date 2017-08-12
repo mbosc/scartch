@@ -151,7 +151,6 @@ namespace Model
 
         public void RemoveVariable(int num)
         {
-            localVariables[num].Destroy();
             localVariables.RemoveAt(num);
         }
 

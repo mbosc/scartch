@@ -12,7 +12,23 @@ namespace Controller
         private Variable variable;
         private VariableEntry entry;
 
-        public VariableController(Variable var, VariableEntry ent)
+        public static VariableController AddVariable(VariableEntry entr, Actor owner)
+        {
+            var var = new Variable()
+            {
+                Owner = owner,
+                Name = "VAR",
+                Type = RefType.stringType,
+                Value = RefTypeHelper.Default(RefType.stringType)
+            };
+            if (owner != null)
+                owner.AddVariable(var);
+            entr.Init(var.Name, var.Value, var.Type);
+            var controller = new VariableController(var, entr);
+            return controller;
+        }
+
+        private VariableController(Variable var, VariableEntry ent)
         {
             this.variable = var;
             this.entry = ent;

@@ -7,6 +7,11 @@ namespace View
     public class InputViewer : MonoBehaviour
     {
         public event System.Action<Vector3, Vector3> PosRotUpdated;
+        public string qualifier;
+        private void Start()
+        {
+            Controller.InputDeviceController.RegisterDevice(new Model.InputDevice(), this, qualifier);
+        }
 
         private void Update()
         {
