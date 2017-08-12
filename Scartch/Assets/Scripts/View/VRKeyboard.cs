@@ -40,6 +40,7 @@ namespace View
                                                             select field).ToList();
                 buttons = result.ToDictionary(x => (VRButton)(x.GetValue(this)), x => x.Name.Substring(1));
                 buttons.Add(bDOT, ".");
+                buttons.Add(bMIN, "-");
 
                 // buttons event subscription
                 buttons.Keys.ToList().ForEach(x => x.Pressed += OnCharButtonPressed);
@@ -111,7 +112,7 @@ namespace View
             public VRButton b1, b2, b3, b4, b5, b6, b7, b8, b9, b0,
                             bQ, bW, bE, bR, bT, bY, bU, bI, bO, bP,
                             bA, bS, bD, bF, bG, bH, bJ, bK, bL, bDOT,
-                            bZ, bX, bC, bV, bB, bN, bM, bCONFIRM, bBACK;
+                            bZ, bX, bC, bV, bB, bN, bM, bMIN, bCONFIRM, bBACK;
 
             // dictionary for quick retrieval of button value
             public Dictionary<VRButton, string> buttons;

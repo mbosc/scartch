@@ -27,8 +27,8 @@ namespace Scripting
         public ScriptingElement(Actor owner, List<RefType> referenceTypes, List<Option> optionList, ScriptingType type, List<ReferenceSlotViewer> referenceSlotViewers)
         {
             this.owner = owner;
-            this.referenceTypes = referenceTypes;
-            this.optionList = optionList;
+            this.referenceTypes = referenceTypes ?? new List<RefType>();
+            this.optionList = optionList ?? new List<Option>();
             this.type = type;
             this.referenceSlotViewers = referenceSlotViewers;
 

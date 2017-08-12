@@ -6,6 +6,7 @@ using Scripting;
 using View.Resources;
 using View;
 using System.Linq;
+using NewtonVR.Example;
 
 public class ScartchResourceManager : MonoBehaviour
 {
@@ -93,5 +94,9 @@ public class ScartchResourceManager : MonoBehaviour
     public VariableMonitorWindow variableMonitorWindow;
     public ChooseModelWindow chooseModelWindow;
     public ChooseScriptingElementWindow chooseBlockWindow;
+    public ActorViewer actorViewer;
+    public ActorWindow actorWindow;
 
+    [HideInInspector]
+    public NVRLaserPointer lastRayCaster;
 }

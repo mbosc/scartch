@@ -124,7 +124,7 @@ namespace View
         {
             get { return highLighted; }
             set { highLighted = value;
-                highlight.SetActive(true);
+                highlight.SetActive(value);
             }
         }
 

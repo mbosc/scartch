@@ -12,7 +12,7 @@ namespace View
             private string text;
             private VRButton button;
             public Renderer bodyRenderer;
-            public UnityEngine.UI.Text outputText, alertText;
+            public UnityEngine.UI.Text outputText;
             private Model.RefType type;
             public event EventHandler TextChanged;
             private Material Basemat
@@ -29,7 +29,6 @@ namespace View
                     return ScartchResourceManager.instance.textBoxHighlighted;
                 }
             }
-            public UnityEngine.UI.Image alertImage;
 
             public Model.RefType Type
             {
@@ -47,18 +46,20 @@ namespace View
                 bodyRenderer.material = Basemat;
             }
 
+            private bool inited = false;
+
             private void Start()
             {
                 button = gameObject.GetComponent<VRButton>();
                 button.Pressed += AssociateKeyboard;
                 LostFocus();
-                alertImage.enabled = false;
-                alertText.enabled = false;
+                inited = true;
             }
 
             private void OnDestroy()
             {
-                button.Pressed -= AssociateKeyboard;
+                if (inited)
+                    button.Pressed -= AssociateKeyboard;
             }
 
             private void AssociateKeyboard(object sender, EventArgs e)
@@ -89,17 +90,7 @@ namespace View
 
             private void AlertIncompatibleType()
             {
-                alertText.text = "Please insert a " + Model.RefTypeHelper.Name(type) + " value.";
-                StartCoroutine(ShowAlert());
-            }
-
-            private IEnumerator ShowAlert()
-            {
-                alertText.enabled = true;
-                alertImage.enabled = true;
-                yield return new WaitForSeconds(5);
-                alertText.enabled = false;
-                alertImage.enabled = false;
+                ScartchResourceManager.instance.lastRayCaster.Alert("Please insert a " + Model.RefTypeHelper.Name(type) + " value.");
             }
         }
     }

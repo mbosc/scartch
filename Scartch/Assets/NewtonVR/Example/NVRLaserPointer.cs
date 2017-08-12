@@ -11,6 +11,24 @@ namespace NewtonVR.Example
         private static int state = 0;
         private float LineWidth = 0.2f;
 
+        public UnityEngine.UI.Image alertImage;
+        public UnityEngine.UI.Text alertText;
+
+        public void Alert(string text)
+        {
+            alertText.text = "<color=red>Alert</color>\n" + text;
+            StartCoroutine(ShowAlert());
+        }
+
+        private IEnumerator ShowAlert()
+        {
+            alertText.enabled = true;
+            alertImage.enabled = true;
+            yield return new WaitForSeconds(5);
+            alertText.enabled = false;
+            alertImage.enabled = false;
+        }
+
         private LineRenderer Line;
 
         private NVRHand Hand;
@@ -41,6 +59,9 @@ namespace NewtonVR.Example
             }
 
             Line.useWorldSpace = true;
+
+            alertImage.enabled = false;
+            alertText.enabled = false;
         }
 
         private void LateUpdate()
@@ -70,12 +91,18 @@ namespace NewtonVR.Example
 
                     if (Hand.Inputs[NVRButtons.Trigger].PressDown)
                     {
-                        Debug.Log(this.gameObject.name + " pointed at " + hitInfo.collider.gameObject.name + " (state " + state + ", RayHittable " + (hitInfo.collider.gameObject.GetComponentInParent<View.Resources.RayHittable>() != null ? "yes" : "no") + ")");
+                        //Debug.Log(this.gameObject.name + " pointed at " + hitInfo.collider.gameObject.name + " (state " + state + ", RayHittable " + (hitInfo.collider.gameObject.GetComponentInParent<View.Resources.RayHittable>() != null ? "yes" : "no") + ")");
                         if (hitInfo.collider.gameObject.GetComponentInParent<View.Resources.RayHittable>() != null)
                             if (state == 1)
+                            {
                                 hitInfo.collider.gameObject.GetComponentInParent<View.Resources.RayHittable>().HitByBlueRay();
+                                ScartchResourceManager.instance.lastRayCaster = this;
+                            }
                             else if (state == 2)
+                            {
                                 hitInfo.collider.gameObject.GetComponentInParent<View.Resources.RayHittable>().HitByRedRay();
+                                ScartchResourceManager.instance.lastRayCaster = this;
+                            }
                     }
                 }
 

@@ -80,12 +80,18 @@ namespace View
             varWindow.VariableAdded += VarWindow_VariableAdded;
             varWindow.VariableRemoved += VarWindow_VariableRemoved;
 
+            actor.NameChanged += Actor_NameChanged;
             actor.Destroyed += Actor_Destroyed;
             actor.MessageChanged += Actor_MessageChanged;
             actor.Moved += Actor_Moved;
             actor.ModelChanged += Actor_ModelChanged;
             actor.ScaleChanged += Actor_ScaleChanged;
             actor.VolumeChanged += Actor_VolumeChanged;
+        }
+
+        private void Actor_NameChanged(string obj)
+        {
+            UpdateFields();
         }
 
         private void Actor_VolumeChanged(float obj)
@@ -133,9 +139,13 @@ namespace View
 
         private void OnMessageChanged(object sender, EventArgs e)
         {
+            if (sender.Equals(msgShowHideBtn))
+            {
+                msgVisibility = !msgVisibility;
+            }
             if (MessageChanged != null)
             {
-                MessageChanged(messageShowHide, msgBox.Text);
+                MessageChanged(msgVisibility, msgBox.Text);
             }
         }
 
@@ -151,7 +161,7 @@ namespace View
         {
             if (ScaleChanged != null)
             {
-                ScaleChanged(volBox.Text.ToStdNum());
+                ScaleChanged(scaleBox.Text.ToStdNum());
             }
         }
 
@@ -215,7 +225,7 @@ namespace View
             addSEBtn.Pressed -= AddSEBtn_Pressed;
             varWindow.VariableAdded -= VarWindow_VariableAdded;
             varWindow.VariableRemoved -= VarWindow_VariableRemoved;
-
+            actor.NameChanged -= Actor_NameChanged;
             actor.Destroyed -= Actor_Destroyed;
             actor.MessageChanged -= Actor_MessageChanged;
             actor.Moved -= Actor_Moved;

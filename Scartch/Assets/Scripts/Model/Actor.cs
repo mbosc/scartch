@@ -11,11 +11,15 @@ namespace Model
         public string Name
         {
             get { return name; }
-            set { name = value; }
+            set { name = value;
+                if (NameChanged != null)
+                    NameChanged(name);
+            }
         }
 
+        public event System.Action<string> NameChanged;
 
-        private Vector3 position;
+        private Vector3 position = Vector3.zero;
 
         public Vector3 Position
         {
@@ -28,7 +32,7 @@ namespace Model
             }
         }
 
-        private Vector3 rotation;
+        private Vector3 rotation = Vector3.zero;
 
         public Vector3 Rotation
         {
@@ -41,7 +45,7 @@ namespace Model
             }
         }
 
-        private float scale;
+        private float scale = 1;
 
         public float Scale
         {
@@ -54,7 +58,7 @@ namespace Model
             }
         }
 
-        private float volume;
+        private float volume = 0.5f;
 
         public float Volume
         {
@@ -67,7 +71,7 @@ namespace Model
             }
         }
 
-        private string message;
+        private string message = "";
 
         public string Message
         {
@@ -80,7 +84,7 @@ namespace Model
             }
         }
 
-        private bool isMessageVisible;
+        private bool isMessageVisible = false;
 
         public bool IsMessageVisible
         {
@@ -93,7 +97,7 @@ namespace Model
             }
         }
 
-        private ActorModel model;
+        private ActorModel model = ActorModel.GetActorModel(0);
 
         public ActorModel Model
         {
@@ -141,7 +145,19 @@ namespace Model
 
         public void RemoveVariable(Variable var)
         {
+            var.Destroy();
             localVariables.Remove(var);
+        }
+
+        public void RemoveVariable(int num)
+        {
+            localVariables[num].Destroy();
+            localVariables.RemoveAt(num);
+        }
+
+        public Variable GetVariable(int num)
+        {
+            return localVariables[num];
         }
     }
 }
