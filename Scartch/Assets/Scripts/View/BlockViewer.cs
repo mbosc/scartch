@@ -8,16 +8,34 @@ namespace View
 {
     public class BlockViewer : BlockoidViewer
     {
+        public BlockAttachPoint attachPoint;
         private BlockViewer next;
+        protected List<BlockAttachPoint> attachPoints;
+        protected override void Start()
+        {
+            base.Start();
+            attachPoints = new List<BlockAttachPoint>();
+            attachPoints.Add(attachPoint);
+            HierarchyHeightUpdate();
+            attachPoint.Attached += SnapNext;
+            attachPoint.Detached += UnsnapNext;
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            attachPoint.Attached -= SnapNext;
+            attachPoint.Detached -= UnsnapNext;
+        }
 
         public override BlockViewer Next
         {
             get { return next; }
             set
-            { 
+            {
                 //unsubscribe old
                 if (next != null)
-                    next.Grabbed -= Detach;
+                    next.Grabbed -= attachPoint.Detach;
 
                 //assign it
                 next = value;
@@ -25,15 +43,17 @@ namespace View
                 //align it
                 if (next != null)
                 {
-                    next.transform.SetParent(this.transform, false);
+                    next.transform.SetParent(this.attachPoint.transform, false);
                     next.transform.localEulerAngles = Vector3.zero;
-                    next.transform.localPosition = new Vector3(0, -2, 0);
+                    next.transform.localPosition = new Vector3(0, -4, 0);
                     next.transform.SetParent(null);
                 }
 
+                HierarchyHeightUpdate();
+
                 //subscribe new
                 if (next != null)
-                    next.Grabbed += Detach;
+                    next.Grabbed += attachPoint.Detach;
             }
         }
 
@@ -52,8 +72,26 @@ namespace View
         public void SnapNext(BlockViewer next)
         {
             Next = next;
+            HierarchyHeightUpdate();
             if (SnappedNext != null)
                 SnappedNext(Next);
+        }
+
+        private int hierarchyHeight;
+
+        public int HierarchyHeight
+        {
+            get { return hierarchyHeight; }
+            set { hierarchyHeight = value;
+                if (HierarchyHeightChanged != null)
+                    HierarchyHeightChanged(value);
+            }
+        }
+
+        protected virtual void HierarchyHeightUpdate()
+        {
+            var nextLength = next == null ? 0 : next.HierarchyHeight;
+            HierarchyHeight = 1 + nextLength;
         }
 
         public void UnsnapNext()
@@ -69,7 +107,8 @@ namespace View
                 Tested();
         }
 
-        public GameObject hook, body;
+        public GameObject body;
+        public List<GameObject> elementsToPaint;
         private Scripting.ScriptingType type;
         public override Scripting.ScriptingType Type
         {
@@ -83,8 +122,7 @@ namespace View
 
                 // Update block colour
                 var mat = ScartchResourceManager.instance.blockTypeMaterials[Type];
-                body.GetComponent<Renderer>().material = mat;
-                hook.GetComponent<Renderer>().material = mat;
+                elementsToPaint.ForEach(x => x.GetComponent<Renderer>().material = mat);
 
                 // Determine best colour for lettering
                 var deltawhite = Vector3.Distance(new Vector3(1, 1, 1), new Vector3(mat.color.r, mat.color.g, mat.color.b));
@@ -93,7 +131,8 @@ namespace View
             }
         }
 
-        private int length = 1, baseoffset = 1, lettersPerUnit = 4;
+        protected int length = 1;
+        private int baseoffset = 1, lettersPerUnit = 4;
         private bool searchingNearest = false;
         public bool SearchingNearest
         {
@@ -103,7 +142,7 @@ namespace View
                 searchingNearest = value;
                 if (!value && Nearest != null)
                 {
-                    Nearest.Next = this;
+                    Nearest.Attach(this);
 
                     Nearest = null;
                 }
@@ -130,23 +169,19 @@ namespace View
                 textBox.text = text;
             }
         }
-        private void Detach(object sender, EventArgs e)
-        {
-            this.Next = null;
-        }
-        public int Length
+        public virtual int Length
         {
             get { return length; }
             set
             {
                 length = Math.Max(1, value);
-                body.transform.localPosition = new Vector3(baseoffset + value, 0, 0);
-                body.transform.localScale = new Vector3(2 * value, 2, 2);
+                body.transform.localPosition = new Vector3(baseoffset + length, 0, 0);
+                body.transform.localScale = new Vector3(2 * length, 2, 2);
             }
         }
 
-        private BlockoidViewer nearest;
-        public BlockoidViewer Nearest
+        private BlockAttachPoint nearest;
+        public BlockAttachPoint Nearest
         {
             get { return nearest; }
             set
@@ -158,12 +193,8 @@ namespace View
                     nearest.Highlight(true);
             }
         }
-        public List<GameObject> highlightElements;
-        public override void Highlight(bool doing)
-        {
-            highlightElements.ForEach(x => x.SetActive(doing));
-        }
-        public void Regroup()
+
+        public virtual void Regroup()
         {
             if (Next != null)
             {
@@ -172,7 +203,7 @@ namespace View
             }
         }
 
-        public void Degroup()
+        public virtual void Degroup()
         {
             if (Next != null)
             {
@@ -190,16 +221,15 @@ namespace View
                 Nearest = FindNearest();
         }
 
-        private BlockoidViewer FindNearest()
+        private BlockAttachPoint FindNearest()
         {
             var min = float.PositiveInfinity;
-            BlockoidViewer result = null;
+            BlockAttachPoint result = null;
             //coseno positivo
 
-            var compatibleBlocks = FindObjectsOfType<BlockoidViewer>().ToList().Where(x => !x.Equals(this) && Mathf.Cos(Mathf.PI / 180 * Vector3.Angle(this.transform.up, x.transform.up)) > 0 &&
-                Mathf.Abs(Vector3.Angle(-this.transform.up, (x.transform.position - this.transform.position).normalized)) > 90 && x.Next == null);
+            var compatibleBlocks = FindObjectsOfType<BlockAttachPoint>().ToList().Where(x => !attachPoints.Contains(x) && Mathf.Cos(Mathf.PI / 180 * Vector3.Angle(this.transform.up, x.transform.up)) > 0 &&
+                Mathf.Abs(Vector3.Angle(-this.transform.up, (x.transform.position - this.transform.position).normalized)) > 90 && x.Free);
             compatibleBlocks.ToList().ForEach(x => { if (Vector3.Distance(this.transform.position, x.transform.position) < min) { result = x; min = Vector3.Distance(this.transform.position, x.transform.position); } });
-
             if (min < ScartchResourceManager.instance.blockSnapThreshold * this.transform.localScale.x)
                 return result;
 
@@ -216,9 +246,8 @@ namespace View
             throw new NotImplementedException();
         }
 
-        private void Detach()
-        {
-            this.Next = null;
-        }
+        public event System.Action<int> HierarchyHeightChanged;
+
+
     }
 }

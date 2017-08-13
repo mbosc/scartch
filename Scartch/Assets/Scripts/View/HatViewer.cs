@@ -13,10 +13,11 @@ namespace View
         {
             get { return next; }
             set
-            { 
+            {
                 //unsubscribe old
                 if (next != null)
-                    next.Grabbed -= Detach;
+                    next.Grabbed -= attachPoint.Detach;
+                 
 
                 //assign it
                 next = value;
@@ -24,15 +25,16 @@ namespace View
                 //align it
                 if (next != null)
                 {
-                    next.transform.SetParent(this.transform, false);
+                    next.transform.SetParent(this.attachPoint.transform, false);
                     next.transform.localEulerAngles = Vector3.zero;
-                    next.transform.localPosition = new Vector3(0, -2, 0);
+                    next.transform.localPosition = new Vector3(0, -4, 0);
                     next.transform.SetParent(null);
+                    
                 }
 
                 //subscribe new
                 if (next != null)
-                    next.Grabbed += Detach;
+                    next.Grabbed += attachPoint.Detach;
             }
         }
 
@@ -102,10 +104,6 @@ namespace View
                 textBox.text = text;
             }
         }
-        private void Detach(object sender, EventArgs e)
-        {
-            this.Next = null;
-        }
         public int Length
         {
             get { return length; }
@@ -120,10 +118,21 @@ namespace View
         }
 
         public List<GameObject> highlightElements;
-        public override void Highlight(bool doing)
+        public BlockAttachPoint attachPoint;
+
+        protected override void Start()
         {
-            highlightElements.ForEach(x => x.SetActive(doing));
+            base.Start();
+            attachPoint.Attached += SnapNext;
+            attachPoint.Detached += UnsnapNext;
         }
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            attachPoint.Attached -= SnapNext;
+            attachPoint.Detached -= UnsnapNext;
+        }
+
         public void Regroup()
         {
             if (Next != null)
@@ -141,11 +150,6 @@ namespace View
                 Next.transform.SetParent(null);
 
             }
-        }
-
-        private void Detach()
-        {
-            this.Next = null;
         }
     }
 }
