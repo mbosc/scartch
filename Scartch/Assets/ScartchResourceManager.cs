@@ -56,6 +56,7 @@ public class ScartchResourceManager : MonoBehaviour
     public GameObject boolHead, stringHead, numberHead;
     public Dictionary<RefType, GameObject> referenceHeads;
     public Vector3 headRotation, tailRotation, bodyRotation;
+    public GameObject referencePrefab;
 
     [Header("Snapping Dynamics")]
     public float referenceSnapThreshold = 1.0f;
@@ -63,6 +64,7 @@ public class ScartchResourceManager : MonoBehaviour
 
     [Header("Comboboxes")]
     public VRComboboxVoice comboboxVoice;
+    public VRCombobox combobox;
 
     [Header("Windows Dimensions")]
     public VariableEntry entryPrototype;

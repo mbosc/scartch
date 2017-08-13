@@ -272,19 +272,31 @@ namespace View
             }
         }
 
-
-        //DEBUG
-        public string debugText;
-        public int debugIntUpp, debugIntLow;
-        protected override void Update()
+        public UnityEngine.UI.Text secondTextBox;
+        private string secText;
+        public string SecText
         {
-            base.Update();
-            if (debugText != Text)
-                Text = debugText;
-            //if (debugIntUpp != UpperHeight)
-            //    UpperHeight = debugIntUpp;
-            //if (debugIntLow != LowerHeight)
-            //    LowerHeight = debugIntLow;
+            get { return secText; }
+            set
+            {
+                secText = value;
+                Length = Math.Max(1 + (text.Length - 1) / lettersPerUnit, 4 + 1 + (secText.Length - 1) / lettersPerUnit);
+                secondTextBox.text = secText;
+            }
+        }
+        public override string Text
+        {
+            get
+            {
+                return text;
+            }
+
+            set
+            {
+                text = value;
+                Length = Math.Max(1 + (text.Length - 1) / lettersPerUnit, 4 + 1 + (secText.Length - 1) / lettersPerUnit);
+                textBox.text = text;
+            }
         }
     }
 }

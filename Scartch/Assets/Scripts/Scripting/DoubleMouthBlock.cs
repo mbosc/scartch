@@ -40,7 +40,7 @@ namespace Scripting
             }
         }
 
-        public DoubleMouthBlock(Actor owner, List<RefType> referenceTypes, List<Option> optionList, ScriptingType type, List<ReferenceSlotViewer> referenceSlotViewers, DoubleMouthBlockViewer viewer) : base(owner, referenceTypes, optionList, type, referenceSlotViewers, viewer)
+        public DoubleMouthBlock(Actor owner, List<Option> optionList, ScriptingType type, List<ReferenceSlotViewer> referenceSlotViewers, DoubleMouthBlockViewer viewer) : base(owner, optionList, type, referenceSlotViewers, viewer)
         {
             viewer.SnappedLowerInnerNext += OnViewerSnappedLowerInnerNext;
             viewer.SnappedUpperInnerNext += OnViewerSnappedUpperInnerNext;

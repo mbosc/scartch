@@ -161,17 +161,5 @@ namespace View
                 InnerNext.transform.SetParent(null);
             }
         }
-
-
-        //DEBUG
-        public string debugText;
-        public int debugInt;
-        protected override void Update()
-        {
-            base.Update();
-            if (debugText != Text)
-                Text = debugText;
-        }
-
     }
 }

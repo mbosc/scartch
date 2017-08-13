@@ -11,7 +11,7 @@ namespace Scripting
     {
         protected ReferenceViewer viewer;
 
-        public Reference(Actor owner, List<RefType> referenceTypes, List<Option> optionList, ScriptingType type, List<ReferenceSlotViewer> referenceSlotViewers, ReferenceViewer viewer) : base(owner, referenceTypes, optionList, type, referenceSlotViewers)
+        public Reference(Actor owner, List<Option> optionList, ScriptingType type, List<ReferenceSlotViewer> referenceSlotViewers, ReferenceViewer viewer) : base(owner, optionList, type, referenceSlotViewers)
         {
             this.viewer = viewer;
             viewer.Reference = this;

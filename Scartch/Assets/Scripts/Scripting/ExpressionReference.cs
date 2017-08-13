@@ -15,7 +15,7 @@ namespace Scripting
             return rType;
         }
 
-        public ExpressionReference(Actor owner, List<RefType> referenceTypes, List<Option> optionList, ScriptingType type, List<ReferenceSlotViewer> referenceSlotViewers, ReferenceViewer viewer, RefType rType) : base(owner, referenceTypes, optionList, type, referenceSlotViewers, viewer)
+        public ExpressionReference(Actor owner, List<Option> optionList, ScriptingType type, List<ReferenceSlotViewer> referenceSlotViewers, ReferenceViewer viewer, RefType rType) : base(owner, optionList, type, referenceSlotViewers, viewer)
         {
             this.rType = rType;
         }

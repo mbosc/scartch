@@ -32,7 +32,7 @@ namespace Scripting
             }
         }
 
-        public MouthBlock(Actor owner, List<RefType> referenceTypes, List<Option> optionList, ScriptingType type, List<ReferenceSlotViewer> referenceSlotViewers, MouthBlockViewer viewer) : base(owner, referenceTypes, optionList, type, referenceSlotViewers, viewer)
+        public MouthBlock(Actor owner, List<Option> optionList, ScriptingType type, List<ReferenceSlotViewer> referenceSlotViewers, MouthBlockViewer viewer) : base(owner, optionList, type, referenceSlotViewers, viewer)
         {
             viewer.SnappedInnerNext += OnViewerSnappedInnerNext;
             viewer.UnsnappedInnerNext += OnViewerUnsnappedInnerNext;

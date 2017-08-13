@@ -21,7 +21,7 @@ namespace Scripting
             }
         }
 
-        public Hat(Actor owner, List<RefType> referenceTypes, List<Option> optionList, ScriptingType type, List<ReferenceSlotViewer> referenceSlotViewers, HatViewer viewer) : base(owner, referenceTypes, optionList, type, referenceSlotViewers)
+        public Hat(Actor owner, List<Option> optionList, ScriptingType type, List<ReferenceSlotViewer> referenceSlotViewers, HatViewer viewer) : base(owner, optionList, type, referenceSlotViewers)
         {
             this.viewer = viewer;
 

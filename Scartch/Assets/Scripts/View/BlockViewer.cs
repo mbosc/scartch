@@ -132,7 +132,7 @@ namespace View
         }
 
         protected int length = 1;
-        private int baseoffset = 1, lettersPerUnit = 4;
+        protected int baseoffset = 1, lettersPerUnit = 4;
         private bool searchingNearest = false;
         public bool SearchingNearest
         {
@@ -158,8 +158,8 @@ namespace View
 
         }
         public UnityEngine.UI.Text textBox;
-        private string text;
-        public string Text
+        protected string text;
+        public virtual string Text
         {
             get { return text; }
             set
@@ -213,19 +213,32 @@ namespace View
             }
         }
 
+
+        public string debugtxt;
+        public bool locked;
         protected override void Update()
         {
             base.Update();
 
             if (searchingNearest)
                 Nearest = FindNearest();
+
+            //SUPERDEBUGGO
+            if (debugtxt != Text && !locked)
+                Text = debugtxt;
+            if (Input.GetKeyDown(KeyCode.Alpha9))
+            {
+                var text = Text;
+                Scripting.ScriptingElement.GenerateViewersFromText(ref text, this.gameObject);
+                Scripting.ScriptingElement.GenerateOptionsFromText(ref text, this.gameObject);
+                Text = text;
+            }
         }
 
         private BlockAttachPoint FindNearest()
         {
             var min = float.PositiveInfinity;
             BlockAttachPoint result = null;
-            //coseno positivo
 
             var compatibleBlocks = FindObjectsOfType<BlockAttachPoint>().ToList().Where(x => !attachPoints.Contains(x) && Mathf.Cos(Mathf.PI / 180 * Vector3.Angle(this.transform.up, x.transform.up)) > 0 &&
                 Mathf.Abs(Vector3.Angle(-this.transform.up, (x.transform.position - this.transform.position).normalized)) > 90 && x.Free);

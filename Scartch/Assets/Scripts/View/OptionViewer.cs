@@ -13,6 +13,7 @@ namespace View
             this.combo = combo;
             combo.options = options;
             combo.SelectionChanged += OnComboSelectionChanged;
+            combo.Init();
         }
 
         public event System.Action<int> ValueSelected;

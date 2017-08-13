@@ -10,7 +10,7 @@ namespace Scripting
     {
         private Block next;
 
-        public Block(Actor owner, List<RefType> referenceTypes, List<Option> optionList, ScriptingType type, List<ReferenceSlotViewer> referenceSlotViewers, BlockViewer viewer) : base(owner, referenceTypes, optionList, type, referenceSlotViewers)
+        public Block(Actor owner, List<Option> optionList, ScriptingType type, List<ReferenceSlotViewer> referenceSlotViewers, BlockViewer viewer) : base(owner, optionList, type, referenceSlotViewers)
         {
             this.viewer = viewer;
             viewer.Block = this;
