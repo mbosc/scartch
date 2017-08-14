@@ -13,16 +13,18 @@ namespace Scripting
         public Block(Actor owner, List<Option> optionList, ScriptingType type, List<ReferenceSlotViewer> referenceSlotViewers, BlockViewer viewer) : base(owner, optionList, type, referenceSlotViewers)
         {
             this.viewer = viewer;
-            viewer.Block = this;
-
+            viewer.Init(this);
+            
             viewer.SnappedNext += OnViewerSnappedNext;
             viewer.UnsnappedNext += OnViewerUnsnappedNext;
             viewer.Tested += OnViewerTested;
+            viewer.Type = type;
 
             referenceSlotViewers.ForEach(x =>
             {
                 viewer.Regrouped += x.Regroup;
                 viewer.Degrouped += x.Degroup;
+                x.LengthUpdated += viewer.UpdateLength;
             });
         }
 
@@ -70,6 +72,7 @@ namespace Scripting
             {
                 viewer.Regrouped -= x.Regroup;
                 viewer.Degrouped -= x.Degroup;
+                x.LengthUpdated -= viewer.UpdateLength;
             });
         }
     }

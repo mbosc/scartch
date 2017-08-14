@@ -35,7 +35,20 @@ namespace View
                 set { visible = value; }
             }
 
+            public void Init(Scripting.ScriptingElement scriptingElement)
+            {
+                this.scriptingElement = scriptingElement;
+            }
+
             private Scripting.ScriptingElement scriptingElement;
+
+            public Scripting.ScriptingElement ScriptingElement
+            {
+                get
+                {
+                    return scriptingElement;
+                }
+            }
 
             public event Action Grabbed;
             public event EventHandler Deleted;

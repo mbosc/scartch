@@ -26,6 +26,10 @@ namespace Scripting
         }
 
         private OptionViewer viewer;
+        public OptionViewer Viewer
+        {
+            get { return viewer; }
+        }
         //TODO manca questa parte di controllo
 
         public Option(List<string> valueSet, OptionViewer viewer)

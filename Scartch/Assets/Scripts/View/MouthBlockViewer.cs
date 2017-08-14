@@ -71,13 +71,6 @@ namespace View
             {
                 return base.Block;
             }
-
-            set
-            {
-                if (!(value is MouthBlock))
-                    throw new System.ArgumentException("Mouth Block Viewer must receive Mouth Blocks");
-                base.Block = value;
-            }
         }
 
         public event System.Action<BlockViewer> SnappedInnerNext;

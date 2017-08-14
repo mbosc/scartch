@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Scripting;
 using UnityEngine;
 using System.Linq;
+using Model;
 
 namespace View
 {
@@ -85,8 +86,12 @@ namespace View
             {
                 length = Math.Max(2, value);
                 UpdateAppearance();
+                if (LengthUpdated != null)
+                    LengthUpdated(Length);
             }
         }
+
+        public event Action<int> LengthUpdated;
 
         private void UpdateAppearance()
         {
@@ -140,11 +145,86 @@ namespace View
             if (Input.GetKeyDown(KeyCode.Alpha9))
             {
                 locked = true;
-                var text = Text;
-                Scripting.ScriptingElement.GenerateViewersFromText(ref text, this.gameObject).ForEach(x => { Regrouped += x.Regroup; Degrouped += x.Degroup; });
-                Scripting.ScriptingElement.GenerateOptionsFromText(ref text, this.gameObject);
+                var text = DebugExpression.description;
+                List<ReferenceSlotViewer> refl;
+                List<Option> optl;
+                Scripting.ScriptingElement.GenerateViewersFromText(ref text, gameObject, out refl, out optl);
+                var block = new DebugExpression(null, optl, ScriptingType.look, refl, this, RefType.numberType);
                 Text = text;
             }
+        }
+        private class DebugExpression : ExpressionReference
+        {
+            public DebugExpression(Actor owner, List<Option> optionList, ScriptingType type, List<ReferenceSlotViewer> referenceSlotViewers, ReferenceViewer viewer, RefType rType) : base(owner, optionList, type, referenceSlotViewers, viewer, rType)
+            {
+            }
+
+            public static string description = "<  > meno (  )";
+
+            public override string Description { get { return description; } }
+
+            public override string Evaluate()
+            {
+                return "7";
+            }
+        }
+
+        public void UpdateLength(int num, int val)
+        {
+            Debug.Log("Reference " + num + " becomes long " + val);
+            bool closing = false;
+            bool moving = false;
+            int delta = 0;
+            char charToClose = 'a';
+            string outString = "";
+            int refCounter = 0;
+            int optCounter = 0;
+            for (int i = 0; i < text.Length; i++)
+            {
+                if (!closing)
+                {
+                    if (ScriptingElement.refOpeningChars.Contains(text[i]))
+                    {
+                        if (num != refCounter)
+                        {
+                            if (!moving)
+                                refCounter++;
+                            else
+                            {
+                                var rsv = ScriptingElement.RSV[refCounter++];
+                                rsv.Regroup();
+                                rsv.transform.localPosition += new Vector3(delta / 2.0f, 0, 0);
+                                rsv.Degroup();
+                            }
+                        }
+                        else
+                        {
+                            closing = true;
+                            charToClose = ScriptingElement.refClosingChars[ScriptingElement.refOpeningChars.IndexOf(text[i])];
+                            refCounter++;
+                            delta = i;
+                        }
+                    }
+                    if (ScriptingElement.optOpeningChars.Contains(text[i]))
+                    {
+                        if (moving)
+                        {
+                            ScriptingElement.OPT[optCounter++].Viewer.Combo.transform.localPosition += new Vector3(delta / 2.0f, 0, 0);
+                        }
+                        optCounter++;
+                    }
+                    outString += text[i];
+                }
+                else if (closing && text[i] == charToClose)
+                {
+                    closing = false;
+                    moving = true;
+                    delta = val - (i - delta + 1);
+                    outString += new string(' ', val - 2);
+                    outString += text[i];
+                }
+            }
+            Text = outString;
         }
 
         private ReferenceSlotViewer nearest;
@@ -195,7 +275,7 @@ namespace View
             ReferenceSlotViewer result = null;
             //coseno positivo
 
-            var compatibleSlots = FindObjectsOfType<ReferenceSlotViewer>().ToList().Where(x => x.Filler == null);
+            var compatibleSlots = FindObjectsOfType<ReferenceSlotViewer>().ToList().Where(x => x.Filler == null && !(this.ScriptingElement.RSV.Any(y => y.ContainsInSub(x))));
 
             compatibleSlots.ToList().ForEach(x => { if (Vector3.Distance(this.transform.position, x.transform.position + x.transform.right - x.transform.forward * 0.5f) < min) { result = x; min = Vector3.Distance(this.transform.position, x.transform.position); } });
 

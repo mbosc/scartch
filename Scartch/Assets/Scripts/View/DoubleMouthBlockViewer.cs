@@ -157,13 +157,6 @@ namespace View
             {
                 return base.Block;
             }
-
-            set
-            {
-                if (!(value is DoubleMouthBlock))
-                    throw new System.ArgumentException("Double Mouth Block Viewer must receive Double Mouth Blocks");
-                base.Block = value;
-            }
         }
 
         protected override void Start()

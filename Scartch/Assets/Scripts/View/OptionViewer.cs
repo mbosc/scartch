@@ -7,6 +7,10 @@ namespace View
     public class OptionViewer
     {
         private Resources.VRCombobox combo;
+        public Resources.VRCombobox Combo
+        {
+            get { return combo; }
+        }
 
         public OptionViewer(Resources.VRCombobox combo, List<string> options)
         {

@@ -15,10 +15,13 @@ namespace Scripting
         {
             this.viewer = viewer;
             viewer.Reference = this;
+            viewer.Type = type;
+            viewer.Init(this);
             referenceSlotViewers.ForEach(x =>
             {
                 viewer.Regrouped += x.Regroup;
                 viewer.Degrouped += x.Degroup;
+                x.LengthUpdated += viewer.UpdateLength;
             });
         }
 
@@ -46,6 +49,7 @@ namespace Scripting
             {
                 viewer.Regrouped -= x.Regroup;
                 viewer.Degrouped -= x.Degroup;
+                x.LengthUpdated -= viewer.UpdateLength;
             });
         }
     }

@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Scripting;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Model;
 
 namespace View
 {
@@ -69,8 +71,7 @@ namespace View
 
         virtual public Scripting.Block Block
         {
-            get { return block; }
-            set { block = value; }
+            get { return ScriptingElement as Block; }
         }
 
 
@@ -90,7 +91,9 @@ namespace View
         public int HierarchyHeight
         {
             get { return hierarchyHeight; }
-            set { hierarchyHeight = value;
+            set
+            {
+                hierarchyHeight = value;
                 if (HierarchyHeightChanged != null)
                     HierarchyHeightChanged(value);
             }
@@ -241,11 +244,94 @@ namespace View
             if (Input.GetKeyDown(KeyCode.Alpha9))
             {
                 locked = true;
-                var text = Text;
-                Scripting.ScriptingElement.GenerateViewersFromText(ref text, this.gameObject).ForEach(x => { Regrouped += x.Regroup; Degrouped += x.Degroup; }) ;
-                Scripting.ScriptingElement.GenerateOptionsFromText(ref text, this.gameObject);
+                var text = DebugBlock.description;
+                List<ReferenceSlotViewer> refl;
+                List<Option> optl;
+                Scripting.ScriptingElement.GenerateViewersFromText(ref text, gameObject, out refl, out optl);
+                Block block = new DebugBlock(null, optl, ScriptingType.variable, refl, this);
                 Text = text;
             }
+        }
+        private class DebugBlock : Block
+        {
+            public DebugBlock(Actor owner, List<Option> optionList, ScriptingType type, List<ReferenceSlotViewer> referenceSlotViewers, BlockViewer viewer) : base(owner, optionList, type, referenceSlotViewers, viewer)
+            {
+            }
+
+            public static string description = "yolo {a|b|cc} <    > (  ) {a|b|abc}";
+
+            public override string Description
+            {
+                get
+                {
+                    return description;
+                }
+            }
+
+            public override void Execute()
+            {
+                Debug.Log("EXECUTION");
+            }
+        }
+
+
+
+        public void UpdateLength(int num, int val)
+        {
+            Debug.Log("Reference " + num + " becomes long " + val);
+            bool closing = false;
+            bool moving = false;
+            int delta = 0;
+            char charToClose = 'a';
+            string outString = "";
+            int refCounter = 0;
+            int optCounter = 0;
+            for (int i = 0; i < text.Length; i++)
+            {
+                if (!closing)
+                {
+                    if (ScriptingElement.refOpeningChars.Contains(text[i]))
+                    {
+                        if (num != refCounter)
+                        {
+                            if (!moving)
+                                refCounter++;
+                            else
+                            {
+                                var rsv = ScriptingElement.RSV[refCounter++];
+                                rsv.Regroup();
+                                rsv.transform.localPosition += new Vector3(delta / 2.0f, 0, 0);
+                                rsv.Degroup();
+                            }
+                        }
+                        else
+                        {
+                            closing = true;
+                            charToClose = ScriptingElement.refClosingChars[ScriptingElement.refOpeningChars.IndexOf(text[i])];
+                            refCounter++;
+                            delta = i;
+                        }
+                    }
+                    if (ScriptingElement.optOpeningChars.Contains(text[i]))
+                    {
+                        if (moving)
+                        {
+                            ScriptingElement.OPT[optCounter++].Viewer.Combo.transform.localPosition += new Vector3(delta / 2.0f, 0, 0);
+                        }
+                        optCounter++;
+                    }
+                    outString += text[i];
+                }
+                else if (closing && text[i] == charToClose)
+                {
+                    closing = false;
+                    moving = true;
+                    delta = val - (i - delta + 1);
+                    outString += new string(' ', val - 2);
+                    outString += text[i];
+                }
+            }
+            Text = outString;
         }
 
         private BlockAttachPoint FindNearest()

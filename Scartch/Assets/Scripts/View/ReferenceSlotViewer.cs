@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Model;
 using System;
+using System.Linq;
 
 namespace View
 {
@@ -41,15 +42,20 @@ namespace View
 
         public event System.Action<int> SlotEmptied;
         public event System.Action<int, ReferenceViewer> SlotFilled;
+        public event System.Action<int, int> LengthUpdated;
 
         public void FillSlot()
         {
+            if (LengthUpdated != null)
+                LengthUpdated(number, Filler.Length);
             if (SlotFilled != null)
                 SlotFilled(number, Filler);
         }
 
         public void EmptySlot()
         {
+            if (LengthUpdated != null)
+                LengthUpdated(number, 4);
             if (SlotEmptied != null)
                 SlotEmptied(number);
         }
@@ -94,7 +100,10 @@ namespace View
             {
                 //unsubscribe old
                 if (Filler != null)
+                {
                     Filler.Grabbed -= Detach;
+                    Filler.LengthUpdated -= Filler_LengthUpdated;
+                }
 
                 //assign it
                 filler = value;
@@ -110,11 +119,24 @@ namespace View
                 }
 
                 //subscribe new
-                if (filler != null)
+                if (filler != null) {
                     filler.Grabbed += Detach;
+                    filler.LengthUpdated += Filler_LengthUpdated;
+                }
 
                 DisappearingElements.ForEach(x => x.SetActive(value == null));
+
+                if (Filler == null)
+                    EmptySlot();
+                else
+                    FillSlot();
             }
+        }
+
+        private void Filler_LengthUpdated(int obj)
+        {
+            if (LengthUpdated != null)
+                LengthUpdated(number, obj);
         }
 
         private void Detach()
@@ -130,6 +152,14 @@ namespace View
             else
                 mat = ScartchResourceManager.instance.textBoxNotHighlighted;
             DisappearingElements.ForEach(x => x.GetComponent<Renderer>().material = mat);
+        }
+
+        public bool ContainsInSub(ReferenceSlotViewer x)
+        {
+            bool subcont = false;
+            if (Filler != null)
+                subcont = Filler.ScriptingElement.RSV.Any(y => y.ContainsInSub(x));
+            return this.Equals(x) || subcont;
         }
     }
 }

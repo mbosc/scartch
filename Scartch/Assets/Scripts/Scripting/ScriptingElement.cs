@@ -16,6 +16,14 @@ namespace Scripting
         protected ScriptingType type;
         public event Action Destroyed;
         protected List<ReferenceSlotViewer> referenceSlotViewers;
+        public List<ReferenceSlotViewer> RSV
+        {
+            get { return referenceSlotViewers; }
+        }
+        public List<Option> OPT
+        {
+            get { return optionList; }
+        }
 
         public abstract string Description { get; }
 
@@ -77,13 +85,19 @@ namespace Scripting
                 Destroyed();
         }
 
-        public static List<ReferenceSlotViewer> GenerateViewersFromText(ref string text, GameObject parent)
+        public static void GenerateViewersFromText(ref string text, GameObject parent, out List<ReferenceSlotViewer> refViewers, out List<Option> options)
         {
-            var res = new List<ReferenceSlotViewer>();
+            var rvw = new List<ReferenceSlotViewer>();
+            var opts = new List<Option>();
             bool closing = false;
             ReferenceSlotViewer refPF = null;
             char charToClose = 'a';
             string outString = "";
+            bool workingOnOpt = false;
+            int newpos = 0;
+            int startIndex = 0;
+            string currentString = "";
+            List<string> currentStringList = null;
             for (int i = 0; i < text.Length; i++)
             {
                 if (!closing)
@@ -94,88 +108,148 @@ namespace Scripting
                         charToClose = refClosingChars[refOpeningChars.IndexOf(text[i])];
                         refPF = GameObject.Instantiate(ScartchResourceManager.instance.referencePrefab).GetComponent<ReferenceSlotViewer>();
                         refPF.transform.SetParent(parent.transform, false);
-                        var offset = new Vector3(1 + i / 2.0f, 0, -1);
+                        var offset = new Vector3(1 + newpos / 2.0f, 0, -1);
                         if (parent.GetComponent<BlockoidViewer>() == null)
-                            offset = new Vector3(i, 0, -1) / 2;
+                            offset = new Vector3(newpos, 0, -1) / 2;
                         refPF.transform.localPosition = offset;
                         refPF.transform.localScale = Vector3.one;
                         refPF.Type = (RefType)refOpeningChars.IndexOf(text[i]);
+
                     }
-                    else
-                        outString += text[i];
-                }
-                else if (closing && text[i] == charToClose)
-                {
-                    closing = false;
-                    res.Add(refPF);
-                    outString += "    ";
-                }
-            }
-            if (closing)
-                throw new Exception("Illegal status!");
-            text = outString;
-            return res;
-        }
-        public static List<Option> GenerateOptionsFromText(ref string text, GameObject parent)
-        {
-            var res = new List<Option>();
-            bool closing = false;
-            int startIndex = 0;
-            char charToClose = 'a';
-            string outString = "";
-            string currentString = "";
-            List<string> currentStringList = null;
-            for (int i = 0; i < text.Length; i++)
-            {
-                if (!closing)
-                {
-                    if (optOpeningChars.Contains(text[i]))
+                    else if (optOpeningChars.Contains(text[i]))
                     {
+                        workingOnOpt = true;
                         closing = true;
                         charToClose = optClosingChars[optOpeningChars.IndexOf(text[i])];
-                        startIndex = i;
+                        startIndex = newpos;
                         currentStringList = new List<string>();
                     }
-                    else
-                        outString += text[i];
+                    outString += text[i];
+                    newpos++;
                 }
                 else
                 {
-                    if (text[i] == '|')
+                    if (workingOnOpt)
                     {
-                        currentStringList.Add(currentString.Trim());
-                        currentString = "";
+                        if (text[i] == '|')
+                        {
+                            currentStringList.Add(currentString.Trim());
+                            currentString = "";
+                        }
+                        else if (text[i] == charToClose)
+                        {
+                            currentStringList.Add(currentString.Trim());
+                            currentString = "";
+                            closing = false;
+                            int max = currentStringList.Max(x => x.Length);
+                            var addition = new string(' ', max + 2) + "}";
+                            outString += addition;
+                            newpos += addition.Length;
+
+                            var combo = GameObject.Instantiate(ScartchResourceManager.instance.combobox).GetComponent<View.Resources.VRCombobox>();
+                            combo.transform.SetParent(parent.transform, false);
+                            var offset = new Vector3(1 + startIndex / 2.0f, 0, -1);
+                            if (parent.GetComponent<BlockoidViewer>() == null)
+                                offset = new Vector3(startIndex, 0, -1);
+                            combo.transform.localPosition = offset;
+                            combo.transform.localScale = Vector3.one / 2;
+                            var viewer = new OptionViewer(combo, currentStringList);
+                            var opt = new Option(currentStringList, viewer);
+                            opts.Add(opt);
+                            workingOnOpt = false;
+                        }
+                        else
+                        {
+                            currentString += text[i];
+                        }
                     }
-                    else if (text[i] == charToClose)
+                    else if (closing && text[i] == charToClose)
                     {
-                        currentStringList.Add(currentString.Trim());
-                        currentString = "";
                         closing = false;
-                        int max = currentStringList.Max(x => x.Length);
-                        outString += new string(' ', max + 3);
-                        var combo = GameObject.Instantiate(ScartchResourceManager.instance.combobox).GetComponent<View.Resources.VRCombobox>();
-                        combo.transform.SetParent(parent.transform, false);
-                        var offset = new Vector3(1 + startIndex / 2.0f, 0, -1);
-                        if (parent.GetComponent<BlockoidViewer>() == null)
-                            offset = new Vector3(startIndex, 0, -1);
-                        combo.transform.localPosition = offset;
-                        combo.transform.localScale = Vector3.one/2;
-                        var viewer = new OptionViewer(combo, currentStringList);
-                        var opt = new Option(currentStringList, viewer);
-                        res.Add(opt);
-                    }
-                    else
-                    {
-                        currentString += text[i];
+                        rvw.Add(refPF);
+                        refPF.Number = rvw.IndexOf(refPF);
+                        outString += "  ";
+                        outString += text[i];
+                        newpos += 3;
                     }
                 }
             }
             if (closing)
                 throw new Exception("Illegal status!");
             text = outString;
-            return res;
+            refViewers = rvw;
+            options = opts;
         }
+        //public static List<Option> GenerateOptionsFromText(ref string text, GameObject parent)
+        //{
+        //    var res = new List<Option>();
+            
+        //    bool closing = false;
+        //    int startIndex = 0;
+        //    char charToClose = 'a';
+        //    string outString = "";
+        //    string currentString = "";
+        //    List<string> currentStringList = null;
+        //    int newpos = 0;
+        //    for (int i = 0; i < text.Length; i++)
+        //    {
+        //        if (!closing)
+        //        {
+        //            if (optOpeningChars.Contains(text[i]))
+        //            {
+        //                closing = true;
+        //                charToClose = optClosingChars[optOpeningChars.IndexOf(text[i])];
+        //                startIndex = newpos;
+        //                currentStringList = new List<string>();
+        //            }
+        //            else
+        //            {
+        //                outString += text[i];
+        //                newpos++;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            if (text[i] == '|')
+        //            {
+        //                currentStringList.Add(currentString.Trim());
+        //                currentString = "";
+        //            }
+        //            else if (text[i] == charToClose)
+        //            {
+        //                currentStringList.Add(currentString.Trim());
+        //                currentString = "";
+        //                closing = false;
+        //                int max = currentStringList.Max(x => x.Length);
+        //                var addition = "{" + new string(' ', max + 2) + "}";
+        //                outString += addition;
+        //                newpos += addition.Length; 
+
+        //                var combo = GameObject.Instantiate(ScartchResourceManager.instance.combobox).GetComponent<View.Resources.VRCombobox>();
+        //                combo.transform.SetParent(parent.transform, false);
+        //                var offset = new Vector3(1 + startIndex / 2.0f, 0, -1);
+        //                if (parent.GetComponent<BlockoidViewer>() == null)
+        //                    offset = new Vector3(startIndex, 0, -1);
+        //                combo.transform.localPosition = offset;
+        //                combo.transform.localScale = Vector3.one / 2;
+        //                var viewer = new OptionViewer(combo, currentStringList);
+        //                var opt = new Option(currentStringList, viewer);
+        //                res.Add(opt);
+
+        //            }
+        //            else
+        //            {
+        //                currentString += text[i];
+        //            }
+        //        }
+        //    }
+        //    if (closing)
+        //        throw new Exception("Illegal status!");
+        //    text = outString;
+        //    return res;
+        //}
         public static string refOpeningChars = "<([", refClosingChars = ">)]";
         public static string optOpeningChars = "{", optClosingChars = "}";
+        public static string openingChars = "<([{", closingChars = ">)]}";
     }
 }
