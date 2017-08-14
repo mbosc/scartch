@@ -15,6 +15,11 @@ namespace Scripting
         {
             this.viewer = viewer;
             viewer.Reference = this;
+            referenceSlotViewers.ForEach(x =>
+            {
+                viewer.Regrouped += x.Regroup;
+                viewer.Degrouped += x.Degroup;
+            });
         }
 
         public override Sprite Sprite
@@ -32,5 +37,16 @@ namespace Scripting
 
         public abstract RefType GetRefType();
         public abstract string Evaluate();
+
+
+        public override void Destroy()
+        {
+            base.Destroy();
+            referenceSlotViewers.ForEach(x =>
+            {
+                viewer.Regrouped -= x.Regroup;
+                viewer.Degrouped -= x.Degroup;
+            });
+        }
     }
 }

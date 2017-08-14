@@ -125,12 +125,26 @@ namespace View
 
         private int color = 0;
 
+        public string debugtxt = "geogra ( ) fia";
+        public bool locked = true;
         protected override void Update()
         {
             base.Update();
 
             if (searchingNearest)
                 Nearest = FindNearest();
+
+            //SUPERDEBUGGO
+            if (debugtxt != Text && !locked)
+                Text = debugtxt;
+            if (Input.GetKeyDown(KeyCode.Alpha9))
+            {
+                locked = true;
+                var text = Text;
+                Scripting.ScriptingElement.GenerateViewersFromText(ref text, this.gameObject).ForEach(x => { Regrouped += x.Regroup; Degrouped += x.Degroup; });
+                Scripting.ScriptingElement.GenerateOptionsFromText(ref text, this.gameObject);
+                Text = text;
+            }
         }
 
         private ReferenceSlotViewer nearest;
@@ -189,6 +203,20 @@ namespace View
                 return result;
 
             else return null;
+        }
+
+        public event Action Regrouped, Degrouped;
+
+        public void Degroup()
+        {
+            if (Degrouped != null)
+                Degrouped();
+        }
+
+        public void Regroup()
+        {
+            if (Regrouped != null)
+                Regrouped();
         }
     }
 }

@@ -20,6 +20,8 @@ namespace View
                 {
                     upperInnerNext.Grabbed -= upperInnerAttachPoint.Detach;
                     upperInnerNext.HierarchyHeightChanged -= UpperHeightUpdate;
+                    Regrouped -= upperInnerNext.Regroup;
+                    Degrouped -= upperInnerNext.Degroup;
                 }
 
                 //assign it
@@ -45,6 +47,8 @@ namespace View
                 {
                     upperInnerNext.Grabbed += upperInnerAttachPoint.Detach;
                     upperInnerNext.HierarchyHeightChanged += UpperHeightUpdate;
+                    Regrouped += upperInnerNext.Regroup;
+                    Degrouped += upperInnerNext.Degroup;
                 }
             }
         }
@@ -82,6 +86,8 @@ namespace View
                 {
                     lowerInnerNext.Grabbed -= lowerInnerAttachPoint.Detach;
                     lowerInnerNext.HierarchyHeightChanged -= LowerHeightUpdate;
+                    Regrouped -= lowerInnerNext.Regroup;
+                    Degrouped -= lowerInnerNext.Degroup;
                 }
 
                 //assign it
@@ -107,6 +113,8 @@ namespace View
                 {
                     lowerInnerNext.Grabbed += lowerInnerAttachPoint.Detach;
                     lowerInnerNext.HierarchyHeightChanged += LowerHeightUpdate;
+                    Regrouped += lowerInnerNext.Regroup;
+                    Degrouped += lowerInnerNext.Degroup;
                 }
             }
         }
@@ -273,14 +281,14 @@ namespace View
         }
 
         public UnityEngine.UI.Text secondTextBox;
-        private string secText;
+        private string secText = "";
         public string SecText
         {
             get { return secText; }
             set
             {
                 secText = value;
-                Length = Math.Max(1 + (text.Length - 1) / lettersPerUnit, 4 + 1 + (secText.Length - 1) / lettersPerUnit);
+                Length = Math.Max(1 + (text.Length - 1) / lettersPerUnit, 2 + (secText.Length - 1) / lettersPerUnit);
                 secondTextBox.text = secText;
             }
         }
@@ -294,7 +302,7 @@ namespace View
             set
             {
                 text = value;
-                Length = Math.Max(1 + (text.Length - 1) / lettersPerUnit, 4 + 1 + (secText.Length - 1) / lettersPerUnit);
+                Length = Math.Max(1 + (text.Length - 1) / lettersPerUnit, 2 + (secText.Length - 1) / lettersPerUnit);
                 textBox.text = text;
             }
         }

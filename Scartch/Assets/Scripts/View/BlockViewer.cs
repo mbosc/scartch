@@ -35,7 +35,11 @@ namespace View
             {
                 //unsubscribe old
                 if (next != null)
+                {
                     next.Grabbed -= attachPoint.Detach;
+                    Regrouped -= next.Regroup;
+                    Degrouped -= next.Degroup;
+                }
 
                 //assign it
                 next = value;
@@ -53,7 +57,11 @@ namespace View
 
                 //subscribe new
                 if (next != null)
+                {
                     next.Grabbed += attachPoint.Detach;
+                    Regrouped += next.Regroup;
+                    Degrouped += next.Degroup;
+                }
             }
         }
 
@@ -194,20 +202,24 @@ namespace View
             }
         }
 
+        public event Action Regrouped, Degrouped;
+
         public virtual void Regroup()
         {
+            if (Regrouped != null)
+                Regrouped();
             if (Next != null)
             {
-                Next.Regroup();
                 Next.transform.SetParent(this.transform);
             }
         }
 
         public virtual void Degroup()
         {
+            if (Degrouped != null)
+                Degrouped();
             if (Next != null)
             {
-                Next.Degroup();
                 Next.transform.SetParent(null);
 
             }
@@ -228,8 +240,9 @@ namespace View
                 Text = debugtxt;
             if (Input.GetKeyDown(KeyCode.Alpha9))
             {
+                locked = true;
                 var text = Text;
-                Scripting.ScriptingElement.GenerateViewersFromText(ref text, this.gameObject);
+                Scripting.ScriptingElement.GenerateViewersFromText(ref text, this.gameObject).ForEach(x => { Regrouped += x.Regroup; Degrouped += x.Degroup; }) ;
                 Scripting.ScriptingElement.GenerateOptionsFromText(ref text, this.gameObject);
                 Text = text;
             }

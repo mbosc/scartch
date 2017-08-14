@@ -18,6 +18,12 @@ namespace Scripting
             viewer.SnappedNext += OnViewerSnappedNext;
             viewer.UnsnappedNext += OnViewerUnsnappedNext;
             viewer.Tested += OnViewerTested;
+
+            referenceSlotViewers.ForEach(x =>
+            {
+                viewer.Regrouped += x.Regroup;
+                viewer.Degrouped += x.Degroup;
+            });
         }
 
         public override UnityEngine.Sprite Sprite
@@ -60,6 +66,11 @@ namespace Scripting
             viewer.SnappedNext -= OnViewerSnappedNext;
             viewer.UnsnappedNext -= OnViewerUnsnappedNext;
             viewer.Tested -= OnViewerTested;
+            referenceSlotViewers.ForEach(x =>
+            {
+                viewer.Regrouped -= x.Regroup;
+                viewer.Degrouped -= x.Degroup;
+            });
         }
     }
 }

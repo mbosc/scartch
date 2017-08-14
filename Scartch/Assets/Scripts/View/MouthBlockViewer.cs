@@ -20,6 +20,8 @@ namespace View
                 {
                     innerNext.Grabbed -= innerAttachPoint.Detach;
                     innerNext.HierarchyHeightChanged -= HeightUpdate;
+                    Regrouped -= innerNext.Regroup;
+                    Degrouped -= innerNext.Degroup;
                 }
 
                 //assign it
@@ -45,6 +47,8 @@ namespace View
                 {
                     innerNext.Grabbed += innerAttachPoint.Detach;
                     innerNext.HierarchyHeightChanged += HeightUpdate;
+                    Regrouped += innerNext.Regroup;
+                    Degrouped += innerNext.Degroup;
                 }
             }
         }

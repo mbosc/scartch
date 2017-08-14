@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Model;
+using System;
 
 namespace View
 {
@@ -63,8 +64,26 @@ namespace View
             }
         }
 
+        public void Degroup()
+        {
+            if (Filler != null)
+            {
+                Filler.Degroup();
+                Filler.transform.SetParent(null);
+            }
+        }
+
+        public void Regroup()
+        {
+            if (Filler != null)
+            {
+                Filler.Regroup();
+                Filler.transform.SetParent(this.transform);
+            }
+        }
+
         private ReferenceViewer filler;
-        public List<GameObject> Scomparsa { get { return new List<GameObject> { head, tail, body }; } }
+        public List<GameObject> DisappearingElements { get { return new List<GameObject> { head, tail, body }; } }
 
 
 
@@ -86,6 +105,7 @@ namespace View
                     filler.transform.SetParent(this.transform, false);
                     filler.transform.localEulerAngles = Vector3.zero;
                     filler.transform.localPosition = new Vector3(0, 0, 0);
+                    filler.transform.localScale = this.transform.localScale;
                     filler.transform.SetParent(null);
                 }
 
@@ -93,7 +113,7 @@ namespace View
                 if (filler != null)
                     filler.Grabbed += Detach;
 
-                Scomparsa.ForEach(x => x.SetActive(value == null));
+                DisappearingElements.ForEach(x => x.SetActive(value == null));
             }
         }
 
@@ -109,7 +129,7 @@ namespace View
                 mat = ScartchResourceManager.instance.textBoxHighlighted;
             else
                 mat = ScartchResourceManager.instance.textBoxNotHighlighted;
-            Scomparsa.ForEach(x => x.GetComponent<Renderer>().material = mat);
+            DisappearingElements.ForEach(x => x.GetComponent<Renderer>().material = mat);
         }
     }
 }

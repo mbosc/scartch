@@ -96,7 +96,7 @@ namespace Scripting
                         refPF.transform.SetParent(parent.transform, false);
                         var offset = new Vector3(1 + i / 2.0f, 0, -1);
                         if (parent.GetComponent<BlockoidViewer>() == null)
-                            offset = new Vector3(i, 0, -1);
+                            offset = new Vector3(i, 0, -1) / 2;
                         refPF.transform.localPosition = offset;
                         refPF.transform.localScale = Vector3.one;
                         refPF.Type = (RefType)refOpeningChars.IndexOf(text[i]);
