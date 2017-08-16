@@ -67,7 +67,8 @@ namespace Scripting
 
         public void Stop()
         {
-            StopCoroutine(Run());
+            StopAllCoroutines();
+            fluxes = new Queue<Flux>();
         }
 
         private IEnumerator Run(bool test = false)

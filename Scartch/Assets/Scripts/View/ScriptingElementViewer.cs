@@ -32,7 +32,9 @@ namespace View
             public bool Visible
             {
                 get { return visible; }
-                set { visible = value; }
+                set { visible = value;
+                    this.transform.gameObject.SetActive(value);
+                }
             }
 
             public void Init(Scripting.ScriptingElement scriptingElement)

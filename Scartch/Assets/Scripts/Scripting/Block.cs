@@ -46,7 +46,7 @@ namespace Scripting
             {
                 CurrentBlock = this
             });
-            ExecutionController.Instance.ExecuteTest();
+            Controller.EnvironmentController.Instance.ChangeMode(true);
         }
 
         private void OnViewerUnsnappedNext()

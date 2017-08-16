@@ -28,6 +28,15 @@ namespace Controller
             viewer.ChangedMode += ChangeModeEv;
             viewer.RemovedVariable += RemoveGlobalVariable;
             ModeChanged += viewer.OnControllerModeChanged;
+
+            //FAST INIT
+            AddVariable(new Variable()
+            {
+                Owner = null,
+                Name = "TRU",
+                Type = RefType.boolType,
+                Value = "TRUE"
+            });
         }
 
         public void ChangeModeEv()
@@ -83,13 +92,24 @@ namespace Controller
 
         public void ChangeMode(bool test = false)
         {
-            running = !running;
+            if (!test)
+                running = !running;
+            else
+            {
+                if (running)
+                    return;
+                else
+                    running = true;
+            }
             if (ModeChanged != null)
                 ModeChanged(running);
             if (running && !test && InitiatingPlayMode != null)
                 InitiatingPlayMode();
             if (running)
-                Scripting.ExecutionController.Instance.Execute();
+                if (!test)
+                    Scripting.ExecutionController.Instance.Execute();
+                else
+                    Scripting.ExecutionController.Instance.ExecuteTest();
             else
                 Scripting.ExecutionController.Instance.Stop();
         }

@@ -11,7 +11,9 @@ namespace Model
         public string Name
         {
             get { return name; }
-            set { name = value;
+            set
+            {
+                name = value;
                 if (NameChanged != null)
                     NameChanged(name);
             }
@@ -26,7 +28,9 @@ namespace Model
             get { return position; }
             set
             {
-                position = value;
+                position = new Vector3(value.x > MaxX ? MaxX : value.x,
+                    value.y > MaxY ? MaxY : value.y, value.z > MaxZ ? MaxZ : value.z);
+
                 if (Moved != null)
                     Moved(Position, Rotation);
             }

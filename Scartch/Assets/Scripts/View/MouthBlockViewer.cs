@@ -58,6 +58,14 @@ namespace View
             var nextLength = Next == null ? 0 : Next.HierarchyHeight;
             var innerNextLength = InnerNext == null ? 1 : InnerNext.HierarchyHeight;
             HierarchyHeight = 2 + nextLength + innerNextLength;
+            //align next
+            if (Next != null)
+            {   
+                Next.transform.SetParent(this.attachPoint.transform, false);
+                Next.transform.localEulerAngles = Vector3.zero;
+                Next.transform.localPosition = new Vector3(0, -4, 0);
+                Next.transform.SetParent(null);
+            }
         }
 
         private void HeightUpdate(int height)

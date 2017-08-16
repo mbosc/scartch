@@ -39,7 +39,8 @@ public class ScartchResourceManager : MonoBehaviour
         controlElements = new List<ScriptingElement>
         {
             new IfBlock(null, null, null, null, true),
-            new StartedPMBlock(null, null, null, null, true)
+            new StartedPMBlock(null, null, null, null, true),
+            new WhileBlock(null, null, null, null, true)
         };
         lookElements = new List<ScriptingElement>
         {

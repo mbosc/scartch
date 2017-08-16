@@ -205,6 +205,7 @@ namespace Controller
             Selected = this;
             Selected.actorViewer.Highlighted = true;
             actorWindow.Open();
+            ShowScriptingElements(true);
         }
 
         public static ActorController Selected;
