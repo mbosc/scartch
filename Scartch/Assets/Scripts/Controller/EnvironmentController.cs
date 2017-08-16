@@ -12,6 +12,8 @@ namespace Controller
         private List<ActorController> actors;
         private List<VariableController> globalVariableControllers;
         private EnvironmentViewer viewer;
+        public event Action<bool> ModeChanged;
+        public event Action InitiatingPlayMode;
 
         public List<Variable> globalVariables;
 
@@ -23,8 +25,14 @@ namespace Controller
             this.viewer = viewer;
             viewer.AddedActor += AddActor;
             viewer.AddedVariable += AddGlobalVariable;
-            viewer.ChangedMode += ChangeMode;
+            viewer.ChangedMode += ChangeModeEv;
             viewer.RemovedVariable += RemoveGlobalVariable;
+            ModeChanged += viewer.OnControllerModeChanged;
+        }
+
+        public void ChangeModeEv()
+        {
+            ChangeMode();
         }
 
         public void AddVariable(Variable var)
@@ -71,9 +79,15 @@ namespace Controller
 
         private bool running = false;
 
-        public void ChangeMode()
+
+
+        public void ChangeMode(bool test = false)
         {
             running = !running;
+            if (ModeChanged != null)
+                ModeChanged(running);
+            if (running && !test && InitiatingPlayMode != null)
+                InitiatingPlayMode();
             if (running)
                 Scripting.ExecutionController.Instance.Execute();
             else

@@ -25,7 +25,7 @@ namespace Scripting
 
         public override void Execute()
         {
-            if (referenceList[0].BoolEval)
+            if (ReferenceList[0].BoolEval)
             {
                 Flux.current.CurrentBlock = InnerNext;
                 Flux.current.Callbacks += ScheduleNextFlux;

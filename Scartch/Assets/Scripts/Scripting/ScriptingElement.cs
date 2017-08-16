@@ -10,8 +10,40 @@ namespace Scripting
 {
     public abstract class ScriptingElement
     {
+        private class ImmediateReference : ExpressionReference
+        {
+            public ImmediateReference(RefType rType) : base(null, null, ScriptingType.variable, null, null, rType, true)
+            {
+                value = RefTypeHelper.Default(rType);
+            }
+
+            private string value = "";
+
+            public override string Description
+            {
+                get
+                {
+                    throw new NotImplementedException();
+                }
+            }
+
+            public override string Evaluate()
+            {
+                return value;
+            }
+        }
+
         protected Actor owner;
         protected Dictionary<int, Reference> referenceList;
+        public List<Reference> ReferenceList
+        {
+            get
+            {
+                var res = new List<Reference>();
+                RSV.ForEach(x => res.Add(x.Filler == null ? new ImmediateReference(x.Type) : x.Filler.Reference));
+                return res;
+            }
+        }
         protected List<Option> optionList;
         protected ScriptingType type;
         public event Action Destroyed;
@@ -70,6 +102,7 @@ namespace Scripting
             reference = referenceList[num];
             return reference != null;
         }
+        
 
         public Option GetOption(int num)
         {
@@ -183,74 +216,6 @@ namespace Scripting
             refViewers = rvw;
             options = opts;
         }
-        //public static List<Option> GenerateOptionsFromText(ref string text, GameObject parent)
-        //{
-        //    var res = new List<Option>();
-            
-        //    bool closing = false;
-        //    int startIndex = 0;
-        //    char charToClose = 'a';
-        //    string outString = "";
-        //    string currentString = "";
-        //    List<string> currentStringList = null;
-        //    int newpos = 0;
-        //    for (int i = 0; i < text.Length; i++)
-        //    {
-        //        if (!closing)
-        //        {
-        //            if (optOpeningChars.Contains(text[i]))
-        //            {
-        //                closing = true;
-        //                charToClose = optClosingChars[optOpeningChars.IndexOf(text[i])];
-        //                startIndex = newpos;
-        //                currentStringList = new List<string>();
-        //            }
-        //            else
-        //            {
-        //                outString += text[i];
-        //                newpos++;
-        //            }
-        //        }
-        //        else
-        //        {
-        //            if (text[i] == '|')
-        //            {
-        //                currentStringList.Add(currentString.Trim());
-        //                currentString = "";
-        //            }
-        //            else if (text[i] == charToClose)
-        //            {
-        //                currentStringList.Add(currentString.Trim());
-        //                currentString = "";
-        //                closing = false;
-        //                int max = currentStringList.Max(x => x.Length);
-        //                var addition = "{" + new string(' ', max + 2) + "}";
-        //                outString += addition;
-        //                newpos += addition.Length; 
-
-        //                var combo = GameObject.Instantiate(ScartchResourceManager.instance.combobox).GetComponent<View.Resources.VRCombobox>();
-        //                combo.transform.SetParent(parent.transform, false);
-        //                var offset = new Vector3(1 + startIndex / 2.0f, 0, -1);
-        //                if (parent.GetComponent<BlockoidViewer>() == null)
-        //                    offset = new Vector3(startIndex, 0, -1);
-        //                combo.transform.localPosition = offset;
-        //                combo.transform.localScale = Vector3.one / 2;
-        //                var viewer = new OptionViewer(combo, currentStringList);
-        //                var opt = new Option(currentStringList, viewer);
-        //                res.Add(opt);
-
-        //            }
-        //            else
-        //            {
-        //                currentString += text[i];
-        //            }
-        //        }
-        //    }
-        //    if (closing)
-        //        throw new Exception("Illegal status!");
-        //    text = outString;
-        //    return res;
-        //}
         public static string refOpeningChars = "<([", refClosingChars = ">)]";
         public static string optOpeningChars = "{", optClosingChars = "}";
         public static string openingChars = "<([{", closingChars = ">)]}";

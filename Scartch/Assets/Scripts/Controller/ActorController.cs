@@ -94,7 +94,8 @@ namespace Controller
             actorWindow.VariableRemoved -= ActorWindow_VariableRemoved;
             actorWindow.VolumeChanged -= ActorWindow_VolumeChanged;
             scriptingElementViewers.Keys.ToList().ForEach(x => x.Deleted -= OnScriptingElementDeleted);
-
+            if (Selected.Equals(this))
+                Selected = null;
             EnvironmentController.Instance.RemoveActor(this);
             actor.Destroy();
         }
@@ -149,6 +150,7 @@ namespace Controller
             ScriptingElement elem = (ScriptingElement)System.Activator.CreateInstance(obj.GetType(), this.actor, optl, refl, viewer, false);
             if (obj is VariableReference)
                 (elem as VariableReference).Variable = (obj as VariableReference).Variable;
+            viewer.Init(elem);
             scriptingElementViewers.Add(viewer.GetComponent<ScriptingElementViewer>(), elem);
 
             viewer.Deleted += OnScriptingElementDeleted;

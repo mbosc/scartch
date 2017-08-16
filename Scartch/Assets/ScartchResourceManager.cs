@@ -38,7 +38,8 @@ public class ScartchResourceManager : MonoBehaviour
 
         controlElements = new List<ScriptingElement>
         {
-            new IfBlock(null, null, null, null, true)
+            new IfBlock(null, null, null, null, true),
+            new StartedPMBlock(null, null, null, null, true)
         };
         lookElements = new List<ScriptingElement>
         {
@@ -56,7 +57,10 @@ public class ScartchResourceManager : MonoBehaviour
         {
             new SetVolumeBlock(null, null, null, null, true)
         };
-        operatorsElements = new List<ScriptingElement>();
+        operatorsElements = new List<ScriptingElement>()
+        {
+            new SumExpression(null, null, null, null, true)
+        };
         variableElements = new List<ScriptingElement>();
 
         scriptingElements = new List<List<ScriptingElement>>();

@@ -26,7 +26,7 @@ namespace Scripting
         public override void Execute()
         {
             var forward = (Quaternion.Euler(owner.Rotation) * new Vector3(0, 0, 1));
-            owner.Position += forward * referenceList[0].FloatEval;
+            owner.Position -= forward * ReferenceList[0].FloatEval;
             Flux.current.CurrentBlock = Next;
         }
     }

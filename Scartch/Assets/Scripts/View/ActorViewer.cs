@@ -110,7 +110,7 @@ namespace View
 
         private void Actor_Destroyed()
         {
-            Destroy(this.gameObject);
+            Destroy(this.transform.parent.gameObject);
         }
 
         public override void HitByBlueRay()

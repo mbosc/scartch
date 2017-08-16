@@ -61,11 +61,20 @@ namespace View
         public event System.Action<BlockViewer> SnappedUpperInnerNext;
         public event System.Action UnsnappedUpperInnerNext;
 
+        public override void Delete()
+        {
+            if (LowerInnerNext != null)
+                LowerInnerNext.Grab();
+            if (upperInnerNext != null)
+                upperInnerNext.Grab();
+            base.Delete();
+        }
+
         public void SnapUpperInnerNext(BlockViewer next)
         {
             UpperInnerNext = next;
             if (SnappedUpperInnerNext != null)
-                SnappedUpperInnerNext(Next);
+                SnappedUpperInnerNext(next);
         }
 
         public void UnsnapUpperInnerNext()
@@ -139,7 +148,7 @@ namespace View
         {
             LowerInnerNext = next;
             if (SnappedLowerInnerNext != null)
-                SnappedLowerInnerNext(Next);
+                SnappedLowerInnerNext(next);
         }
 
         public void UnsnapLowerInnerNext()

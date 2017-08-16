@@ -41,8 +41,12 @@ namespace Scripting
 
         private void OnViewerTested()
         {
-            //TODO
-            // Genera un singolo flusso e passa a play mode
+            UnityEngine.Debug.Log("Testerino");
+            ExecutionController.Instance.AddFlux(new Flux(this)
+            {
+                CurrentBlock = this
+            });
+            ExecutionController.Instance.ExecuteTest();
         }
 
         private void OnViewerUnsnappedNext()

@@ -25,7 +25,7 @@ namespace Scripting
 
         public override void Execute()
         {
-            owner.Message = referenceList[0].StringEval;
+            owner.Message = ReferenceList[0].StringEval;
             owner.IsMessageVisible = true;
             Flux.current.CurrentBlock = Next;
         }

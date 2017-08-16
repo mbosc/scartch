@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using View.Resources;
@@ -11,8 +12,6 @@ namespace View
         private VariableWindow globalVariablesWindow;
         private TimerWindow timerWindow;
         public SpriteRenderer changeModeButtonSprite;
-
-        private bool inPlayMode = false;
 
         public event System.Action AddedActor, ChangedMode;
         public event System.Action<int> RemovedVariable;
@@ -35,6 +34,20 @@ namespace View
 
             globalVariablesWindow.Close();
             timerWindow.Close();
+        }
+
+        public void OnControllerModeChanged(bool obj)
+        {
+            if (!obj)
+            {
+                changeModeButton.GetComponent<Renderer>().material = ScartchResourceManager.instance.playButtonMaterial;
+                changeModeButtonSprite.sprite = ScartchResourceManager.instance.playButtonSprite;
+            }
+            else
+            {
+                changeModeButton.GetComponent<Renderer>().material = ScartchResourceManager.instance.editButtonMaterial;
+                changeModeButtonSprite.sprite = ScartchResourceManager.instance.editButtonSprite;
+            }
         }
 
         private void GlobalVariablesWindow_VariableRemoved(int obj)
@@ -81,18 +94,6 @@ namespace View
 
         private void ChangeModeButton_Pressed(object sender, System.EventArgs e)
         {
-            inPlayMode = !inPlayMode;
-            if (inPlayMode)
-            {
-                changeModeButton.GetComponent<Renderer>().material = ScartchResourceManager.instance.playButtonMaterial;
-                changeModeButtonSprite.sprite = ScartchResourceManager.instance.playButtonSprite;
-            }
-            else
-            {
-                changeModeButton.GetComponent<Renderer>().material = ScartchResourceManager.instance.editButtonMaterial;
-                changeModeButtonSprite.sprite = ScartchResourceManager.instance.editButtonSprite;
-            }
-
             if (ChangedMode != null)
                 ChangedMode();
         }

@@ -67,7 +67,12 @@ namespace View
             }
         }
 
-        private Scripting.Block block;
+        public override void Delete()
+        {
+            if (Next != null)
+                Next.Grab();
+            base.Delete();
+        }
 
         virtual public Scripting.Block Block
         {

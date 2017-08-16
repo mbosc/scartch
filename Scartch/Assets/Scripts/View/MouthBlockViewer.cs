@@ -80,7 +80,14 @@ namespace View
         {
             InnerNext = next;
             if (SnappedInnerNext != null)
-                SnappedInnerNext(Next);
+                SnappedInnerNext(next);
+        }
+
+        public override void Delete()
+        {
+            if (InnerNext != null)
+                InnerNext.Grab();
+            base.Delete();
         }
 
         public void UnsnapInnerNext()

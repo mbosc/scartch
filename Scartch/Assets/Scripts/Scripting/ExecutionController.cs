@@ -48,9 +48,8 @@ namespace Scripting
             var flux = fluxes.Dequeue();
             Flux.current = flux;
             flux.CurrentBlock.Execute();
-            if (flux.CurrentBlock.Next != null)
+            if (flux.CurrentBlock != null)
             {
-                flux.CurrentBlock = flux.CurrentBlock.Next;
                 fluxes.Enqueue(flux);
             }
             else
@@ -61,20 +60,24 @@ namespace Scripting
         {
             StartCoroutine(Run());
         }
+        public void ExecuteTest()
+        {
+            StartCoroutine(Run(true));
+        }
 
         public void Stop()
         {
             StopCoroutine(Run());
         }
 
-        private IEnumerator Run()
+        private IEnumerator Run(bool test = false)
         {
             while(fluxes.Count > 0)
             {
                 ExecuteNext();
                 yield return new WaitForSeconds(Delay);
             }
-            Controller.EnvironmentController.Instance.ChangeMode();
+            Controller.EnvironmentController.Instance.ChangeMode(true);
         }
     }
 }

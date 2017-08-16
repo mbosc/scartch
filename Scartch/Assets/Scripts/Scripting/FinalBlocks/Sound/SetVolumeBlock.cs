@@ -25,7 +25,7 @@ namespace Scripting
 
         public override void Execute()
         {
-            owner.Volume = referenceList[0].FloatEval;
+            owner.Volume = ReferenceList[0].FloatEval;
             Flux.current.CurrentBlock = Next;
         }
     }

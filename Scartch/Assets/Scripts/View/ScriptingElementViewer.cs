@@ -55,8 +55,9 @@ namespace View
 
             public abstract Scripting.ScriptingType Type { set; get; }
 
-            public void Delete()
+            public virtual void Delete()
             {
+                Grab();
                 if (Deleted != null)
                     Deleted(this, EventArgs.Empty);
             }
