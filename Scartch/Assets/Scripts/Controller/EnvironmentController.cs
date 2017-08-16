@@ -10,18 +10,32 @@ namespace Controller
     public class EnvironmentController
     {
         private List<ActorController> actors;
-        private List<VariableController> globalVariables;
+        private List<VariableController> globalVariableControllers;
         private EnvironmentViewer viewer;
+
+        public List<Variable> globalVariables;
 
         private EnvironmentController(EnvironmentViewer viewer)
         {
             actors = new List<ActorController>();
-            globalVariables = new List<VariableController>();
-
+            globalVariables = new List<Variable>();
+            globalVariableControllers = new List<VariableController>();
+            this.viewer = viewer;
             viewer.AddedActor += AddActor;
             viewer.AddedVariable += AddGlobalVariable;
             viewer.ChangedMode += ChangeMode;
             viewer.RemovedVariable += RemoveGlobalVariable;
+        }
+
+        public void AddVariable(Variable var)
+        {
+            globalVariables.Add(var);
+        }
+
+        public void RemoveVariable(Variable var)
+        {
+            var.Destroy();
+            globalVariables.Remove(var);
         }
 
         private static EnvironmentController instance;
@@ -36,7 +50,7 @@ namespace Controller
 
         public void AddGlobalVariable(VariableEntry entr)
         {
-            globalVariables.Add(VariableController.AddVariable(entr, null));
+            globalVariableControllers.Add(VariableController.AddVariable(entr, null));
         }
 
         public void AddActor()
@@ -52,7 +66,7 @@ namespace Controller
         }
         public void RemoveGlobalVariable(int num)
         {
-            globalVariables[num].Remove();
+            globalVariableControllers[num].Remove();
         }
 
         private bool running = false;

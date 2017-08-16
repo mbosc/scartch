@@ -69,7 +69,9 @@ namespace View
             {
                 vars = new List<ScriptingElement>();
                 ScartchResourceManager.instance.scriptingElements[(int)Filter].ForEach(x => vars.Add(x));
-                summoner.localVariables.ForEach(x => { var r = new VariableReference(null, null, null, null, true); r.Variable = x; vars.Add(r);});
+                Action<Model.Variable> fun = x => { var r = new VariableReference(null, null, null, null, true); r.Variable = x; vars.Add(r); };
+                summoner.localVariables.ForEach(fun);
+                Controller.EnvironmentController.Instance.globalVariables.ForEach(fun);
             }
             voiceLabels.ForEach(x =>
             {

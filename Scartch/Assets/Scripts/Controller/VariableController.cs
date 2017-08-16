@@ -23,6 +23,8 @@ namespace Controller
             };
             if (owner != null)
                 owner.AddVariable(var);
+            else
+                EnvironmentController.Instance.AddVariable(var);
             entr.Init(var.Name, var.Value, var.Type);
             var controller = new VariableController(var, entr);
             return controller;
