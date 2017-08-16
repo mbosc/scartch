@@ -16,6 +16,7 @@ namespace NewtonVR.Example
 
         public void Alert(string text)
         {
+            Debug.Log("Sending alert to " + this.gameObject.name + ": " + text);
             alertText.text = "<color=red>Alert</color>\n" + text;
             StartCoroutine(ShowAlert());
         }

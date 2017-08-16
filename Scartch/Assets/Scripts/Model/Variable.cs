@@ -25,7 +25,9 @@ namespace Model
         public int RefCount
         {
             get { return refCount; }
-            set { refCount = value; }
+            set {
+                UnityEngine.Debug.Log("References for var " + name + ": " + value);
+                refCount = value; }
         }
 
         private string name;
@@ -33,7 +35,11 @@ namespace Model
         public string Name
         {
             get { return name; }
-            set { name = value; }
+            set {
+                if (RefCount > 0)
+                    throw new VariableAlterationException("Variable " + Name + " has " + RefCount + " active references and its name cannot be changed.");
+                name = value;
+            }
         }
 
         private string _value;

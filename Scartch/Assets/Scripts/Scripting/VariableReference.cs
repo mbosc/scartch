@@ -73,8 +73,11 @@ namespace Scripting
         public override void Destroy()
         {
             base.Destroy();
-            variable.RefCount--;
-            variable.Destroyed -= OnVariableDestroyed;
+            if (!sample)
+            {
+                variable.RefCount--;
+                variable.Destroyed -= OnVariableDestroyed;
+            }
         }
 
         public override RefType GetRefType()

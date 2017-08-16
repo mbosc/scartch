@@ -59,10 +59,10 @@ namespace View
         private void OnTypeChanged(int obj)
         {
             type = (RefType)obj;
-            valueBox.Type = type;
-            valueBox.Text = RefTypeHelper.Default(type);
             if (TypeChanged != null)
                 TypeChanged(type);
+            valueBox.Type = type;
+            valueBox.Text = RefTypeHelper.Default(type);
         }
 
         private void OnValChanged(object sender, System.EventArgs e)
@@ -74,9 +74,17 @@ namespace View
 
         private void OnNameChanged(object sender, System.EventArgs e)
         {
-            vname = (sender as VRTextbox).Text;
-            if (NameChanged != null)
-                NameChanged(vname);
+            try
+            {
+                if (NameChanged != null)
+                    NameChanged((sender as VRTextbox).Text);
+                vname = (sender as VRTextbox).Text;
+            }
+            catch (VariableAlterationException e2)
+            {
+                ScartchResourceManager.instance.lastRayCaster.Alert(e2.Message);
+                (sender as VRTextbox).Text = vname;
+            }
         }
 
         private bool inited = false;

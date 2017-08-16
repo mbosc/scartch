@@ -49,18 +49,22 @@ namespace View
         }
 
         public void RemoveVariable(int num)
-        { 
-            if (VariableRemoved != null)
-                VariableRemoved(num);
+        {
+            try
+            {
+                if (VariableRemoved != null)
+                    VariableRemoved(num);
 
-            // In realtà la questione è un po' più complicata: potrebbe essere rifiutata la cancellazione,
-            //TODO
-            // usare come mediatore il controller
-            var element = variableEntries[num];
-            element.DeletePressed -= OnVarDeletePressed;
-            variableEntries.Remove(element);
-            Destroy(element.gameObject);
-            UpdateLayout();
+                var element = variableEntries[num];
+                element.DeletePressed -= OnVarDeletePressed;
+                variableEntries.Remove(element);
+                Destroy(element.gameObject);
+                UpdateLayout();
+            }
+            catch (Model.VariableAlterationException e)
+            {
+                ScartchResourceManager.instance.lastRayCaster.Alert(e.Message);
+            }
         }
 
         public void Init(Model.Actor owner)

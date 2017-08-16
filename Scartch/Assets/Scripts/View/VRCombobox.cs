@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Model;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -70,12 +71,19 @@ namespace View
                 get { return selected; }
                 set
                 {
-                    if (value > options.Count)
-                        throw new System.ArgumentException("Value is too high");
-                    if (value != selected && SelectionChanged != null)
-                        SelectionChanged(value);
-                    selected = value;
-                    menuButton.Text = "  " + options[selected];
+                    try
+                    {
+
+                        if (value > options.Count)
+                            throw new System.ArgumentException("Value is too high");
+                        if (value != selected && SelectionChanged != null)
+                            SelectionChanged(value);
+                        selected = value;
+                        menuButton.Text = "  " + options[selected];
+                    } catch (VariableAlterationException e)
+                    {
+                        ScartchResourceManager.instance.lastRayCaster.Alert(e.Message);
+                    }
                 }
             }
             public event System.Action<int> SelectionChanged;

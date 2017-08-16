@@ -55,7 +55,8 @@ namespace Controller
         {
             var viewer = sender as ScriptingElementViewer;
             scriptingElementViewers[viewer].Destroy();
-            GameObject.Destroy(viewer);
+            scriptingElementViewers.Remove(viewer);
+            GameObject.Destroy(viewer.gameObject);
         }
 
         public void SetActorPosition(Vector3 position)
@@ -115,15 +116,10 @@ namespace Controller
 
         private void ActorWindow_VariableRemoved(int obj)
         {
-            try
-            {
-                localVariables[obj].Remove();
-                this.actor.RemoveVariable(obj);
-            }
-            catch (System.Exception exc)
-            {
-                ScartchResourceManager.instance.lastRayCaster.Alert(exc.Message);
-            }
+
+            localVariables[obj].Remove();
+            this.actor.RemoveVariable(obj);
+
         }
 
         private void ActorWindow_VariableAdded(VariableEntry entr)
@@ -154,6 +150,8 @@ namespace Controller
             if (obj is VariableReference)
                 (elem as VariableReference).Variable = (obj as VariableReference).Variable;
             scriptingElementViewers.Add(viewer.GetComponent<ScriptingElementViewer>(), elem);
+
+            viewer.Deleted += OnScriptingElementDeleted;
         }
 
         private void ActorWindow_ScaleChanged(float obj)
