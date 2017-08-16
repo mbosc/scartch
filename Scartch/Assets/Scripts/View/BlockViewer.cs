@@ -229,8 +229,8 @@ namespace View
         }
 
 
-        public string debugtxt;
-        public bool locked;
+        //public string debugtxt;
+        //public bool locked;
         protected override void Update()
         {
             base.Update();
@@ -239,39 +239,18 @@ namespace View
                 Nearest = FindNearest();
 
             //SUPERDEBUGGO
-            if (debugtxt != Text && !locked)
-                Text = debugtxt;
-            if (Input.GetKeyDown(KeyCode.Alpha9))
-            {
-                locked = true;
-                var text = DebugBlock.description;
-                List<ReferenceSlotViewer> refl;
-                List<Option> optl;
-                Scripting.ScriptingElement.GenerateViewersFromText(ref text, gameObject, out refl, out optl);
-                Block block = new DebugBlock(null, optl, ScriptingType.variable, refl, this);
-                Text = text;
-            }
-        }
-        private class DebugBlock : Block
-        {
-            public DebugBlock(Actor owner, List<Option> optionList, ScriptingType type, List<ReferenceSlotViewer> referenceSlotViewers, BlockViewer viewer) : base(owner, optionList, type, referenceSlotViewers, viewer)
-            {
-            }
-
-            public static string description = "yolo {a|b|cc} <    > (  ) {a|b|abc}";
-
-            public override string Description
-            {
-                get
-                {
-                    return description;
-                }
-            }
-
-            public override void Execute()
-            {
-                Debug.Log("EXECUTION");
-            }
+            //if (debugtxt != Text && !locked)
+            //    Text = debugtxt;
+            //if (Input.GetKeyDown(KeyCode.Alpha9))
+            //{
+            //    locked = true;
+            //    var text = DebugBlock.description;
+            //    List<ReferenceSlotViewer> refl;
+            //    List<Option> optl;
+            //    Scripting.ScriptingElement.GenerateViewersFromText(ref text, gameObject, out refl, out optl);
+            //    Block block = new DebugBlock(null, optl, ScriptingType.variable, refl, this);
+            //    Text = text;
+            //}
         }
 
 

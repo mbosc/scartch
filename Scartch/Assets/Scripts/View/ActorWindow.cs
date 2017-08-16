@@ -48,7 +48,7 @@ namespace View
 
             // Hide subwindows
             modelChooser.Close();
-            seChooser.Init();
+            seChooser.Init(actor);
             seChooser.Close();
             varWindow.Init(this.actor);
             varWindow.Close();

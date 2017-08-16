@@ -110,7 +110,7 @@ namespace Model
             }
         }
 
-        private List<Variable> localVariables;
+        public List<Variable> localVariables;
 
         public static int MaxX = 240, MaxY = 180, MaxZ = 240, BorderTolerance = 15;
 
@@ -157,6 +157,11 @@ namespace Model
         public Variable GetVariable(int num)
         {
             return localVariables[num];
+        }
+
+        public int GetVariableNumber()
+        {
+            return localVariables.Count;
         }
     }
 }

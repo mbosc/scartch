@@ -21,12 +21,14 @@ namespace Scripting
             }
         }
 
-        public Hat(Actor owner, List<Option> optionList, ScriptingType type, List<ReferenceSlotViewer> referenceSlotViewers, HatViewer viewer) : base(owner, optionList, type, referenceSlotViewers)
+        public Hat(Actor owner, List<Option> optionList, ScriptingType type, List<ReferenceSlotViewer> referenceSlotViewers, HatViewer viewer, bool sample) : base(owner, optionList, type, referenceSlotViewers, sample)
         {
-            this.viewer = viewer;
-
-            viewer.SnappedNext += OnViewerSnappedNext;
-            viewer.UnsnappedNext += OnViewerUnsnappedNext;
+            if (!sample)
+            {
+                this.viewer = viewer;
+                viewer.SnappedNext += OnViewerSnappedNext;
+                viewer.UnsnappedNext += OnViewerUnsnappedNext;
+            }
         }
 
         private void OnViewerUnsnappedNext()

@@ -70,12 +70,12 @@ namespace View
                 Length = text.Length;
             }
         }
-        private BoxCollider coll;
+        //private BoxCollider coll;
 
         protected override void Start()
         {
             base.Start();
-            coll = gameObject.GetComponent<BoxCollider>();
+            //coll = gameObject.GetComponent<BoxCollider>();
             UpdateAppearance();
         }
 
@@ -110,6 +110,7 @@ namespace View
             // Set up body on first execution
             if (body == null) body = GameObject.Instantiate(ScartchResourceManager.instance.referenceBody);
             body.transform.SetParent(this.transform, false);
+            Type = Type;
 
             // Update positions
             head.transform.localEulerAngles = ScartchResourceManager.instance.headRotation;
@@ -123,15 +124,15 @@ namespace View
             body.transform.localScale = new Vector3(Length - 2, 1, 1);
 
             // Update collider
-            coll.center = new Vector3(.25f * Length, 0, -.25f);
-            coll.size = new Vector3(.5f * Length, 2, .5f);
+            GetComponent<BoxCollider>().center = new Vector3(.25f * Length, 0, -.25f);
+            GetComponent<BoxCollider>().size = new Vector3(.5f * Length, 2, .5f);
         }
 
 
         private int color = 0;
 
-        public string debugtxt = "geogra ( ) fia";
-        public bool locked = true;
+        //public string debugtxt = "geogra ( ) fia";
+        //public bool locked = true;
         protected override void Update()
         {
             base.Update();
@@ -139,34 +140,6 @@ namespace View
             if (searchingNearest)
                 Nearest = FindNearest();
 
-            //SUPERDEBUGGO
-            if (debugtxt != Text && !locked)
-                Text = debugtxt;
-            if (Input.GetKeyDown(KeyCode.Alpha9))
-            {
-                locked = true;
-                var text = DebugExpression.description;
-                List<ReferenceSlotViewer> refl;
-                List<Option> optl;
-                Scripting.ScriptingElement.GenerateViewersFromText(ref text, gameObject, out refl, out optl);
-                var block = new DebugExpression(null, optl, ScriptingType.look, refl, this, RefType.numberType);
-                Text = text;
-            }
-        }
-        private class DebugExpression : ExpressionReference
-        {
-            public DebugExpression(Actor owner, List<Option> optionList, ScriptingType type, List<ReferenceSlotViewer> referenceSlotViewers, ReferenceViewer viewer, RefType rType) : base(owner, optionList, type, referenceSlotViewers, viewer, rType)
-            {
-            }
-
-            public static string description = "<  > meno (  )";
-
-            public override string Description { get { return description; } }
-
-            public override string Evaluate()
-            {
-                return "7";
-            }
         }
 
         public void UpdateLength(int num, int val)
@@ -274,8 +247,10 @@ namespace View
             var min = float.PositiveInfinity;
             ReferenceSlotViewer result = null;
             //coseno positivo
-
-            var compatibleSlots = FindObjectsOfType<ReferenceSlotViewer>().ToList().Where(x => x.Filler == null && !(this.ScriptingElement.RSV.Any(y => y.ContainsInSub(x))));
+            var otherSlots = FindObjectsOfType<ReferenceSlotViewer>();
+            if (otherSlots == null)
+                return null;
+            var compatibleSlots = otherSlots.ToList().Where(x => x.Filler == null && RefTypeHelper.Compatible(x.Type,RefType) && !(this.ScriptingElement.RSV.Any(y => y.ContainsInSub(x))));
 
             compatibleSlots.ToList().ForEach(x => { if (Vector3.Distance(this.transform.position, x.transform.position + x.transform.right - x.transform.forward * 0.5f) < min) { result = x; min = Vector3.Distance(this.transform.position, x.transform.position); } });
 

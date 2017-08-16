@@ -6,12 +6,14 @@ namespace Scripting
 {
     public class Flux
     {
-        public Flux(Hat initiator)
+        public static Flux current = null;
+
+        public Flux(ScriptingElement initiator)
         {
             this.initiator = initiator;
         }
 
-        private Hat initiator;
+        private ScriptingElement initiator;
 
         private bool executing;
 

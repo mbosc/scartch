@@ -46,6 +46,7 @@ namespace Scripting
         private void ExecuteNext()
         {
             var flux = fluxes.Dequeue();
+            Flux.current = flux;
             flux.CurrentBlock.Execute();
             if (flux.CurrentBlock.Next != null)
             {

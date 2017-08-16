@@ -60,5 +60,10 @@ namespace Model
                 default: throw new ArgumentException("Invalid Ref Type");
             }
         }
+
+        internal static bool Compatible(RefType slotType, RefType refType)
+        {
+            return slotType >= refType;
+        }
     }
 }

@@ -15,10 +15,13 @@ namespace Scripting
             return rType;
         }
 
-        public ExpressionReference(Actor owner, List<Option> optionList, ScriptingType type, List<ReferenceSlotViewer> referenceSlotViewers, ReferenceViewer viewer, RefType rType) : base(owner, optionList, type, referenceSlotViewers, viewer)
+        public ExpressionReference(Actor owner, List<Option> optionList, ScriptingType type, List<ReferenceSlotViewer> referenceSlotViewers, ReferenceViewer viewer, RefType rType, bool sample) : base(owner, optionList, type, referenceSlotViewers, viewer, sample)
         {
-            this.rType = rType;
-            viewer.RefType = rType;
+            if (!sample)
+            {
+                this.rType = rType;
+                viewer.RefType = rType;
+            }
         }
     }
 }

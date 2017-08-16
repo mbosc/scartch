@@ -47,7 +47,7 @@ namespace View
                 Visible = false;
             }
 
-            public void Open()
+            public virtual void Open()
             {
                 Visible = true;
             }

@@ -40,12 +40,15 @@ namespace Scripting
             }
         }
 
-        public DoubleMouthBlock(Actor owner, List<Option> optionList, ScriptingType type, List<ReferenceSlotViewer> referenceSlotViewers, DoubleMouthBlockViewer viewer) : base(owner, optionList, type, referenceSlotViewers, viewer)
+        public DoubleMouthBlock(Actor owner, List<Option> optionList, ScriptingType type, List<ReferenceSlotViewer> referenceSlotViewers, DoubleMouthBlockViewer viewer, bool sample) : base(owner, optionList, type, referenceSlotViewers, viewer, sample)
         {
-            viewer.SnappedLowerInnerNext += OnViewerSnappedLowerInnerNext;
-            viewer.SnappedUpperInnerNext += OnViewerSnappedUpperInnerNext;
-            viewer.UnsnappedLowerInnerNext += OnViewerUnsnappedLowerInnerNext;
-            viewer.UnsnappedUpperInnerNext += OnViewerUnsnappedUpperInnerNext;
+            if (!sample)
+            {
+                viewer.SnappedLowerInnerNext += OnViewerSnappedLowerInnerNext;
+                viewer.SnappedUpperInnerNext += OnViewerSnappedUpperInnerNext;
+                viewer.UnsnappedLowerInnerNext += OnViewerUnsnappedLowerInnerNext;
+                viewer.UnsnappedUpperInnerNext += OnViewerUnsnappedUpperInnerNext;
+            }
         }
 
         private void OnViewerUnsnappedUpperInnerNext()

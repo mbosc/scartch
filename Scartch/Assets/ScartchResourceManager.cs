@@ -36,10 +36,37 @@ public class ScartchResourceManager : MonoBehaviour
             { RefType.stringType, stringHead }
         };
 
-        //TOBEREMOVED
+        controlElements = new List<ScriptingElement>
+        {
+            new IfBlock(null, null, null, null, true)
+        };
+        lookElements = new List<ScriptingElement>
+        {
+            new SayBlock(null, null, null, null, true)
+        };
+        movementElements = new List<ScriptingElement>
+        {
+            new TakeStepsBlock(null, null, null, null, true)
+        };
+        sensorElements = new List<ScriptingElement>
+        {
+            new TimeResetBlock(null, null, null, null, true)
+        };
+        soundElements = new List<ScriptingElement>
+        {
+            new SetVolumeBlock(null, null, null, null, true)
+        };
+        operatorsElements = new List<ScriptingElement>();
+        variableElements = new List<ScriptingElement>();
+
         scriptingElements = new List<List<ScriptingElement>>();
-        for (int i = 0; i < 7; i++)
-            scriptingElements.Add(new List<ScriptingElement>());
+        scriptingElements.Add(controlElements);
+        scriptingElements.Add(lookElements);
+        scriptingElements.Add(movementElements);
+        scriptingElements.Add(sensorElements);
+        scriptingElements.Add(soundElements);
+        scriptingElements.Add(operatorsElements);
+        scriptingElements.Add(variableElements);
     }
 
     [Header("VRTextboxes materials")]
@@ -56,7 +83,7 @@ public class ScartchResourceManager : MonoBehaviour
     public GameObject boolHead, stringHead, numberHead;
     public Dictionary<RefType, GameObject> referenceHeads;
     public Vector3 headRotation, tailRotation, bodyRotation;
-    public GameObject referencePrefab;
+    public GameObject referenceSlotViewer;
 
     [Header("Snapping Dynamics")]
     public float referenceSnapThreshold = 1.0f;
@@ -89,6 +116,7 @@ public class ScartchResourceManager : MonoBehaviour
     public Sprite iconMBlock, iconDMBlock, iconHat, iconBool, iconString, iconNum;
     public List<Material> pages;
     public List<List<ScriptingElement>> scriptingElements;
+    public List<ScriptingElement> controlElements, lookElements, movementElements, sensorElements, variableElements, operatorsElements, soundElements;
     
     [Header("Utility Windows")]
     public VariableWindow variableWindow;
@@ -99,6 +127,10 @@ public class ScartchResourceManager : MonoBehaviour
     public ActorViewer actorViewer;
     public ActorWindow actorWindow;
 
+    [Header("Reference Prefabs")]
+    public GameObject blockViewer;
+    public GameObject mouthBlockViewer, doubleMouthBlockViewer, referenceViewer, hatViewer;
+    
     [HideInInspector]
     public NVRLaserPointer lastRayCaster;
 }

@@ -6,6 +6,6 @@ namespace Scripting
 {
     public enum ScriptingType
     {
-        control, look, movement, sensor, sound, variable
+        control, look, movement, sensor, sound, operators, variable
     }
 }

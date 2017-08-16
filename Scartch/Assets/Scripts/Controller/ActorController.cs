@@ -133,8 +133,27 @@ namespace Controller
 
         private void ActorWindow_ScriptingElementAdded(Scripting.ScriptingElement obj)
         {
-            //TODO
-            throw new System.NotImplementedException();
+            string text = obj.Description;
+            List<ReferenceSlotViewer> refl;
+            List<Option> optl;
+            GameObject gameObject = null;
+            if (obj is DoubleMouthBlock)
+                gameObject = ScartchResourceManager.instance.doubleMouthBlockViewer;
+            else if (obj is MouthBlock)
+                gameObject = ScartchResourceManager.instance.mouthBlockViewer;
+            else if (obj is Block)
+                gameObject = ScartchResourceManager.instance.blockViewer;
+            else if (obj is Reference)
+                gameObject = ScartchResourceManager.instance.referenceViewer;
+            else if (obj is Hat)
+                gameObject = ScartchResourceManager.instance.hatViewer;
+            ScriptingElementViewer viewer = GameObject.Instantiate(gameObject).GetComponent<ScriptingElementViewer>();
+            Scripting.ScriptingElement.GenerateViewersFromText(ref text, viewer.gameObject, out refl, out optl);
+            viewer.GetType().GetProperty("Text").SetValue(viewer, text, null);
+            ScriptingElement elem = (ScriptingElement)System.Activator.CreateInstance(obj.GetType(), this.actor, optl, refl, viewer, false);
+            if (obj is VariableReference)
+                (elem as VariableReference).Variable = (obj as VariableReference).Variable;
+            scriptingElementViewers.Add(viewer.GetComponent<ScriptingElementViewer>(), elem);
         }
 
         private void ActorWindow_ScaleChanged(float obj)

@@ -10,22 +10,25 @@ namespace Scripting
     {
         private Block next;
 
-        public Block(Actor owner, List<Option> optionList, ScriptingType type, List<ReferenceSlotViewer> referenceSlotViewers, BlockViewer viewer) : base(owner, optionList, type, referenceSlotViewers)
+        public Block(Actor owner, List<Option> optionList, ScriptingType type, List<ReferenceSlotViewer> referenceSlotViewers, BlockViewer viewer, bool sample) : base(owner, optionList, type, referenceSlotViewers, sample)
         {
-            this.viewer = viewer;
-            viewer.Init(this);
-            
-            viewer.SnappedNext += OnViewerSnappedNext;
-            viewer.UnsnappedNext += OnViewerUnsnappedNext;
-            viewer.Tested += OnViewerTested;
-            viewer.Type = type;
-
-            referenceSlotViewers.ForEach(x =>
+            if(!sample)
             {
-                viewer.Regrouped += x.Regroup;
-                viewer.Degrouped += x.Degroup;
-                x.LengthUpdated += viewer.UpdateLength;
-            });
+                this.viewer = viewer;
+                viewer.Init(this);
+
+                viewer.SnappedNext += OnViewerSnappedNext;
+                viewer.UnsnappedNext += OnViewerUnsnappedNext;
+                viewer.Tested += OnViewerTested;
+                viewer.Type = type;
+
+                referenceSlotViewers.ForEach(x =>
+                {
+                    viewer.Regrouped += x.Regroup;
+                    viewer.Degrouped += x.Degroup;
+                    x.LengthUpdated += viewer.UpdateLength;
+                });
+            }
         }
 
         public override UnityEngine.Sprite Sprite

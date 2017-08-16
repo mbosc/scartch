@@ -13,7 +13,18 @@ namespace Scripting
         public Variable Variable
         {
             get { return variable; }
-            set { variable = value; }
+            set
+            {
+                variable = value;
+                if (!sample)
+                {
+                    variable.RefCount++;
+                    variable.Destroyed += OnVariableDestroyed;
+                    variable.NameChanged += OnVariableNameChanged;
+                    variable.TypeChanged += OnVariableTypeChanged;
+                    viewer.RefType = variable.Type;
+                }
+            }
         }
 
         public override string Description
@@ -24,13 +35,10 @@ namespace Scripting
             }
         }
 
-        public VariableReference(Actor owner, List<Option> optionList, ScriptingType type, List<ReferenceSlotViewer> referenceSlotViewers, ReferenceViewer viewer, Variable var) : base(owner, optionList, type, referenceSlotViewers, viewer)
+        private bool sample;
+        public VariableReference(Actor owner, List<Option> optionList, List<ReferenceSlotViewer> referenceSlotViewers, ReferenceViewer viewer, bool sample) : base(owner, optionList, ScriptingType.variable, referenceSlotViewers, viewer, sample)
         {
-            this.variable = var;
-            var.RefCount++;
-            variable.Destroyed += OnVariableDestroyed;
-            variable.NameChanged += OnVariableNameChanged;
-            variable.TypeChanged += OnVariableTypeChanged;
+            this.sample = sample;
         }
 
         private void OnVariableTypeChanged(RefType obj)

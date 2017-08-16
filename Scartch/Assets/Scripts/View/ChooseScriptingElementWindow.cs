@@ -18,7 +18,7 @@ namespace View
         public UnityEngine.UI.Text pageTxt;
 
         public event System.Action<ScriptingElement> ChosenScriptingElement;
-        private ScriptingType filter;
+        private ScriptingType filter = ScriptingType.movement;
 
         public ScriptingType Filter
         {
@@ -27,13 +27,17 @@ namespace View
             {
                 filter = value;
                 gameObject.GetComponent<Renderer>().material = ScartchResourceManager.instance.pages[(int)filter];
-                Page = 0;
+                Page = 1;
             }
         }
 
-        private bool lastPage;
+        public override void Open()
+        {
+            base.Open();
+            UpdateVoices();
+        }
 
-        private int page;
+        private int page = 1;
         private int Page
         {
             get
@@ -43,9 +47,13 @@ namespace View
             set
             {
                 var num = ScartchResourceManager.instance.scriptingElements[(int)Filter].Count;
+                if (Filter == ScriptingType.variable)
+                {
+                    num += summoner.GetVariableNumber();
+                }
                 var limit = (num / 9 + num % 9 != 0 ? 1 : 0);
                 nextBtn.gameObject.SetActive(value != limit);
-                prevBtn.gameObject.SetActive(value != 0);
+                prevBtn.gameObject.SetActive(value != 1);
                 page = value;
                 pageTxt.text = value + "/" + limit;
                 UpdateVoices();
@@ -56,14 +64,26 @@ namespace View
         {
             int count = 0;
             voiceElements = new List<ScriptingElement>();
+            List<ScriptingElement> vars = null;
+            if (Filter == ScriptingType.variable)
+            {
+                vars = new List<ScriptingElement>();
+                ScartchResourceManager.instance.scriptingElements[(int)Filter].ForEach(x => vars.Add(x));
+                summoner.localVariables.ForEach(x => { var r = new VariableReference(null, null, null, null, true); r.Variable = x; vars.Add(r);});
+            }
             voiceLabels.ForEach(x =>
             {
                 ScriptingElement vel = null;
                 try
                 {
-                    vel = ScartchResourceManager.instance.scriptingElements[(int)Filter][Page * 9 + count];
+                    if (Filter != ScriptingType.variable)
+                        vel = ScartchResourceManager.instance.scriptingElements[(int)Filter][(Page - 1) * 9 + count];
+                    else
+                        vel = vars[(Page - 1) * 9 + count];
                 }
-                catch (ArgumentOutOfRangeException) { }
+                catch (ArgumentOutOfRangeException)
+                {
+                }
                 voiceElements.Add(vel);
                 voices[count].gameObject.SetActive(vel != null);
                 if (vel != null)
@@ -75,8 +95,11 @@ namespace View
             });
         }
 
-        public void Init()
+        private Model.Actor summoner;
+
+        public void Init(Model.Actor summoner)
         {
+            this.summoner = summoner;
             bookmarks.ForEach(x => x.Pressed += OnBookmarkPressed);
             voices.ForEach(x => x.Pressed += OnVoicePressed);
             nextBtn.Pressed += OnNextPressed;

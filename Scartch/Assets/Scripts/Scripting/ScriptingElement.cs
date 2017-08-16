@@ -32,25 +32,27 @@ namespace Scripting
             get;
         }
 
-        public ScriptingElement(Actor owner, List<Option> optionList, ScriptingType type, List<ReferenceSlotViewer> referenceSlotViewers)
+        public ScriptingElement(Actor owner, List<Option> optionList, ScriptingType type, List<ReferenceSlotViewer> referenceSlotViewers, bool sample)
         {
-            this.owner = owner;
-            this.optionList = optionList ?? new List<Option>();
-            this.type = type;
-            this.referenceSlotViewers = referenceSlotViewers;
-
-            // initialise references dictionary
-            referenceList = new Dictionary<int, Reference>();
-            int refcount = 0;
-            referenceSlotViewers.ForEach(x => referenceList.Add(refcount++, null));
-
-            // subscribe to referenceSlotViewers' events
-            referenceSlotViewers.ForEach(x =>
+            if (!sample)
             {
-                x.SlotFilled += OnReferenceSlotViewerFilled;
-                x.SlotEmptied += OnReferenceSlotViewerEmptied;
-            });
+                this.owner = owner;
+                this.optionList = optionList ?? new List<Option>();
+                this.type = type;
+                this.referenceSlotViewers = referenceSlotViewers;
 
+                // initialise references dictionary
+                referenceList = new Dictionary<int, Reference>();
+                int refcount = 0;
+                referenceSlotViewers.ForEach(x => referenceList.Add(refcount++, null));
+
+                // subscribe to referenceSlotViewers' events
+                referenceSlotViewers.ForEach(x =>
+                {
+                    x.SlotFilled += OnReferenceSlotViewerFilled;
+                    x.SlotEmptied += OnReferenceSlotViewerEmptied;
+                });
+            }
         }
 
         private void OnReferenceSlotViewerEmptied(int num)
@@ -106,7 +108,8 @@ namespace Scripting
                     {
                         closing = true;
                         charToClose = refClosingChars[refOpeningChars.IndexOf(text[i])];
-                        refPF = GameObject.Instantiate(ScartchResourceManager.instance.referencePrefab).GetComponent<ReferenceSlotViewer>();
+                        GameObject gameo = GameObject.Instantiate(ScartchResourceManager.instance.referenceSlotViewer);
+                        refPF = gameo.GetComponent<ReferenceSlotViewer>();
                         refPF.transform.SetParent(parent.transform, false);
                         var offset = new Vector3(1 + newpos / 2.0f, 0, -1);
                         if (parent.GetComponent<BlockoidViewer>() == null)

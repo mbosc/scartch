@@ -7,22 +7,26 @@ using UnityEngine;
 
 namespace Scripting
 {
+
     public abstract class Reference : ScriptingElement
     {
         protected ReferenceViewer viewer;
 
-        public Reference(Actor owner, List<Option> optionList, ScriptingType type, List<ReferenceSlotViewer> referenceSlotViewers, ReferenceViewer viewer) : base(owner, optionList, type, referenceSlotViewers)
+        public Reference(Actor owner, List<Option> optionList, ScriptingType type, List<ReferenceSlotViewer> referenceSlotViewers, ReferenceViewer viewer, bool sample) : base(owner, optionList, type, referenceSlotViewers, sample)
         {
-            this.viewer = viewer;
-            viewer.Reference = this;
-            viewer.Type = type;
-            viewer.Init(this);
-            referenceSlotViewers.ForEach(x =>
+            if (!sample)
             {
-                viewer.Regrouped += x.Regroup;
-                viewer.Degrouped += x.Degroup;
-                x.LengthUpdated += viewer.UpdateLength;
-            });
+                this.viewer = viewer;
+                viewer.Reference = this;
+                viewer.Type = type;
+                viewer.Init(this);
+                referenceSlotViewers.ForEach(x =>
+                {
+                    viewer.Regrouped += x.Regroup;
+                    viewer.Degrouped += x.Degroup;
+                    x.LengthUpdated += viewer.UpdateLength;
+                });
+            }
         }
 
         public override Sprite Sprite
@@ -40,7 +44,27 @@ namespace Scripting
 
         public abstract RefType GetRefType();
         public abstract string Evaluate();
-
+        public float FloatEval
+        {
+            get
+            {
+                return float.Parse(Evaluate());
+            }
+        }
+        public bool BoolEval
+        {
+            get
+            {
+                return bool.Parse(Evaluate().ToLower());
+            }
+        }
+        public string StringEval
+        {
+            get
+            {
+                return Evaluate();
+            }
+        }
 
         public override void Destroy()
         {
