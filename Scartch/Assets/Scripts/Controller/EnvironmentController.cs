@@ -37,6 +37,13 @@ namespace Controller
                 Type = RefType.boolType,
                 Value = "TRUE"
             });
+            AddVariable(new Variable()
+            {
+                Owner = null,
+                Name = "TEN",
+                Type = RefType.numberType,
+                Value = "10"
+            });
         }
 
         public void ChangeModeEv()

@@ -21,6 +21,10 @@ namespace View
                 EnableGravityOnDetach = false;
             }
 
+            public float level;
+            public float heightOffset;
+
+
             protected override void Awake()
             {
                 base.Awake();
@@ -50,6 +54,8 @@ namespace View
             public virtual void Open()
             {
                 Visible = true;
+                var spawn = ScartchResourceManager.instance.windowSpawn;
+                this.transform.position = spawn.position - spawn.forward * level + spawn.up * heightOffset;
             }
         }
     }

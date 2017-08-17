@@ -39,8 +39,14 @@ public class ScartchResourceManager : MonoBehaviour
         controlElements = new List<ScriptingElement>
         {
             new IfBlock(null, null, null, null, true),
+            new WhileBlock(null, null, null, null, true),
+            new ForeverBlock(null, null, null, null, true),
+            new RepeatBlock(null, null, null, null, true),
+            new IfElseBlock(null, null, null, null, true),
+            new UntilBlock(null, null, null, null, true),
+            new WaitUntilBlock(null, null, null, null, true),
             new StartedPMBlock(null, null, null, null, true),
-            new WhileBlock(null, null, null, null, true)
+            new WaitSecondsBlock(null, null, null, null, true)
         };
         lookElements = new List<ScriptingElement>
         {
@@ -48,7 +54,10 @@ public class ScartchResourceManager : MonoBehaviour
         };
         movementElements = new List<ScriptingElement>
         {
-            new TakeStepsBlock(null, null, null, null, true)
+            new TakeStepsBlock(null, null, null, null, true),
+            new RotateBlock(null, null, null, null, true),
+            new GoToBlock(null, null, null, null, true),
+            new BounceOnBorderBlock(null, null, null, null, true)
         };
         sensorElements = new List<ScriptingElement>
         {
@@ -60,7 +69,25 @@ public class ScartchResourceManager : MonoBehaviour
         };
         operatorsElements = new List<ScriptingElement>()
         {
-            new SumExpression(null, null, null, null, true)
+            new SumExpression(null, null, null, null, true),
+            new MinusExpression(null, null, null, null, true),
+            new TimesExpression(null, null, null, null, true),
+            new DivExpression(null, null, null, null, true),
+            new GTExpression(null, null, null, null, true),
+            new LTExpression(null, null, null, null, true),
+            new GEExpression(null, null, null, null, true),
+            new LEExpression(null, null, null, null, true),
+            new EQExpression(null, null, null, null, true),
+            new ANDExpression(null, null, null, null, true),
+            new ORExpression(null, null, null, null, true),
+            new NOTExpression(null, null, null, null, true),
+            new RandomNumExpression(null, null, null, null, true),
+            new STREQExpression(null, null, null, null, true),
+            new STRCATExpression(null, null, null, null, true),
+            new STRLENExpression(null, null, null, null, true),
+            new MATHFOPSExpression(null, null, null, null, true),
+            new ModExpression(null, null, null, null, true),
+            new RoundExpression(null, null, null, null, true)
         };
         variableElements = new List<ScriptingElement>();
 
@@ -131,6 +158,7 @@ public class ScartchResourceManager : MonoBehaviour
     public ChooseScriptingElementWindow chooseBlockWindow;
     public ActorViewer actorViewer;
     public ActorWindow actorWindow;
+    public Transform windowSpawn;
 
     [Header("Reference Prefabs")]
     public GameObject blockViewer;

@@ -6,6 +6,7 @@ using View;
 using View.Resources;
 using Scripting;
 using System.Linq;
+using System;
 
 namespace Controller
 {
@@ -38,17 +39,53 @@ namespace Controller
             actorWindow.MessageChanged += ActorWindow_MessageChanged;
             actorWindow.ModelChanged += ActorWindow_ModelChanged;
             actorWindow.NameChanged += ActorWindow_NameChanged;
-            actorWindow.PositionChanged += ActorWindow_PositionChanged;
-            actorWindow.RotationChanged += ActorWindow_RotationChanged;
+            actorWindow.PositionXChanged += ActorWindow_PositionXChanged;
+            actorWindow.PositionYChanged += ActorWindow_PositionYChanged;
+            actorWindow.PositionZChanged += ActorWindow_PositionZChanged;
+            actorWindow.RotationXChanged += ActorWindow_RotationXChanged;
+            actorWindow.RotationYChanged += ActorWindow_RotationYChanged;
+            actorWindow.RotationZChanged += ActorWindow_RotationZChanged;
             actorWindow.ScaleChanged += ActorWindow_ScaleChanged;
             actorWindow.ScriptingElementAdded += ActorWindow_ScriptingElementAdded;
             actorWindow.VariableAdded += ActorWindow_VariableAdded;
             actorWindow.VariableRemoved += ActorWindow_VariableRemoved;
             actorWindow.VolumeChanged += ActorWindow_VolumeChanged;
+            actorWindow.Closed += ActorWindow_Closed;
 
             scriptingElementViewers.Keys.ToList().ForEach(x => x.Deleted += OnScriptingElementDeleted);
 
             actorWindow.Close();
+        }
+
+        private void ActorWindow_RotationYChanged(float obj)
+        {
+            SetActorRotation(new Vector3(actor.Rotation.x, obj, actor.Rotation.z));
+        }
+
+        private void ActorWindow_RotationXChanged(float obj)
+        {
+            SetActorRotation(new Vector3(obj, actor.Rotation.y, actor.Rotation.z));
+        }
+
+        private void ActorWindow_PositionYChanged(float obj)
+        {
+            SetActorPosition(new Vector3(actor.Position.x, obj, actor.Position.z));
+        }
+
+        private void ActorWindow_PositionXChanged(float obj)
+        {
+            SetActorPosition(new Vector3(obj, actor.Position.y, actor.Position.z));
+        }
+
+        private void ActorWindow_Closed()
+        {
+            ShowScriptingElements(false);
+            if (Selected == this)
+            {
+                Selected.actorViewer.Highlighted = false;
+                Selected = null;
+            }
+            
         }
 
         private void OnScriptingElementDeleted(object sender, System.EventArgs e)
@@ -86,14 +123,23 @@ namespace Controller
             actorWindow.MessageChanged -= ActorWindow_MessageChanged;
             actorWindow.ModelChanged -= ActorWindow_ModelChanged;
             actorWindow.NameChanged -= ActorWindow_NameChanged;
-            actorWindow.PositionChanged -= ActorWindow_PositionChanged;
-            actorWindow.RotationChanged -= ActorWindow_RotationChanged;
+            actorWindow.PositionXChanged -= ActorWindow_PositionXChanged;
+            actorWindow.PositionYChanged -= ActorWindow_PositionYChanged;
+            actorWindow.PositionZChanged -= ActorWindow_PositionZChanged;
+            actorWindow.RotationXChanged -= ActorWindow_RotationXChanged;
+            actorWindow.RotationYChanged -= ActorWindow_RotationYChanged;
+            actorWindow.RotationZChanged -= ActorWindow_RotationZChanged;
             actorWindow.ScaleChanged -= ActorWindow_ScaleChanged;
             actorWindow.ScriptingElementAdded -= ActorWindow_ScriptingElementAdded;
             actorWindow.VariableAdded -= ActorWindow_VariableAdded;
             actorWindow.VariableRemoved -= ActorWindow_VariableRemoved;
             actorWindow.VolumeChanged -= ActorWindow_VolumeChanged;
-            scriptingElementViewers.Keys.ToList().ForEach(x => x.Deleted -= OnScriptingElementDeleted);
+            scriptingElementViewers.Keys.ToList().ForEach(x => {
+                x.Deleted -= OnScriptingElementDeleted;
+                x.Delete();
+                scriptingElementViewers[x].Destroy();
+                GameObject.Destroy(x.gameObject);
+            });
             if (Selected.Equals(this))
                 Selected = null;
             EnvironmentController.Instance.RemoveActor(this);
@@ -161,14 +207,14 @@ namespace Controller
             SetActorScale(obj);
         }
 
-        private void ActorWindow_RotationChanged(Vector3 obj)
+        private void ActorWindow_RotationZChanged(float obj)
         {
-            SetActorRotation(obj);
+            SetActorRotation(new Vector3(actor.Rotation.x, actor.Rotation.y, obj));
         }
 
-        private void ActorWindow_PositionChanged(Vector3 obj)
+        private void ActorWindow_PositionZChanged(float obj)
         {
-            SetActorPosition(obj);
+            SetActorPosition(new Vector3(actor.Position.x, actor.Position.y, obj));
         }
 
         private void ActorWindow_NameChanged(string obj)
@@ -201,7 +247,10 @@ namespace Controller
         private void ActorViewer_Selected()
         {
             if (Selected != null)
+            {
                 Selected.actorViewer.Highlighted = false;
+                Selected.ShowScriptingElements(false);
+            }
             Selected = this;
             Selected.actorViewer.Highlighted = true;
             actorWindow.Open();

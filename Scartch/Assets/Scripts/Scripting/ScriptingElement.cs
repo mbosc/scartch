@@ -116,6 +116,7 @@ namespace Scripting
                 x.SlotFilled -= OnReferenceSlotViewerFilled;
                 x.SlotEmptied -= OnReferenceSlotViewerEmptied;
             });
+            optionList.ForEach(x => x.Destroy());
             if (Destroyed != null)
                 Destroyed();
         }

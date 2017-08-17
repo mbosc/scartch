@@ -28,8 +28,11 @@ namespace Model
             get { return position; }
             set
             {
-                position = new Vector3(value.x > MaxX ? MaxX : value.x,
-                    value.y > MaxY ? MaxY : value.y, value.z > MaxZ ? MaxZ : value.z);
+                var px = value.x > MaxX ? MaxX : (value.x < -MaxX ? -MaxX : value.x);
+                var py = value.y > MaxY ? MaxY : (value.y < 0 ? 0 : value.y);
+                var pz = value.z > MaxZ ? MaxZ : (value.z < -MaxZ ? -MaxZ : value.z);
+                
+                position = new Vector3(px, py, pz);
 
                 if (Moved != null)
                     Moved(Position, Rotation);
@@ -43,7 +46,10 @@ namespace Model
             get { return rotation; }
             set
             {
-                rotation = value;
+                var rx = value.x % 360;
+                var ry = value.y % 360;
+                var rz = value.z % 360;
+                rotation = new Vector3(rx, ry, rz);
                 if (Moved != null)
                     Moved(Position, Rotation);
             }

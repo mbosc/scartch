@@ -42,10 +42,11 @@ namespace Scripting
         private void OnViewerTested()
         {
             UnityEngine.Debug.Log("Testerino");
-            ExecutionController.Instance.AddFlux(new Flux(this)
+            var tempflux = new Flux(this)
             {
                 CurrentBlock = this
-            });
+            };
+            ExecutionController.Instance.AddFlux(tempflux);
             Controller.EnvironmentController.Instance.ChangeMode(true);
         }
 

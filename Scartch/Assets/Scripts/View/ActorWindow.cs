@@ -25,7 +25,8 @@ namespace View
         public VariableWindow varWindow;
 
         public event Action<string> NameChanged;
-        public event Action<Vector3> PositionChanged, RotationChanged;
+        public event Action<float> PositionXChanged, PositionYChanged, PositionZChanged,
+            RotationXChanged, RotationYChanged, RotationZChanged;
         public event Action<float> ScaleChanged, VolumeChanged;
         public event Action<bool, string> MessageChanged;
         public event Action<Model.ActorModel> ModelChanged;
@@ -33,6 +34,7 @@ namespace View
         public event Action<Scripting.ScriptingElement> ScriptingElementAdded;
         public event Action<VariableEntry> VariableAdded;
         public event Action<int> VariableRemoved;
+        public event Action Closed;
 
         public UnityEngine.UI.Text title, messageShowHide;
         public SpriteRenderer modelSprite;
@@ -63,12 +65,12 @@ namespace View
             modelChooser.ModelChosen += ModelChooser_ModelChosen;
             seChooser.ChosenScriptingElement += SeChooser_ChosenScriptingElement;
             nameBox.TextChanged += OnNameChanged;
-            posXBox.TextChanged += OnPositionChanged;
-            posYBox.TextChanged += OnPositionChanged;
-            posZBox.TextChanged += OnPositionChanged;
-            rotXBox.TextChanged += OnRotationChanged;
-            rotYBox.TextChanged += OnRotationChanged;
-            rotZBox.TextChanged += OnRotationChanged;
+            posXBox.TextChanged += OnPositionXChanged;
+            posYBox.TextChanged += OnPositionYChanged;
+            posZBox.TextChanged += OnPositionZChanged;
+            rotXBox.TextChanged += OnRotationXChanged;
+            rotYBox.TextChanged += OnRotationYChanged;
+            rotZBox.TextChanged += OnRotationZChanged;
             scaleBox.TextChanged += OnScaleChanged;
             volBox.TextChanged += OnVolumeChanged;
             msgBox.TextChanged += OnMessageChanged;
@@ -149,6 +151,16 @@ namespace View
             }
         }
 
+        public override void Close()
+        {
+            base.Close();
+            varWindow.Close();
+            seChooser.Close();
+            modelChooser.Close();
+            if (Closed != null)
+                Closed();
+        }
+
         private void OnVolumeChanged(object sender, EventArgs e)
         {
             if (VolumeChanged != null)
@@ -165,21 +177,47 @@ namespace View
             }
         }
 
-        private void OnRotationChanged(object sender, EventArgs e)
+        private void OnRotationXChanged(object sender, EventArgs e)
         {
-            if (RotationChanged != null)
+            if (RotationXChanged != null)
             {
-                RotationChanged(new Vector3(rotXBox.Text.ToStdNum(),
-                    rotYBox.Text.ToStdNum(), rotZBox.Text.ToStdNum()));
+                RotationXChanged(rotXBox.Text.ToStdNum());
+            }
+        }
+        private void OnRotationYChanged(object sender, EventArgs e)
+        {
+            if (RotationYChanged != null)
+            {
+                RotationYChanged(rotYBox.Text.ToStdNum());
+            }
+        }
+        private void OnRotationZChanged(object sender, EventArgs e)
+        {
+            if (RotationZChanged != null)
+            {
+                RotationZChanged(rotZBox.Text.ToStdNum());
             }
         }
 
-        private void OnPositionChanged(object sender, EventArgs e)
+        private void OnPositionXChanged(object sender, EventArgs e)
         {
-            if (PositionChanged != null)
+            if (PositionXChanged != null)
             {
-                PositionChanged(new Vector3(posXBox.Text.ToStdNum(),
-                    posYBox.Text.ToStdNum(), posZBox.Text.ToStdNum()));
+                PositionXChanged(posXBox.Text.ToStdNum());
+            }
+        }
+        private void OnPositionYChanged(object sender, EventArgs e)
+        {
+            if (PositionYChanged != null)
+            {
+                PositionYChanged(posYBox.Text.ToStdNum());
+            }
+        }
+        private void OnPositionZChanged(object sender, EventArgs e)
+        {
+            if (PositionZChanged != null)
+            {
+                PositionZChanged(posZBox.Text.ToStdNum());
             }
         }
 
@@ -204,17 +242,17 @@ namespace View
         protected override void OnDestroy()
         {
             base.OnDestroy();
-
+            
             // Events are unlinked
             modelChooser.ModelChosen -= ModelChooser_ModelChosen;
             seChooser.ChosenScriptingElement -= SeChooser_ChosenScriptingElement;
             nameBox.TextChanged -= OnNameChanged;
-            posXBox.TextChanged -= OnPositionChanged;
-            posYBox.TextChanged -= OnPositionChanged;
-            posZBox.TextChanged -= OnPositionChanged;
-            rotXBox.TextChanged -= OnRotationChanged;
-            rotYBox.TextChanged -= OnRotationChanged;
-            rotZBox.TextChanged -= OnRotationChanged;
+            posXBox.TextChanged -= OnPositionXChanged;
+            posYBox.TextChanged -= OnPositionYChanged;
+            posZBox.TextChanged -= OnPositionZChanged;
+            rotXBox.TextChanged -= OnRotationXChanged;
+            rotYBox.TextChanged -= OnRotationYChanged;
+            rotZBox.TextChanged -= OnRotationZChanged;
             scaleBox.TextChanged -= OnScaleChanged;
             volBox.TextChanged -= OnVolumeChanged;
             msgBox.TextChanged -= OnMessageChanged;
@@ -232,6 +270,13 @@ namespace View
             actor.ModelChanged -= Actor_ModelChanged;
             actor.ScaleChanged -= Actor_ScaleChanged;
             actor.VolumeChanged -= Actor_VolumeChanged;
+
+            if (seChooser != null)
+                GameObject.Destroy(seChooser.gameObject);
+            if (varWindow != null)
+                GameObject.Destroy(varWindow.gameObject);
+            if (modelChooser != null)
+                GameObject.Destroy(modelChooser.gameObject);
         }
 
         private void Actor_Destroyed()
@@ -242,11 +287,13 @@ namespace View
         private void AddSEBtn_Pressed(object sender, EventArgs e)
         {
             seChooser.Open();
+            seChooser.transform.SetParent(null);
         }
 
         private void LocVarBtn_Pressed(object sender, EventArgs e)
         {
             varWindow.Open();
+            varWindow.transform.SetParent(null);
         }
 
         private void HideSEBtn_Pressed(object sender, EventArgs e)
@@ -258,6 +305,7 @@ namespace View
         private void ModelBtn_Pressed(object sender, EventArgs e)
         {
             modelChooser.Open();
+            modelChooser.transform.SetParent(null);
         }
 
         private void OnNameChanged(object sender, EventArgs e)

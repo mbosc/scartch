@@ -29,12 +29,11 @@ namespace View.Resources
 
         private void ActiveateKeyboard()
         {
+            keyboard.Open();
             keyboard.gameObject.transform.position = this.transform.position + this.transform.forward * 10;
             keyboard.gameObject.transform.eulerAngles = Vector3.zero;
             var angle = Vector3.Angle(this.transform.forward, keyboard.transform.forward);
             keyboard.gameObject.transform.eulerAngles -= new Vector3(0, angle, 0);
-            keyboard.Open();
-           
         }
     }
 }

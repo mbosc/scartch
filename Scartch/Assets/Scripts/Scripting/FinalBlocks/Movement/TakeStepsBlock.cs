@@ -27,6 +27,7 @@ namespace Scripting
         {
             var forward = (Quaternion.Euler(owner.Rotation) * new Vector3(0, 0, 1));
             owner.Position -= forward * ReferenceList[0].FloatEval;
+            Debug.DrawRay(owner.Position, forward, Color.red);
             Flux.current.CurrentBlock = Next;
         }
     }

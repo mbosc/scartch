@@ -233,29 +233,12 @@ namespace View
             }
         }
 
-
-        //public string debugtxt;
-        //public bool locked;
         protected override void Update()
         {
             base.Update();
 
             if (searchingNearest)
                 Nearest = FindNearest();
-
-            //SUPERDEBUGGO
-            //if (debugtxt != Text && !locked)
-            //    Text = debugtxt;
-            //if (Input.GetKeyDown(KeyCode.Alpha9))
-            //{
-            //    locked = true;
-            //    var text = DebugBlock.description;
-            //    List<ReferenceSlotViewer> refl;
-            //    List<Option> optl;
-            //    Scripting.ScriptingElement.GenerateViewersFromText(ref text, gameObject, out refl, out optl);
-            //    Block block = new DebugBlock(null, optl, ScriptingType.variable, refl, this);
-            //    Text = text;
-            //}
         }
 
 

@@ -30,7 +30,6 @@ namespace Scripting
         {
             get { return viewer; }
         }
-        //TODO manca questa parte di controllo
 
         public Option(List<string> valueSet, OptionViewer viewer)
         {
@@ -39,9 +38,17 @@ namespace Scripting
             this.valueSet = valueSet;
             this.viewer = viewer;
 
-            //TODO
-            // subscribe a eventi
+            viewer.ValueSelected += Viewer_ValueSelected;
         }
 
+        private void Viewer_ValueSelected(int obj)
+        {
+            Value = obj;
+        }
+
+        public void Destroy()
+        {
+            viewer.ValueSelected -= Viewer_ValueSelected;
+        }
     }
 }

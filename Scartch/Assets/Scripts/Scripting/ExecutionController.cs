@@ -7,7 +7,7 @@ namespace Scripting
 {
     public class ExecutionController : MonoBehaviour
     {
-        private float delay = 1;
+        private float delay = .1f;
 
         public float Delay
         {
@@ -62,7 +62,19 @@ namespace Scripting
         }
         public void ExecuteTest()
         {
-            StartCoroutine(Run(true));
+            StartCoroutine(Run());
+        }
+
+        public void PauseFor(float time)
+        {
+            StopAllCoroutines();
+            StartCoroutine(WaitAndReprise(time));
+        }
+
+        IEnumerator WaitAndReprise(float time)
+        {
+            yield return new WaitForSeconds(time);
+            Execute();
         }
 
         public void Stop()
@@ -71,14 +83,14 @@ namespace Scripting
             fluxes = new Queue<Flux>();
         }
 
-        private IEnumerator Run(bool test = false)
+        private IEnumerator Run()
         {
             while(fluxes.Count > 0)
             {
                 ExecuteNext();
                 yield return new WaitForSeconds(Delay);
             }
-            Controller.EnvironmentController.Instance.ChangeMode(true);
+            Controller.EnvironmentController.Instance.ChangeMode();
         }
     }
 }
