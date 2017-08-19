@@ -45,27 +45,57 @@ public class ScartchResourceManager : MonoBehaviour
             new IfElseBlock(null, null, null, null, true),
             new UntilBlock(null, null, null, null, true),
             new WaitUntilBlock(null, null, null, null, true),
-            new StartedPMBlock(null, null, null, null, true),
-            new WaitSecondsBlock(null, null, null, null, true)
+            new StartedPMHat(null, null, null, null, true),
+            new WaitSecondsBlock(null, null, null, null, true),
+            new BroadcastBlock(null, null, null, null, true),
+            new ReceivedMessageHat(null, null, null, null, true),
+            new StopPlayModeBlock(null, null, null, null, true)
         };
         lookElements = new List<ScriptingElement>
         {
-            new SayBlock(null, null, null, null, true)
+            new SayBlock(null, null, null, null, true),
+            new SayForSecondsBlock(null, null, null, null, true),
+            new HideMessageBlock(null, null, null, null, true),
+            new SetScaleToBlock(null, null, null, null, true),
+            new SetScaleToPercentageBlock(null, null, null, null, true),
+            new ModelChangeBlock(null, null, null, null, true),
+            new ScaleReference(null, null, null, null, true)
         };
         movementElements = new List<ScriptingElement>
         {
             new TakeStepsBlock(null, null, null, null, true),
             new RotateBlock(null, null, null, null, true),
             new GoToBlock(null, null, null, null, true),
-            new BounceOnBorderBlock(null, null, null, null, true)
+            new BounceOnBorderBlock(null, null, null, null, true),
+
+            new AlterPositionBlock(null, null, null, null, true),
+            new AlterRotationBlock(null, null, null, null, true),
+            new SetPositionBlock(null, null, null, null, true),
+            new SetRotationBlock(null, null, null, null, true),
+            new XPositionReference(null, null, null, null, true),
+            new YPositionReference(null, null, null, null, true),
+            new ZPositionReference(null, null, null, null, true),
+            new XRotationReference(null, null, null, null, true),
+            new YRotationReference(null, null, null, null, true),
+            new ZRotationReference(null, null, null, null, true)
         };
         sensorElements = new List<ScriptingElement>
         {
-            new TimeResetBlock(null, null, null, null, true)
+            new TimeResetBlock(null, null, null, null, true),
+            new TimerReference(null, null, null, null, true),
+            new ControllerPositionReference(null, null, null, null, true),
+            new ControllerRotationReference(null, null, null, null, true),
+            new HeadPositionReference(null, null, null, null, true),
+            new HeadRotationReference(null, null, null, null, true),
+            new ButtonReference(null, null, null, null, true),
+            new ButtonPressedHat(null, null, null, null, true)
         };
         soundElements = new List<ScriptingElement>
         {
-            new SetVolumeBlock(null, null, null, null, true)
+            new SetVolumeBlock(null, null, null, null, true),
+            new PlaySoundBlock(null, null, null, null, true),
+            new StopAllSoundsBlock(null, null, null, null, true),
+            new VolumeReference(null, null, null, null, true)
         };
         operatorsElements = new List<ScriptingElement>()
         {
@@ -89,7 +119,13 @@ public class ScartchResourceManager : MonoBehaviour
             new ModExpression(null, null, null, null, true),
             new RoundExpression(null, null, null, null, true)
         };
-        variableElements = new List<ScriptingElement>();
+        variableElements = new List<ScriptingElement>()
+        {
+            new SetBoolVarBlock(null, null, null, null, true),
+            new SetNumberVarBlock(null, null, null, null, true),
+            new SetStringVarBlock(null, null, null, null, true),
+            new IncreaseNumberVarBlock(null, null, null, null, true)
+        };
 
         scriptingElements = new List<List<ScriptingElement>>();
         scriptingElements.Add(controlElements);
@@ -143,6 +179,9 @@ public class ScartchResourceManager : MonoBehaviour
     public List<GameObject> modelPrefabs;
     public GameObject actorSpawn;
 
+    [Header("Sound clips")]
+    public List<AudioClip> sounds;
+
     [Header("ScriptChooser")]
     public Sprite iconBlock;
     public Sprite iconMBlock, iconDMBlock, iconHat, iconBool, iconString, iconNum;
@@ -164,6 +203,7 @@ public class ScartchResourceManager : MonoBehaviour
     public GameObject blockViewer;
     public GameObject mouthBlockViewer, doubleMouthBlockViewer, referenceViewer, hatViewer;
     
+
     [HideInInspector]
     public NVRLaserPointer lastRayCaster;
 }

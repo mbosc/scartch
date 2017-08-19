@@ -7,13 +7,13 @@ using View;
 
 namespace Scripting
 {
-    public class StartedPMBlock : Hat
+    public class StartedPMHat : Hat
     {
 
         public static string description = "In Play Mode";
         private bool sample = false;
 
-        public StartedPMBlock(Actor owner, List<Option> optionList, List<ReferenceSlotViewer> referenceSlotViewers, HatViewer viewer, bool sample) : base(owner, optionList, ScriptingType.control, referenceSlotViewers, viewer, sample)
+        public StartedPMHat(Actor owner, List<Option> optionList, List<ReferenceSlotViewer> referenceSlotViewers, HatViewer viewer, bool sample) : base(owner, optionList, ScriptingType.control, referenceSlotViewers, viewer, sample)
         {
             this.sample = sample;
             if (!sample)

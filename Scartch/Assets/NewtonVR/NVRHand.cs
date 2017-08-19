@@ -362,7 +362,7 @@ namespace NewtonVR
             {
                 if (CurrentInteractionStyle == InterationStyle.Hold)
                 {
-                    if (HoldButtonPressed == true && IsInteracting == false)
+                    if (!Controller.EnvironmentController.Instance.InPlayMode && HoldButtonPressed == true && IsInteracting == false)
                     {
                         if (CurrentHandState != HandState.GripDownNotInteracting && VisibilityLocked == false)
                         {

@@ -14,8 +14,14 @@ namespace Controller
         private EnvironmentViewer viewer;
         public event Action<bool> ModeChanged;
         public event Action InitiatingPlayMode;
-
+        public event Action<string> BroadcastMessage;
         public List<Variable> globalVariables;
+
+        public void Broadcast(string message)
+        {
+            if (BroadcastMessage != null)
+                BroadcastMessage(message);
+        }
 
         private EnvironmentController(EnvironmentViewer viewer)
         {
@@ -94,7 +100,10 @@ namespace Controller
         }
 
         private bool running = false;
-
+        public bool InPlayMode
+        {
+            get { return running; }
+        }
 
 
         public void ChangeMode(bool test = false)

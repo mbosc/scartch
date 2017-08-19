@@ -7,7 +7,7 @@ namespace Model
     public class InputDevice
     {
         private Vector3 position;
-
+        private Dictionary<int, bool> buttons;
         public Vector3 Position
         {
             get { return position; }
@@ -33,10 +33,25 @@ namespace Model
         }
 
         public event System.Action<Vector3, Vector3> Updated;
-
+        public event System.Action<int> ButtonPressed;
         public InputDevice()
         {
+            buttons = new Dictionary<int, bool>();
+            buttons.Add(0, false);
+        }
+    
+        public bool IsButtonPressed(int num)
+        {
+            return buttons[num];
+        }
+
+        public void SetButtonPressed(int num, bool value)
+        {
+            buttons[num] = value;
+            if (value && ButtonPressed != null)
+                ButtonPressed(num);
 
         }
+        
     }
 }

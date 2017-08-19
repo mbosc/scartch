@@ -14,10 +14,10 @@ namespace Scripting
             get { return delay; }
             set { delay = value; }
         }
-
+        public AuxiliaryTimer auxTimer;
 
         private static ExecutionController instance;
-
+        
         public static ExecutionController Instance
         {
             get { return instance; }
@@ -80,6 +80,7 @@ namespace Scripting
         public void Stop()
         {
             StopAllCoroutines();
+            auxTimer.StopAllCoroutines();
             fluxes = new Queue<Flux>();
         }
 

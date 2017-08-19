@@ -69,9 +69,24 @@ namespace NewtonVR.Example
         {
             if ((Hand.Inputs[NVRButtons.Y].IsPressed || Hand.Inputs[NVRButtons.B].IsPressed))
                 return;
-            if (Hand.Inputs[NVRButtons.A].PressDown || Hand.Inputs[NVRButtons.X].PressDown)
-                NextState();
-
+            if (Controller.EnvironmentController.Instance.InPlayMode)
+            {
+                if (state != 1)
+                {
+                    state = 1;
+                    LineColor = LineColorBlue;
+                }
+                var viewer = GetComponent<View.InputViewer>();
+                if (Hand.Inputs[NVRButtons.A].PressDown || Hand.Inputs[NVRButtons.X].PressDown)
+                {
+                    viewer.PressKey(0);
+                }
+            }
+            else
+            {
+                if (Hand.Inputs[NVRButtons.A].PressDown || Hand.Inputs[NVRButtons.X].PressDown)
+                    NextState();
+            }
 
             Line.enabled = state > 0;
 

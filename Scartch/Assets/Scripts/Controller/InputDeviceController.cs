@@ -10,6 +10,10 @@ namespace Controller
     {
         private InputDevice device;
         private InputViewer viewer;
+        public InputDevice Device
+        {
+            get { return device; }
+        }
 
         public static Dictionary<string, InputDeviceController> controllers = new Dictionary<string, InputDeviceController>();
         public static InputDeviceController GetController(string qualifier)
@@ -32,6 +36,18 @@ namespace Controller
             this.device = device;
             this.viewer = viewer;
             viewer.PosRotUpdated += OnViewerUpdated;
+            viewer.KeyPressed += Viewer_KeyPressed;
+            viewer.KeyReleased += Viewer_KeyReleased;
+        }
+
+        private void Viewer_KeyReleased(int obj)
+        {
+            device.SetButtonPressed(obj, false);
+        }
+
+        private void Viewer_KeyPressed(int obj)
+        {
+            device.SetButtonPressed(obj, true);
         }
 
         private void OnViewerUpdated(UnityEngine.Vector3 arg1, UnityEngine.Vector3 arg2)

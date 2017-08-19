@@ -1,9 +1,12 @@
 Todo:
 
-- Implementare tutti gli altri elementini
+- gestione pagine non corretta in sechooser
+- bisogna debuggare bene l'espansione con opzioni di cappelli e reference
 - Il timer non va
+- settare il secondo text su if/else
+- colore degli operator blocks non corretto
+- non viene propagata alla variable entry la variazione di valore della variabile
+
+FATTO?
 - Distruggere gli scripting element viewer quando distruggi l'attore
 - Impedire modifiche in play mode
-- settare il secondo text su if/else
-- gestione pagine non corretta in sechooser
-- colore degli operator blocks non corretto
