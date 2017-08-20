@@ -10,8 +10,7 @@ namespace View
 {
     public class VariableEntry : MonoBehaviour
     {
-        private string vname, value;
-        private RefType type;
+        private Model.Variable variable;
         public VRTextbox nameBox;
         public VRTextbox valueBox;
         public VRCombobox typeBox;
@@ -21,19 +20,17 @@ namespace View
         public event System.Action<string> NameChanged, ValueChanged;
         public event System.Action<RefType> TypeChanged;
 
-        public void Init(string name, string value, RefType type)
+        public void Init(Variable var)
         {
+            this.variable = var;
             nameBox.Type = RefType.stringType;
-            valueBox.Type = type;
-            this.vname = name;
-            this.type = type;
-            this.value = value;
-            nameBox.Text = name;
-            valueBox.Text = value;
+            valueBox.Type = variable.Type;
+            nameBox.Text = variable.Name;
+            valueBox.Text = variable.Value;
             typeBox.options = new List<string>();
             foreach (var t in Enum.GetValues(typeof(RefType)))
                 typeBox.options.Add(RefTypeHelper.Name((RefType)t));
-            typeBox.Selected = (int)type;
+            typeBox.Selected = (int)variable.Type;
             typeBox.Init();
 
             nameBox.TextChanged += OnNameChanged;
@@ -41,7 +38,32 @@ namespace View
             typeBox.SelectionChanged += OnTypeChanged;
             monitorButton.Pressed += OnMonitorPressed;
             deleteButton.Pressed += OnDeletePressed;
+
+            variable.NameChanged += Variable_NameChanged;
+            variable.TypeChanged += Variable_TypeChanged;
+            variable.ValueChanged += Variable_ValueChanged;
+
             inited = true;
+        }
+
+        private void Variable_ValueChanged(string obj)
+        {
+            if (valueBox.Text != obj)
+                valueBox.Text = obj;
+        }
+
+        private void Variable_TypeChanged(RefType obj)
+        {
+
+            valueBox.Type = obj;
+            valueBox.Text = RefTypeHelper.Default(obj);
+
+        }
+
+        private void Variable_NameChanged(string obj)
+        {
+            if (nameBox.Text != obj)
+                nameBox.Text = obj;
         }
 
         private void OnDeletePressed(object sender, EventArgs e)
@@ -58,18 +80,16 @@ namespace View
 
         private void OnTypeChanged(int obj)
         {
-            type = (RefType)obj;
+            if (variable.Type == (RefType)obj)
+                return;
             if (TypeChanged != null)
-                TypeChanged(type);
-            valueBox.Type = type;
-            valueBox.Text = RefTypeHelper.Default(type);
+                TypeChanged((RefType)obj);
         }
 
         private void OnValChanged(object sender, System.EventArgs e)
         {
-            value = (sender as VRTextbox).Text;
             if (ValueChanged != null)
-                ValueChanged(value);
+                ValueChanged((sender as VRTextbox).Text);
         }
 
         private void OnNameChanged(object sender, System.EventArgs e)
@@ -78,12 +98,10 @@ namespace View
             {
                 if (NameChanged != null)
                     NameChanged((sender as VRTextbox).Text);
-                vname = (sender as VRTextbox).Text;
             }
             catch (VariableAlterationException e2)
             {
                 ScartchResourceManager.instance.lastRayCaster.Alert(e2.Message);
-                (sender as VRTextbox).Text = vname;
             }
         }
 
@@ -98,6 +116,10 @@ namespace View
                 typeBox.SelectionChanged -= OnTypeChanged;
                 monitorButton.Pressed -= OnMonitorPressed;
                 deleteButton.Pressed -= OnDeletePressed;
+                variable.NameChanged -= Variable_NameChanged;
+                variable.TypeChanged -= Variable_TypeChanged;
+                variable.ValueChanged -= Variable_ValueChanged;
+
             }
         }
     }

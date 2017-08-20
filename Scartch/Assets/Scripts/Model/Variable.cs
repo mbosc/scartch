@@ -39,6 +39,8 @@ namespace Model
                 if (RefCount > 0)
                     throw new VariableAlterationException("Variable " + Name + " has " + RefCount + " active references and its name cannot be changed.");
                 name = value;
+                if (NameChanged != null)
+                    NameChanged(value);
             }
         }
 
@@ -47,7 +49,10 @@ namespace Model
         public string Value
         {
             get { return _value; }
-            set { _value = value; }
+            set { _value = value;
+                if (ValueChanged != null)
+                    ValueChanged(value);
+            }
         }
 
         private RefType type;
@@ -60,6 +65,8 @@ namespace Model
                 if (RefCount > 0)
                     throw new VariableAlterationException("Variable " + Name + " has " + RefCount + " active references and its type cannot be changed.");
                 type = value;
+                if (TypeChanged != null)
+                    TypeChanged(value);
             }
         }
 

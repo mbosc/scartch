@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace View
@@ -16,8 +17,11 @@ namespace View
             {
                 //unsubscribe old
                 if (next != null)
+                {
                     next.Grabbed -= attachPoint.Detach;
-                 
+                    Regrouped -= next.Regroup;
+                    Degrouped -= next.Degroup;
+                }
 
                 //assign it
                 next = value;
@@ -34,7 +38,11 @@ namespace View
 
                 //subscribe new
                 if (next != null)
+                {
                     next.Grabbed += attachPoint.Detach;
+                    Regrouped += next.Regroup;
+                    Degrouped += next.Degroup;
+                }
             }
         }
 
@@ -117,8 +125,67 @@ namespace View
             }
         }
 
+        public void UpdateLength(int num, int val)
+        {
+            Debug.Log("Reference " + num + " becomes long " + val);
+            bool closing = false;
+            bool moving = false;
+            int delta = 0;
+            char charToClose = 'a';
+            string outString = "";
+            int refCounter = 0;
+            int optCounter = 0;
+            for (int i = 0; i < text.Length; i++)
+            {
+                if (!closing)
+                {
+                    if (Scripting.ScriptingElement.refOpeningChars.Contains(text[i]))
+                    {
+                        if (num != refCounter)
+                        {
+                            if (!moving)
+                                refCounter++;
+                            else
+                            {
+                                var rsv = ScriptingElement.RSV[refCounter++];
+                                rsv.Regroup();
+                                rsv.transform.localPosition += new Vector3(delta / 2.0f, 0, 0);
+                                rsv.Degroup();
+                            }
+                        }
+                        else
+                        {
+                            closing = true;
+                            charToClose = Scripting.ScriptingElement.refClosingChars[Scripting.ScriptingElement.refOpeningChars.IndexOf(text[i])];
+                            refCounter++;
+                            delta = i;
+                        }
+                    }
+                    if (Scripting.ScriptingElement.optOpeningChars.Contains(text[i]))
+                    {
+                        if (moving)
+                        {
+                            ScriptingElement.OPT[optCounter++].Viewer.Combo.transform.localPosition += new Vector3(delta / 2.0f, 0, 0);
+                        }
+                        optCounter++;
+                    }
+                    outString += text[i];
+                }
+                else if (closing && text[i] == charToClose)
+                {
+                    closing = false;
+                    moving = true;
+                    delta = val - (i - delta + 1);
+                    outString += new string(' ', val - 2);
+                    outString += text[i];
+                }
+            }
+            Text = outString;
+        }
+
         public List<GameObject> highlightElements;
         public BlockAttachPoint attachPoint;
+        public event Action Regrouped, Degrouped;
 
         protected override void Start()
         {
@@ -135,20 +202,21 @@ namespace View
 
         public void Regroup()
         {
+            if (Regrouped != null)
+                Regrouped();
             if (Next != null)
             {
-                Next.Regroup();
                 Next.transform.SetParent(this.transform);
             }
         }
 
         public void Degroup()
         {
+            if (Degrouped != null)
+                Degrouped();
             if (Next != null)
             {
-                Next.Degroup();
                 Next.transform.SetParent(null);
-
             }
         }
     }

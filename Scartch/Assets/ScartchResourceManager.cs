@@ -26,6 +26,7 @@ public class ScartchResourceManager : MonoBehaviour
             { ScriptingType.movement, movementMaterial },
             { ScriptingType.sensor, sensorMaterial },
             { ScriptingType.sound, soundMaterial },
+            { ScriptingType.operators, operatorsMaterial },
             { ScriptingType.variable, variableMaterial }
         };
 
@@ -143,7 +144,7 @@ public class ScartchResourceManager : MonoBehaviour
 
     [Header("Scripting Type materials")]
     public Material controlMaterial;
-    public Material lookMaterial, movementMaterial, sensorMaterial, soundMaterial, variableMaterial;
+    public Material lookMaterial, movementMaterial, sensorMaterial, soundMaterial, operatorsMaterial, variableMaterial;
     public Dictionary<ScriptingType, Material> blockTypeMaterials;
 
     [Header("References components")]

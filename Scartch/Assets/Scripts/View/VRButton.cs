@@ -19,7 +19,12 @@ namespace View
 
             public override void HitByRedRay()
             {
-                // do nothing
+                // try to pass the call onto parents
+                try
+                {
+                    transform.parent.GetComponentInParent<RayHittable>().HitByRedRay();
+                }
+                catch (Exception) { }
             }
         }
     }

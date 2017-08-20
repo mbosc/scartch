@@ -28,6 +28,14 @@ namespace Scripting
                 this.viewer = viewer;
                 viewer.SnappedNext += OnViewerSnappedNext;
                 viewer.UnsnappedNext += OnViewerUnsnappedNext;
+                viewer.Type = type;
+
+                referenceSlotViewers.ForEach(x =>
+                {
+                    viewer.Regrouped += x.Regroup;
+                    viewer.Degrouped += x.Degroup;
+                    x.LengthUpdated += viewer.UpdateLength;
+                });
             }
         }
 
@@ -52,6 +60,12 @@ namespace Scripting
             base.Destroy();
             viewer.SnappedNext -= OnViewerSnappedNext;
             viewer.UnsnappedNext -= OnViewerUnsnappedNext;
+            referenceSlotViewers.ForEach(x =>
+            {
+                viewer.Regrouped -= x.Regroup;
+                viewer.Degrouped -= x.Degroup;
+                x.LengthUpdated -= viewer.UpdateLength;
+            });
         }
 
     }

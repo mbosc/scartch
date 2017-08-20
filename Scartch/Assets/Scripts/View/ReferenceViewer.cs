@@ -35,7 +35,7 @@ namespace View
                 type = value;
 
                 //Update objects' colours
-                var mat = ScartchResourceManager.instance.blockTypeMaterials[(Scripting.ScriptingType)color];
+                var mat = ScartchResourceManager.instance.blockTypeMaterials[Type];
                 body.GetComponent<Renderer>().material = mat;
                 head.GetComponent<Renderer>().material = mat;
                 tail.GetComponent<Renderer>().material = mat;

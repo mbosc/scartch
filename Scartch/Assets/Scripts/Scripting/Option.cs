@@ -33,7 +33,7 @@ namespace Scripting
 
         public Option(List<string> valueSet, OptionViewer viewer)
         {
-            if (valueSet.Count < 2)
+            if (valueSet.Count < 1)
                 throw new ArgumentException("Too few options");
             this.valueSet = valueSet;
             this.viewer = viewer;

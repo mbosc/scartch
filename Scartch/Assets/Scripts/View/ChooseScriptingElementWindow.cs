@@ -18,7 +18,7 @@ namespace View
         public UnityEngine.UI.Text pageTxt;
 
         public event System.Action<ScriptingElement> ChosenScriptingElement;
-        private ScriptingType filter = ScriptingType.movement;
+        private ScriptingType filter;
 
         public ScriptingType Filter
         {
@@ -51,7 +51,7 @@ namespace View
                 {
                     num += summoner.GetVariableNumber();
                 }
-                var limit = (num / 9 + num % 9 != 0 ? 1 : 0);
+                var limit = (num / 9 + (num % 9 != 0 ? 1 : 0));
                 nextBtn.gameObject.SetActive(value != limit);
                 prevBtn.gameObject.SetActive(value != 1);
                 page = value;
@@ -106,7 +106,7 @@ namespace View
             voices.ForEach(x => x.Pressed += OnVoicePressed);
             nextBtn.Pressed += OnNextPressed;
             prevBtn.Pressed += OnPrevPressed;
-            Filter = ScriptingType.control;
+            Filter = ScriptingType.movement;
         }
 
         private void OnPrevPressed(object sender, System.EventArgs e)

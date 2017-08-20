@@ -20,7 +20,9 @@ namespace View
         private void Start()
         {
             globalVariablesWindow = GameObject.Instantiate(ScartchResourceManager.instance.variableWindow);
+            globalVariablesWindow.name = "Global Variables Window";
             timerWindow = GameObject.Instantiate(ScartchResourceManager.instance.timerWindow);
+            timerWindow.name = "Global Timer Window";
 
             changeModeButton.Pressed += ChangeModeButton_Pressed;
             addActorButton.Pressed += AddActorButton_Pressed;
