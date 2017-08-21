@@ -17,7 +17,11 @@ namespace View
                 if (variable != null)
                 {
                     // Unsubscribe
-
+                    variable.NameChanged -= Variable_NameChanged;
+                    variable.TypeChanged -= Variable_TypeChanged;
+                    variable.ValueChanged -= Variable_ValueChanged;
+                    variable.Destroyed -= Variable_Destroyed;
+                    variable.Owner.NameChanged -= Owner_NameChanged;
                 }
                 variable = value;
                 if (variable != null)
@@ -27,13 +31,19 @@ namespace View
                     variable.TypeChanged += Variable_TypeChanged;
                     variable.ValueChanged += Variable_ValueChanged;
                     variable.Destroyed += Variable_Destroyed;
+                    variable.Owner.NameChanged += Owner_NameChanged;
 
-                    this.value.text = variable.Name;
+                    this.value.text = variable.Value;
                     scope.text = "Scope: <color=red>" + (variable.Owner == null ? "global</color>" : ("local</color> to <color=green>" + variable.Owner.Name + "</color>"));
                     type.text = "Type: <color=red>" + Model.RefTypeHelper.Name(variable.Type) + "</color>";
                     vName.text = variable.Name;
                 }
             }
+        }
+
+        private void Owner_NameChanged(string obj)
+        {
+            scope.text = "Scope: <color=red>" + (variable.Owner == null ? "global</color>" : ("local</color> to <color=green>" + variable.Owner.Name + "</color>"));
         }
 
         private void Variable_Destroyed()
@@ -55,6 +65,26 @@ namespace View
         private void Variable_NameChanged(string obj)
         {
             vName.text = obj;
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            if (variable != null)
+            {
+                // Unsubscribe
+                variable.NameChanged -= Variable_NameChanged;
+                variable.TypeChanged -= Variable_TypeChanged;
+                variable.ValueChanged -= Variable_ValueChanged;
+                variable.Destroyed -= Variable_Destroyed;
+                variable.Owner.NameChanged -= Owner_NameChanged;
+            }
+        }
+
+        public override void Close()
+        {
+            base.Close();
+            Destroy(this.gameObject);
         }
     }
 }

@@ -47,6 +47,9 @@ namespace View
                 bCONFIRM.Pressed += OnConfirmPressed;
                 bBACK.Pressed += OnBackPressed;
 
+                //Close when play mode starts
+                Controller.EnvironmentController.Instance.InitiatingPlayMode += Close;
+
                 //close at start
                 Close();
 

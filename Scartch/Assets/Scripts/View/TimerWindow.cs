@@ -12,7 +12,6 @@ namespace View
 
         public void Init()
         {
-
             timer = Timer.instance;
             timer.TimeChanged += UpdateMe;
         }
@@ -20,13 +19,6 @@ namespace View
         private void UpdateMe()
         {
             value.text = timer.Time.ToString("N2");
-        }
-
-        protected override void Update()
-        {
-            base.Update();
-            if (Input.GetKey(KeyCode.S))
-                timer.DoStart();
         }
     }
 }

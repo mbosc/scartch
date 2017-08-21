@@ -20,9 +20,9 @@ namespace View
     public class ActorWindow : Resources.VRWindow
     {
         private Model.Actor actor;
-        public ChooseModelWindow modelChooser;
-        public ChooseScriptingElementWindow seChooser;
-        public VariableWindow varWindow;
+        private ChooseModelWindow modelChooser;
+        private ChooseScriptingElementWindow seChooser;
+        private VariableWindow varWindow;
 
         public event Action<string> NameChanged;
         public event Action<float> PositionXChanged, PositionYChanged, PositionZChanged,
@@ -47,6 +47,13 @@ namespace View
         public void Init(Model.Actor actor)
         {
             this.actor = actor;
+
+            modelChooser = GameObject.Instantiate(ScartchResourceManager.instance.chooseModelWindow);
+            modelChooser.level = 1;
+            seChooser = GameObject.Instantiate(ScartchResourceManager.instance.chooseBlockWindow);
+            seChooser.level = 1;
+            varWindow = GameObject.Instantiate(ScartchResourceManager.instance.variableWindow);
+            varWindow.level = 1;
 
             // Hide subwindows
             modelChooser.Close();

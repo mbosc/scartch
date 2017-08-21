@@ -183,15 +183,17 @@ namespace Scripting
         {
         }
 
-        public static string description = "If <  > else";
-
+        public static string description = "If <  >";
+        
         public override string Description
         {
             get
             {
-                return description;
+                return description + " " + secondDescription;
             }
         }
+
+        public static string secondDescription = "else";
 
         public override void Execute()
         {

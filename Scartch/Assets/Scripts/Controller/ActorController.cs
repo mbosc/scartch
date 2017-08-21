@@ -7,6 +7,7 @@ using View.Resources;
 using Scripting;
 using System.Linq;
 using System;
+using System.Reflection;
 
 namespace Controller
 {
@@ -140,7 +141,7 @@ namespace Controller
                 scriptingElementViewers[x].Destroy();
                 GameObject.Destroy(x.gameObject);
             });
-            if (Selected.Equals(this))
+            if (this.Equals(Selected))
                 Selected = null;
             EnvironmentController.Instance.RemoveActor(this);
             actor.Destroy();
@@ -177,11 +178,16 @@ namespace Controller
         private void ActorWindow_ScriptingElementAdded(Scripting.ScriptingElement obj)
         {
             string text = obj.Description;
+            string secondText = null;
             List<ReferenceSlotViewer> refl;
             List<Option> optl;
             GameObject gameObject = null;
             if (obj is DoubleMouthBlock)
+            {
+                text = (string) obj.GetType().GetField("description", BindingFlags.Public | BindingFlags.Static).GetValue(null);
+                secondText = (string) obj.GetType().GetField("secondDescription", BindingFlags.Public | BindingFlags.Static).GetValue(null);
                 gameObject = ScartchResourceManager.instance.doubleMouthBlockViewer;
+            }
             else if (obj is MouthBlock)
                 gameObject = ScartchResourceManager.instance.mouthBlockViewer;
             else if (obj is Block)
@@ -193,6 +199,8 @@ namespace Controller
             ScriptingElementViewer viewer = GameObject.Instantiate(gameObject).GetComponent<ScriptingElementViewer>();
             Scripting.ScriptingElement.GenerateViewersFromText(ref text, viewer.gameObject, out refl, out optl);
             viewer.GetType().GetProperty("Text").SetValue(viewer, text, null);
+            if (obj is DoubleMouthBlock)
+                viewer.GetType().GetProperty("SecText").SetValue(viewer, secondText, null);
             ScriptingElement elem = (ScriptingElement)System.Activator.CreateInstance(obj.GetType(), this.actor, optl, refl, viewer, false);
             if (obj is VariableReference)
                 (elem as VariableReference).Variable = (obj as VariableReference).Variable;

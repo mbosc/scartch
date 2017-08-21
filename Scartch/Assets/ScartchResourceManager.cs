@@ -8,6 +8,17 @@ using View;
 using System.Linq;
 using NewtonVR.Example;
 
+public static class Vector3Extensions
+{
+    public static float SignedAngle(this Vector3 vec, Vector3 from, Vector3 to)
+    {
+        var angle = Vector3.Angle(from, to);
+        var cross = Vector3.Cross(from, to);
+        if (cross.y < 0) angle = -angle;
+        return -angle;
+    }
+}
+
 public class ScartchResourceManager : MonoBehaviour
 {
     public static ScartchResourceManager instance;
@@ -48,6 +59,7 @@ public class ScartchResourceManager : MonoBehaviour
             new WaitUntilBlock(null, null, null, null, true),
             new StartedPMHat(null, null, null, null, true),
             new WaitSecondsBlock(null, null, null, null, true),
+            new PauseExecutionBlock(null, null, null, null, true),
             new BroadcastBlock(null, null, null, null, true),
             new ReceivedMessageHat(null, null, null, null, true),
             new StopPlayModeBlock(null, null, null, null, true)
@@ -136,6 +148,13 @@ public class ScartchResourceManager : MonoBehaviour
         scriptingElements.Add(soundElements);
         scriptingElements.Add(operatorsElements);
         scriptingElements.Add(variableElements);
+
+        windowSpawns = new List<List<Transform>>();
+        windowSpawns.Add(windowSpawnsLev0);
+        windowSpawns.Add(windowSpawnsLev1);
+        levelIndexes = new List<int>();
+        levelIndexes.Add(0);
+        levelIndexes.Add(0);
     }
 
     [Header("VRTextboxes materials")]
@@ -165,8 +184,8 @@ public class ScartchResourceManager : MonoBehaviour
     [Header("Windows Dimensions")]
     public VariableEntry entryPrototype;
     public float varWindowStep = 0.307f;
-    public Vector3 varWindowButtonPoint = new Vector3(0.945f, 0.036f, -0.785f);
-    public Vector3 varWindowEntryPoint = new Vector3(0.107f, 0.036f, -.785f);
+    public Vector3 varWindowButtonPoint = new Vector3(0.03f, 0.036f, -0.785f);
+    public Vector3 varWindowEntryPoint = new Vector3(-0.804f, 0f, -.59f);
     public Vector3 varWindowEntryScale = new Vector3(0.037f, 0.051f, 5.5f);
 
     [Header("Environment Buttons")]
@@ -198,7 +217,27 @@ public class ScartchResourceManager : MonoBehaviour
     public ChooseScriptingElementWindow chooseBlockWindow;
     public ActorViewer actorViewer;
     public ActorWindow actorWindow;
-    public Transform windowSpawn;
+    public List<Transform> windowSpawnsLev0;
+    public List<Transform> windowSpawnsLev1;
+    public List<Transform> blockSpawns;
+    private List<List<Transform>> windowSpawns;
+
+    private List<int> levelIndexes;
+    public Transform GetWindowSpawn(int level)
+    {
+        var output = windowSpawns[level][levelIndexes[level]++];
+        if (levelIndexes[level] >= windowSpawns[level].Count)
+            levelIndexes[level] = 0;
+        return output;
+    }
+    private int blockIndex = 0;
+    public Transform GetBlockSpawn()
+    {
+        var output = blockSpawns[blockIndex++];
+        if (blockIndex >= blockSpawns.Count)
+            blockIndex = 0;
+        return output;
+    }
 
     [Header("Reference Prefabs")]
     public GameObject blockViewer;

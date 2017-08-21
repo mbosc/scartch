@@ -58,10 +58,7 @@ namespace Scripting
 
         public void Execute()
         {
-            StartCoroutine(Run());
-        }
-        public void ExecuteTest()
-        {
+            Model.Timer.instance.DoStart();
             StartCoroutine(Run());
         }
 
@@ -81,6 +78,7 @@ namespace Scripting
         {
             StopAllCoroutines();
             auxTimer.StopAllCoroutines();
+            Model.Timer.instance.Stop();
             fluxes = new Queue<Flux>();
         }
 

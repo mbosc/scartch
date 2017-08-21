@@ -26,7 +26,7 @@ namespace View
             set
             {
                 filter = value;
-                gameObject.GetComponent<Renderer>().material = ScartchResourceManager.instance.pages[(int)filter];
+                transform.GetChild(0).gameObject.GetComponent<Renderer>().material = ScartchResourceManager.instance.pages[(int)filter];
                 Page = 1;
             }
         }

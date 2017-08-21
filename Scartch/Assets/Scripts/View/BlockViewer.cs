@@ -41,6 +41,7 @@ namespace View
                     next.Grabbed -= attachPoint.Detach;
                     Regrouped -= next.Regroup;
                     Degrouped -= next.Degroup;
+                    next.HierarchyHeightChanged -= HierarchyHeightUpdateDo;
                 }
 
                 //assign it
@@ -63,8 +64,14 @@ namespace View
                     next.Grabbed += attachPoint.Detach;
                     Regrouped += next.Regroup;
                     Degrouped += next.Degroup;
+                    next.HierarchyHeightChanged += HierarchyHeightUpdateDo;
                 }
             }
+        }
+
+        private void HierarchyHeightUpdateDo(int obj)
+        {
+            HierarchyHeightUpdate();
         }
 
         public override void Delete()
@@ -86,7 +93,6 @@ namespace View
         public void SnapNext(BlockViewer next)
         {
             Next = next;
-            HierarchyHeightUpdate();
             if (SnappedNext != null)
                 SnappedNext(Next);
         }

@@ -1,6 +1,3 @@
 Todo:
-- Il timer non va
-- settare il secondo text su if/else
-- Impedire modifiche in play mode
 
 Da verificare:

@@ -36,12 +36,21 @@ namespace View
             entr.transform.SetParent(this.transform, false);
             entr.transform.localScale = ScartchResourceManager.instance.varWindowEntryScale;
             entr.DeletePressed += OnVarDeletePressed;
+            entr.MonitorPressed += OnVarMonitorPressed;
             variableEntries.Add(entr);
             UpdateLayout();
 
             if (VariableAdded != null)
                 VariableAdded(entr);
         }
+
+        private void OnVarMonitorPressed(Model.Variable obj)
+        {
+            var window = GameObject.Instantiate(ScartchResourceManager.instance.variableMonitorWindow).GetComponent<VariableMonitorWindow>();
+            window.Variable = obj;
+            window.Open();
+        }
+        
 
         private void OnVarDeletePressed(object sender, EventArgs e)
         {
@@ -57,6 +66,7 @@ namespace View
 
                 var element = variableEntries[num];
                 element.DeletePressed -= OnVarDeletePressed;
+                element.MonitorPressed -= OnVarMonitorPressed;
                 variableEntries.Remove(element);
                 Destroy(element.gameObject);
                 UpdateLayout();

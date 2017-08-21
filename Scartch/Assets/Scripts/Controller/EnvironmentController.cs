@@ -122,10 +122,7 @@ namespace Controller
             if (running && !test && InitiatingPlayMode != null)
                 InitiatingPlayMode();
             if (running)
-                if (!test)
-                    Scripting.ExecutionController.Instance.Execute();
-                else
-                    Scripting.ExecutionController.Instance.ExecuteTest();
+                Scripting.ExecutionController.Instance.Execute();
             else
                 Scripting.ExecutionController.Instance.Stop();
         }

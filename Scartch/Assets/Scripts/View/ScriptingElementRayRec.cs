@@ -10,6 +10,8 @@ public class ScriptingElementRayRec : RayHittable
 
     public override void HitByBlueRay()
     {
+        if (Controller.EnvironmentController.Instance.InPlayMode)
+            return;
         if (viewer is View.BlockViewer)
             (viewer as View.BlockViewer).Test();
     }

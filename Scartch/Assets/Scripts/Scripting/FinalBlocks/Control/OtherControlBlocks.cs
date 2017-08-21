@@ -25,7 +25,7 @@ namespace Scripting
 
         public override void Execute()
         {
-            ExecutionController.Instance.BroadcastMessage(ReferenceList[0].StringEval);
+            Controller.EnvironmentController.Instance.Broadcast(ReferenceList[0].StringEval);
             Flux.current.CurrentBlock = Next;
         }
     }

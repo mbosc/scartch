@@ -15,7 +15,7 @@ namespace View
         public VRTextbox valueBox;
         public VRCombobox typeBox;
         public VRButton monitorButton, deleteButton;
-        public event System.Action MonitorPressed;
+        public event System.Action<Model.Variable> MonitorPressed;
         public event System.EventHandler DeletePressed;
         public event System.Action<string> NameChanged, ValueChanged;
         public event System.Action<RefType> TypeChanged;
@@ -75,7 +75,7 @@ namespace View
         private void OnMonitorPressed(object sender, EventArgs e)
         {
             if (MonitorPressed != null)
-                MonitorPressed();
+                MonitorPressed(variable);
         }
 
         private void OnTypeChanged(int obj)

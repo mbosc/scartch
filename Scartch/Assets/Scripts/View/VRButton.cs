@@ -10,9 +10,12 @@ namespace View
         public class VRButton : RayHittable
         {
             public event System.EventHandler Pressed;
+            public bool availableInPlayMode = false;
 
             public override void HitByBlueRay()
             {
+                if (!availableInPlayMode && Controller.EnvironmentController.Instance.InPlayMode)
+                    return;
                 if (Pressed != null)
                     Pressed(this, EventArgs.Empty);
             }
