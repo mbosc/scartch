@@ -187,7 +187,7 @@ namespace Scripting
                             combo.transform.SetParent(parent.transform, false);
                             var offset = new Vector3(1 + startIndex / 2.0f, 0, -1);
                             if (parent.GetComponent<BlockoidViewer>() == null)
-                                offset = new Vector3(startIndex, 0, -1);
+                                offset = new Vector3(startIndex, 0, -1)/2;
                             combo.transform.localPosition = offset;
                             combo.transform.localScale = Vector3.one / 2;
                             var viewer = new OptionViewer(combo, currentStringList);

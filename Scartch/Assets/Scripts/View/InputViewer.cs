@@ -18,7 +18,7 @@ namespace View
         private void Update()
         {
             if (PosRotUpdated != null)
-                PosRotUpdated(this.transform.position, this.transform.eulerAngles);
+                PosRotUpdated(this.transform.position * 16, this.transform.eulerAngles);
         }
 
         public void PressKey(int key)

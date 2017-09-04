@@ -18,11 +18,9 @@ public class DebugBehaviour : MonoBehaviour {
         FindObjectOfType<View.ActorViewer>().HitByBlueRay();
         yield return new WaitForSeconds(1);
         FindObjectOfType<View.ActorWindow>().addSEBtn.HitByBlueRay();
-        FindObjectOfType<View.ChooseScriptingElementWindow>().bookmarks[0].HitByBlueRay();
-        FindObjectOfType<View.ChooseScriptingElementWindow>().voices[0].HitByBlueRay();
-        FindObjectOfType<View.ChooseScriptingElementWindow>().voices[6].HitByBlueRay();
-        FindObjectOfType<View.ChooseScriptingElementWindow>().voices[6].HitByBlueRay();
-        FindObjectOfType<View.ChooseScriptingElementWindow>().voices[6].HitByBlueRay();
+        FindObjectOfType<View.ChooseScriptingElementWindow>().bookmarks.ForEach(x => Debug.Log(x.name));
+        FindObjectOfType<View.ChooseScriptingElementWindow>().bookmarks[3].HitByBlueRay();
+
         FindObjectOfType<View.ChooseScriptingElementWindow>().voices[6].HitByBlueRay();
 
     }
