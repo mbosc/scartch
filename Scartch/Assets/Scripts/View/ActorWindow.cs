@@ -249,7 +249,7 @@ namespace View
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            
+
             // Events are unlinked
             modelChooser.ModelChosen -= ModelChooser_ModelChosen;
             seChooser.ChosenScriptingElement -= SeChooser_ChosenScriptingElement;
@@ -325,23 +325,6 @@ namespace View
         {
             if (ModelChanged != null)
                 ModelChanged(obj);
-        }
-
-        protected override void Update()
-        {
-            base.Update();
-            if (Input.GetKeyDown(KeyCode.C))
-                Init(new Model.Actor
-                {
-                    Name = "Actorino",
-                    Position = new Vector3(4, 12, 0),
-                    Rotation = Vector3.zero,
-                    Scale = 1,
-                    Volume = 1,
-                    Message = "",
-                    IsMessageVisible = false,
-                    Model = Model.ActorModel.GetActorModel(1)
-                });
         }
     }
 }

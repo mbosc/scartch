@@ -12,14 +12,20 @@ namespace View
         protected override void Awake()
         {
             base.Awake();
-            buttons.ForEach(x => x.Pressed += ButtonPressed);
+            buttons.ForEach(x => x.Pressed += OnButtonPressed);
         }
 
-        private void ButtonPressed(object sender, System.EventArgs e)
+        private void OnButtonPressed(object sender, System.EventArgs e)
         {
             if (ModelChosen != null)
                 ModelChosen(Model.ActorModel.GetActorModel(buttons.IndexOf(sender as Resources.VRButton)));
             Close();
+        }
+
+        protected override void OnDestroy()
+        {
+          base.OnDestroy();
+          buttons.ForEach(x => x.Pressed -= OnButtonPressed);
         }
     }
 }
