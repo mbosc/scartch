@@ -45,8 +45,8 @@ namespace View
                 base.Awake();
                 visible = true;
             }
-            
-            
+
+
 
             private bool visible;
 
@@ -72,8 +72,6 @@ namespace View
                 var spawn = ScartchResourceManager.instance.GetWindowSpawn(level);
                 this.transform.position = spawn.position + spawn.up * heightOffset;
                 var headpos = new Vector3(Controller.InputDeviceController.GetController("head").Device.Position.x, this.transform.position.y, Controller.InputDeviceController.GetController("head").Device.Position.z);
-
-
                 // Debugging rotation
 
                 //Debug.Log(Vector3.up.SignedAngle((this.transform.position - headpos).normalized, this.transform.forward));
