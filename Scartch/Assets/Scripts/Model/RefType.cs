@@ -63,7 +63,7 @@ namespace Model
 
         internal static bool Compatible(RefType slotType, RefType refType)
         {
-            return slotType >= refType;
+            return slotType == refType | slotType.Equals(RefType.stringType);
         }
     }
 }
