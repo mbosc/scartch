@@ -248,7 +248,7 @@ namespace Controller
 
         private void OnActorViewerDestroyed()
         {
-
+			localVariables.ForEach (x => x.Remove ());
             DeleteActor();
         }
 

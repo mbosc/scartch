@@ -26,7 +26,7 @@ namespace Scripting
 
         public override void Execute()
         {
-            var sound = Sound.GetClip(Sound.GetSound(GetOption(0).Value));
+            var sound = Sound.GetSound(GetOption(0).Value);
             owner.PlaySound(sound);
             Flux.current.CurrentBlock = Next;
         }

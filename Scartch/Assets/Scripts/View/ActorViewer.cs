@@ -52,9 +52,9 @@ namespace View
             Highlighted = false;
         }
 
-        private void OnActorSoundPlayed(AudioClip obj)
-        {
-            audioSource.clip = obj;
+        private void OnActorSoundPlayed(Sound obj)
+        {			
+			audioSource.clip = Sound.GetClip(obj);
             audioSource.Play();
         }
 

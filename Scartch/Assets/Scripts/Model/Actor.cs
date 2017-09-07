@@ -134,12 +134,12 @@ namespace Model
         public event System.Action<bool, string> MessageChanged;
         public event System.Action<ActorModel> ModelChanged;
         public event System.Action Destroyed;
-        public event System.Action<AudioClip> SoundPlayed;
+        public event System.Action<Sound> SoundPlayed;
 
-        public void PlaySound(AudioClip clip)
+        public void PlaySound(Sound sound)
         {
             if (SoundPlayed != null)
-                SoundPlayed(clip);
+                SoundPlayed(sound);
         }
 
         public void Destroy()

@@ -1,2 +1,3 @@
-﻿[Note per il codice]
-+Via le frecce dall'UML
+[Note per il codice]
++Valutare se serve altro dettaglio in UML
++Collaudare le modifiche: vengono distrutte le variabili locali quando distruggo l'attore?
