@@ -34,51 +34,51 @@ namespace Controller
             window.Init(actor);
             viewer.Init(actor, ScartchResourceManager.instance.actorSpawn);
 
-            actorViewer.Selected += ActorViewer_Selected;
-            actorViewer.Destroyed += ActorViewer_Destroyed;
-            actorWindow.ChangedScriptingElementVisibility += ActorWindow_ChangedScriptingElementVisibility;
-            actorWindow.MessageChanged += ActorWindow_MessageChanged;
-            actorWindow.ModelChanged += ActorWindow_ModelChanged;
-            actorWindow.NameChanged += ActorWindow_NameChanged;
-            actorWindow.PositionXChanged += ActorWindow_PositionXChanged;
-            actorWindow.PositionYChanged += ActorWindow_PositionYChanged;
-            actorWindow.PositionZChanged += ActorWindow_PositionZChanged;
-            actorWindow.RotationXChanged += ActorWindow_RotationXChanged;
-            actorWindow.RotationYChanged += ActorWindow_RotationYChanged;
-            actorWindow.RotationZChanged += ActorWindow_RotationZChanged;
-            actorWindow.ScaleChanged += ActorWindow_ScaleChanged;
-            actorWindow.ScriptingElementAdded += ActorWindow_ScriptingElementAdded;
-            actorWindow.VariableAdded += ActorWindow_VariableAdded;
-            actorWindow.VariableRemoved += ActorWindow_VariableRemoved;
-            actorWindow.VolumeChanged += ActorWindow_VolumeChanged;
-            actorWindow.Closed += ActorWindow_Closed;
+            actorViewer.Selected += OnActorViewerSelected;
+            actorViewer.Destroyed += OnActorViewerDestroyed;
+            actorWindow.ChangedScriptingElementVisibility += OnActorWindowChangedScriptingElementVisibility;
+            actorWindow.MessageChanged += OnActorWindowMessageChanged;
+            actorWindow.ModelChanged += OnActorWindowModelChanged;
+            actorWindow.NameChanged += OnActorWindowNameChanged;
+            actorWindow.PositionXChanged += OnActorWindowPositionXChanged;
+            actorWindow.PositionYChanged += OnActorWindowPositionYChanged;
+            actorWindow.PositionZChanged += OnActorWindowPositionZChanged;
+            actorWindow.RotationXChanged += OnActorWindowRotationXChanged;
+            actorWindow.RotationYChanged += OnActorWindowRotationYChanged;
+            actorWindow.RotationZChanged += OnActorWindowRotationZChanged;
+            actorWindow.ScaleChanged += OnActorWindowScaleChanged;
+            actorWindow.ScriptingElementAdded += OnActorWindowScriptingElementAdded;
+            actorWindow.VariableAdded += OnActorWindowVariableAdded;
+            actorWindow.VariableRemoved += OnActorWindowVariableRemoved;
+            actorWindow.VolumeChanged += OnActorWindowVolumeChanged;
+            actorWindow.Closed += OnActorWindowClosed;
 
             scriptingElementViewers.Keys.ToList().ForEach(x => x.Deleted += OnScriptingElementDeleted);
 
             actorWindow.Close();
         }
 
-        private void ActorWindow_RotationYChanged(float obj)
+        private void OnActorWindowRotationYChanged(float obj)
         {
             SetActorRotation(new Vector3(actor.Rotation.x, obj, actor.Rotation.z));
         }
 
-        private void ActorWindow_RotationXChanged(float obj)
+        private void OnActorWindowRotationXChanged(float obj)
         {
             SetActorRotation(new Vector3(obj, actor.Rotation.y, actor.Rotation.z));
         }
 
-        private void ActorWindow_PositionYChanged(float obj)
+        private void OnActorWindowPositionYChanged(float obj)
         {
             SetActorPosition(new Vector3(actor.Position.x, obj, actor.Position.z));
         }
 
-        private void ActorWindow_PositionXChanged(float obj)
+        private void OnActorWindowPositionXChanged(float obj)
         {
             SetActorPosition(new Vector3(obj, actor.Position.y, actor.Position.z));
         }
 
-        private void ActorWindow_Closed()
+        private void OnActorWindowClosed()
         {
             ShowScriptingElements(false);
             if (Selected == this)
@@ -118,23 +118,23 @@ namespace Controller
         public void DeleteActor()
         {
             //Prepare for detachment
-            actorViewer.Selected -= ActorViewer_Selected;
-            actorViewer.Destroyed -= ActorViewer_Destroyed;
-            actorWindow.ChangedScriptingElementVisibility -= ActorWindow_ChangedScriptingElementVisibility;
-            actorWindow.MessageChanged -= ActorWindow_MessageChanged;
-            actorWindow.ModelChanged -= ActorWindow_ModelChanged;
-            actorWindow.NameChanged -= ActorWindow_NameChanged;
-            actorWindow.PositionXChanged -= ActorWindow_PositionXChanged;
-            actorWindow.PositionYChanged -= ActorWindow_PositionYChanged;
-            actorWindow.PositionZChanged -= ActorWindow_PositionZChanged;
-            actorWindow.RotationXChanged -= ActorWindow_RotationXChanged;
-            actorWindow.RotationYChanged -= ActorWindow_RotationYChanged;
-            actorWindow.RotationZChanged -= ActorWindow_RotationZChanged;
-            actorWindow.ScaleChanged -= ActorWindow_ScaleChanged;
-            actorWindow.ScriptingElementAdded -= ActorWindow_ScriptingElementAdded;
-            actorWindow.VariableAdded -= ActorWindow_VariableAdded;
-            actorWindow.VariableRemoved -= ActorWindow_VariableRemoved;
-            actorWindow.VolumeChanged -= ActorWindow_VolumeChanged;
+            actorViewer.Selected -= OnActorViewerSelected;
+            actorViewer.Destroyed -= OnActorViewerDestroyed;
+            actorWindow.ChangedScriptingElementVisibility -= OnActorWindowChangedScriptingElementVisibility;
+            actorWindow.MessageChanged -= OnActorWindowMessageChanged;
+            actorWindow.ModelChanged -= OnActorWindowModelChanged;
+            actorWindow.NameChanged -= OnActorWindowNameChanged;
+            actorWindow.PositionXChanged -= OnActorWindowPositionXChanged;
+            actorWindow.PositionYChanged -= OnActorWindowPositionYChanged;
+            actorWindow.PositionZChanged -= OnActorWindowPositionZChanged;
+            actorWindow.RotationXChanged -= OnActorWindowRotationXChanged;
+            actorWindow.RotationYChanged -= OnActorWindowRotationYChanged;
+            actorWindow.RotationZChanged -= OnActorWindowRotationZChanged;
+            actorWindow.ScaleChanged -= OnActorWindowScaleChanged;
+            actorWindow.ScriptingElementAdded -= OnActorWindowScriptingElementAdded;
+            actorWindow.VariableAdded -= OnActorWindowVariableAdded;
+            actorWindow.VariableRemoved -= OnActorWindowVariableRemoved;
+            actorWindow.VolumeChanged -= OnActorWindowVolumeChanged;
             scriptingElementViewers.Keys.ToList().ForEach(x => {
                 x.Deleted -= OnScriptingElementDeleted;
                 x.Delete();
@@ -157,12 +157,12 @@ namespace Controller
             localVariables.Add(VariableController.AddVariable(entr, actor));
         }
 
-        private void ActorWindow_VolumeChanged(float obj)
+        private void OnActorWindowVolumeChanged(float obj)
         {
             actor.Volume = obj;
         }
 
-        private void ActorWindow_VariableRemoved(int obj)
+        private void OnActorWindowVariableRemoved(int obj)
         {
 
             localVariables[obj].Remove();
@@ -170,12 +170,12 @@ namespace Controller
 
         }
 
-        private void ActorWindow_VariableAdded(VariableEntry entr)
+        private void OnActorWindowVariableAdded(VariableEntry entr)
         {
             AddLocalVariable(entr);
         }
 
-        private void ActorWindow_ScriptingElementAdded(Scripting.ScriptingElement obj)
+        private void OnActorWindowScriptingElementAdded(Scripting.ScriptingElement obj)
         {
             string text = obj.Description;
             string secondText = null;
@@ -210,49 +210,49 @@ namespace Controller
             viewer.Deleted += OnScriptingElementDeleted;
         }
 
-        private void ActorWindow_ScaleChanged(float obj)
+        private void OnActorWindowScaleChanged(float obj)
         {
             SetActorScale(obj);
         }
 
-        private void ActorWindow_RotationZChanged(float obj)
+        private void OnActorWindowRotationZChanged(float obj)
         {
             SetActorRotation(new Vector3(actor.Rotation.x, actor.Rotation.y, obj));
         }
 
-        private void ActorWindow_PositionZChanged(float obj)
+        private void OnActorWindowPositionZChanged(float obj)
         {
             SetActorPosition(new Vector3(actor.Position.x, actor.Position.y, obj));
         }
 
-        private void ActorWindow_NameChanged(string obj)
+        private void OnActorWindowNameChanged(string obj)
         {
             actor.Name = obj;
         }
 
-        private void ActorWindow_ModelChanged(ActorModel obj)
+        private void OnActorWindowModelChanged(ActorModel obj)
         {
             actor.Model = obj;
         }
 
-        private void ActorWindow_MessageChanged(bool arg1, string arg2)
+        private void OnActorWindowMessageChanged(bool arg1, string arg2)
         {
             actor.Message = arg2;
             actor.IsMessageVisible = arg1;
         }
 
-        private void ActorWindow_ChangedScriptingElementVisibility(bool obj)
+        private void OnActorWindowChangedScriptingElementVisibility(bool obj)
         {
             ShowScriptingElements(obj);
         }
 
-        private void ActorViewer_Destroyed()
+        private void OnActorViewerDestroyed()
         {
 
             DeleteActor();
         }
 
-        private void ActorViewer_Selected()
+        private void OnActorViewerSelected()
         {
             if (Selected != null)
             {

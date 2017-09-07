@@ -321,16 +321,6 @@ namespace View
             else return null;
         }
 
-        public override void Moving()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Release()
-        {
-            throw new NotImplementedException();
-        }
-
         public event System.Action<int> HierarchyHeightChanged;
 
 

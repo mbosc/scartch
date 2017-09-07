@@ -1,19 +1,2 @@
-[Trascrizione UML]
-Da Scrpiting > ScriptingElement.cs
-[Note per il codice]
-+InputDeviceController.cs riga 18, può essere reso privato?
-+ActorController: aderire alla nomenclatura standard.
-+ c'è un TODO a riga 52 di referenceviewer.cs
-+ da riga 39 in ActorWindow.cs ci sono una sfilza di campi pubblici che probabilmente farebbe meglio ad essere privata
-+ riga 149 di ActorWindow: Rinomina a OnInterfaceMessageChanged
-+riga 72 di BlockViewer.cs: serve questo metodo?
-+righe 324, 329 BlockViewer: Servono? Idem ReferenceViewer 51/56 e ScriptingElementViewer 96,97
-+ChooseScriptingElementWindow: aggiungere Close che stacchi gli eventi, altimenti si consumano risorse
-+HandViewer e HeadViewer sono usati? Si possono cestinare?
-+ReferenceViewer 132: posso toglierlo? Se no, mettilo in UML
-+Spostare ScriptingElementRayRec nel namespace View.Resources
-+Posso togliere winOverload da ScriptingElementViewerRayRec? e da VRWindowRayRec?
-+Tradurre nome del metodo riga 60 VRComboboxVoice in UpdateLength
+﻿[Note per il codice]
 +Via le frecce dall'UML
-+Rendere statici o rimuovere righe 18, 25 di VRTextbox? Aggiorna UML di conseguenza
-+ Rendere stattico riga 91 di VRTextbox o sopprimerlo del tutto? Aggiorna UML di conseguenza

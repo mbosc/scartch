@@ -38,17 +38,17 @@ namespace Scripting
             this.valueSet = valueSet;
             this.viewer = viewer;
 
-            viewer.ValueSelected += Viewer_ValueSelected;
+            viewer.ValueSelected += OnViewerValueSelected;
         }
 
-        private void Viewer_ValueSelected(int obj)
+        private void OnViewerValueSelected(int obj)
         {
             Value = obj;
         }
 
         public void Destroy()
         {
-            viewer.ValueSelected -= Viewer_ValueSelected;
+            viewer.ValueSelected -= OnViewerValueSelected;
         }
     }
 }

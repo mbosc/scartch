@@ -36,16 +36,16 @@ namespace Controller
             this.device = device;
             this.viewer = viewer;
             viewer.PosRotUpdated += OnViewerUpdated;
-            viewer.KeyPressed += Viewer_KeyPressed;
-            viewer.KeyReleased += Viewer_KeyReleased;
+            viewer.KeyPressed += OnViewerKeyPressed;
+            viewer.KeyReleased += OnViewerKeyReleased;
         }
 
-        private void Viewer_KeyReleased(int obj)
+        private void OnViewerKeyReleased(int obj)
         {
             device.SetButtonPressed(obj, false);
         }
 
-        private void Viewer_KeyPressed(int obj)
+        private void OnViewerKeyPressed(int obj)
         {
             device.SetButtonPressed(obj, true);
         }

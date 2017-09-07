@@ -102,7 +102,7 @@ namespace View
                 if (Filler != null)
                 {
                     Filler.Grabbed -= Detach;
-                    Filler.LengthUpdated -= Filler_LengthUpdated;
+                    Filler.LengthUpdated -= OnFillerLengthUpdated;
                 }
 
                 //assign it
@@ -121,7 +121,7 @@ namespace View
                 //subscribe new
                 if (filler != null) {
                     filler.Grabbed += Detach;
-                    filler.LengthUpdated += Filler_LengthUpdated;
+                    filler.LengthUpdated += OnFillerLengthUpdated;
                 }
 
                 DisappearingElements.ForEach(x => x.SetActive(value == null));
@@ -133,7 +133,7 @@ namespace View
             }
         }
 
-        private void Filler_LengthUpdated(int obj)
+        private void OnFillerLengthUpdated(int obj)
         {
             if (LengthUpdated != null)
                 LengthUpdated(number, obj);

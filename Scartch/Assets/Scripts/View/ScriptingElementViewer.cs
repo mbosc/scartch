@@ -93,8 +93,6 @@ namespace View
                 if (Grabbed != null)
                     Grabbed();
             }
-            public abstract void Moving();
-            public abstract void Release();
 
         }
     }

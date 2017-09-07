@@ -39,20 +39,20 @@ namespace View
             monitorButton.Pressed += OnMonitorPressed;
             deleteButton.Pressed += OnDeletePressed;
 
-            variable.NameChanged += Variable_NameChanged;
-            variable.TypeChanged += Variable_TypeChanged;
-            variable.ValueChanged += Variable_ValueChanged;
+            variable.NameChanged += OnVariableNameChanged;
+            variable.TypeChanged += OnVariableTypeChanged;
+            variable.ValueChanged += OnVariableValueChanged;
 
             inited = true;
         }
 
-        private void Variable_ValueChanged(string obj)
+        private void OnVariableValueChanged(string obj)
         {
             if (valueBox.Text != obj)
                 valueBox.Text = obj;
         }
 
-        private void Variable_TypeChanged(RefType obj)
+        private void OnVariableTypeChanged(RefType obj)
         {
 
             valueBox.Type = obj;
@@ -60,7 +60,7 @@ namespace View
 
         }
 
-        private void Variable_NameChanged(string obj)
+        private void OnVariableNameChanged(string obj)
         {
             if (nameBox.Text != obj)
                 nameBox.Text = obj;
@@ -116,9 +116,9 @@ namespace View
                 typeBox.SelectionChanged -= OnTypeChanged;
                 monitorButton.Pressed -= OnMonitorPressed;
                 deleteButton.Pressed -= OnDeletePressed;
-                variable.NameChanged -= Variable_NameChanged;
-                variable.TypeChanged -= Variable_TypeChanged;
-                variable.ValueChanged -= Variable_ValueChanged;
+                variable.NameChanged -= OnVariableNameChanged;
+                variable.TypeChanged -= OnVariableTypeChanged;
+                variable.ValueChanged -= OnVariableValueChanged;
 
             }
         }

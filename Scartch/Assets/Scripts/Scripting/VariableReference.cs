@@ -20,8 +20,6 @@ namespace Scripting
                 {
                     variable.RefCount++;
                     variable.Destroyed += OnVariableDestroyed;
-                    variable.NameChanged += OnVariableNameChanged;
-                    variable.TypeChanged += OnVariableTypeChanged;
                     viewer.RefType = variable.Type;
                 }
             }
@@ -41,16 +39,6 @@ namespace Scripting
             this.sample = sample;
         }
 
-        private void OnVariableTypeChanged(RefType obj)
-        {
-            viewer.RefType = obj;
-        }
-
-        private void OnVariableNameChanged(string obj)
-        {
-            throw new NotImplementedException();
-            // TODO inoltrare al refernceviewer il cambiamento di nome
-        }
 
         private void OnVariableDestroyed()
         {
@@ -89,7 +77,6 @@ namespace Scripting
         {
             return Variable.Value;
         }
-
-        //TODO: gestire il cambio di tipo delle variabili
+        
     }
 }

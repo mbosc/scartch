@@ -26,13 +26,13 @@ namespace View
             transform.localPosition = transform.localEulerAngles = Vector3.zero;
             transform.localScale = Vector3.one;
 
-            actor.Destroyed += Actor_Destroyed;
-            actor.MessageChanged += Actor_MessageChanged;
-            actor.Moved += Actor_Moved;
-            actor.ModelChanged += Actor_ModelChanged;
-            actor.ScaleChanged += Actor_ScaleChanged;
-            actor.VolumeChanged += Actor_VolumeChanged;
-            actor.SoundPlayed += Actor_SoundPlayed;
+            actor.Destroyed += OnActorDestroyed;
+            actor.MessageChanged += OnActorMessageChanged;
+            actor.Moved += OnActorMoved;
+            actor.ModelChanged += OnActorModelChanged;
+            actor.ScaleChanged += OnActorScaleChanged;
+            actor.VolumeChanged += OnActorVolumeChanged;
+            actor.SoundPlayed += OnActorSoundPlayed;
 
             message.SetActive(actor.IsMessageVisible);
             messageText.text = actor.Message;
@@ -52,7 +52,7 @@ namespace View
             Highlighted = false;
         }
 
-        private void Actor_SoundPlayed(AudioClip obj)
+        private void OnActorSoundPlayed(AudioClip obj)
         {
             audioSource.clip = obj;
             audioSource.Play();
@@ -60,17 +60,17 @@ namespace View
 
         private void OnDestroy()
         {
-            actor.Destroyed -= Actor_Destroyed;
-            actor.MessageChanged -= Actor_MessageChanged;
-            actor.Moved -= Actor_Moved;
-            actor.ModelChanged -= Actor_ModelChanged;
-            actor.ScaleChanged -= Actor_ScaleChanged;
-            actor.VolumeChanged -= Actor_VolumeChanged;
-            actor.SoundPlayed -= Actor_SoundPlayed;
+            actor.Destroyed -= OnActorDestroyed;
+            actor.MessageChanged -= OnActorMessageChanged;
+            actor.Moved -= OnActorMoved;
+            actor.ModelChanged -= OnActorModelChanged;
+            actor.ScaleChanged -= OnActorScaleChanged;
+            actor.VolumeChanged -= OnActorVolumeChanged;
+            actor.SoundPlayed -= OnActorSoundPlayed;
 
         }
 
-        private void Actor_VolumeChanged(float obj)
+        private void OnActorVolumeChanged(float obj)
         {
             if (obj > 1)
                 obj = 1;
@@ -79,13 +79,13 @@ namespace View
             audioSource.volume = obj;
         }
 
-        private void Actor_ScaleChanged(float obj)
+        private void OnActorScaleChanged(float obj)
         {
             transform.localScale = Vector3.one * obj;
-            Actor_Moved(actor.Position, actor.Rotation);
+            OnActorMoved(actor.Position, actor.Rotation);
         }
 
-        private void Actor_ModelChanged(ActorModel obj)
+        private void OnActorModelChanged(ActorModel obj)
         {
             if (model != null)
                 Destroy(model);
@@ -96,19 +96,19 @@ namespace View
             model.transform.localScale = Vector3.one;
         }
 
-        private void Actor_Moved(Vector3 arg1, Vector3 arg2)
+        private void OnActorMoved(Vector3 arg1, Vector3 arg2)
         {
             spawn.transform.localPosition = arg1 + new Vector3(0,23*actor.Scale,0);
             transform.localEulerAngles = arg2;
         }
 
-        private void Actor_MessageChanged(bool arg1, string arg2)
+        private void OnActorMessageChanged(bool arg1, string arg2)
         {
             message.SetActive(arg1);
             messageText.text = arg2;
         }
 
-        private void Actor_Destroyed()
+        private void OnActorDestroyed()
         {
             Destroy(this.transform.parent.gameObject);
         }

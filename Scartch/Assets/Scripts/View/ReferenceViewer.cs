@@ -48,16 +48,6 @@ namespace View
             }
         }
 
-        public override void Moving()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Release()
-        {
-            throw new NotImplementedException();
-        }
-
         private GameObject head, tail, body;
         private int length = 1;
         public UnityEngine.UI.Text textBox;
@@ -127,12 +117,7 @@ namespace View
             GetComponent<BoxCollider>().center = new Vector3(.25f * Length, 0, -.25f);
             GetComponent<BoxCollider>().size = new Vector3(.5f * Length, 2, .5f);
         }
-
-
-        private int color = 0;
-
-        //public string debugtxt = "geogra ( ) fia";
-        //public bool locked = true;
+        
         protected override void Update()
         {
             base.Update();

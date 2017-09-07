@@ -24,12 +24,12 @@ namespace View
             timerWindow = GameObject.Instantiate(ScartchResourceManager.instance.timerWindow);
             timerWindow.name = "Global Timer Window";
 
-            changeModeButton.Pressed += ChangeModeButton_Pressed;
-            addActorButton.Pressed += AddActorButton_Pressed;
-            showTimerButton.Pressed += ShowTimerButton_Pressed;
-            listVarButton.Pressed += ListVarButton_Pressed;
-            globalVariablesWindow.VariableAdded += GlobalVariablesWindow_VariableAdded;
-            globalVariablesWindow.VariableRemoved += GlobalVariablesWindow_VariableRemoved;
+            changeModeButton.Pressed += OnChangeModeButtonPressed;
+            addActorButton.Pressed += OnAddActorButtonPressed;
+            showTimerButton.Pressed += OnShowTimerButtonPressed;
+            listVarButton.Pressed += OnListVarButtonPressed;
+            globalVariablesWindow.VariableAdded += OnGlobalVariablesWindowVariableAdded;
+            globalVariablesWindow.VariableRemoved += OnGlobalVariablesWindowVariableRemoved;
 
             globalVariablesWindow.Init(null);
             timerWindow.Init();
@@ -52,13 +52,13 @@ namespace View
             }
         }
 
-        private void GlobalVariablesWindow_VariableRemoved(int obj)
+        private void OnGlobalVariablesWindowVariableRemoved(int obj)
         {
             if (RemovedVariable != null)
                 RemovedVariable(obj);
         }
 
-        private void GlobalVariablesWindow_VariableAdded(VariableEntry entr)
+        private void OnGlobalVariablesWindowVariableAdded(VariableEntry entr)
         {
             if (AddedVariable != null)
                 AddedVariable(entr);
@@ -66,13 +66,13 @@ namespace View
 
         private void OnDestroy()
         {
-            changeModeButton.Pressed -= ChangeModeButton_Pressed;
-            addActorButton.Pressed -= AddActorButton_Pressed;
-            showTimerButton.Pressed -= ShowTimerButton_Pressed;
-            listVarButton.Pressed -= ListVarButton_Pressed;
+            changeModeButton.Pressed -= OnChangeModeButtonPressed;
+            addActorButton.Pressed -= OnAddActorButtonPressed;
+            showTimerButton.Pressed -= OnShowTimerButtonPressed;
+            listVarButton.Pressed -= OnListVarButtonPressed;
         }
 
-        private void ListVarButton_Pressed(object sender, System.EventArgs e)
+        private void OnListVarButtonPressed(object sender, System.EventArgs e)
         {
             if (globalVariablesWindow.Visible)
                 globalVariablesWindow.Close();
@@ -80,7 +80,7 @@ namespace View
                 globalVariablesWindow.Open();
         }
 
-        private void ShowTimerButton_Pressed(object sender, System.EventArgs e)
+        private void OnShowTimerButtonPressed(object sender, System.EventArgs e)
         {
             if (timerWindow.Visible)
                 timerWindow.Close();
@@ -88,13 +88,13 @@ namespace View
                 timerWindow.Open();
         }
 
-        private void AddActorButton_Pressed(object sender, System.EventArgs e)
+        private void OnAddActorButtonPressed(object sender, System.EventArgs e)
         {
             if (AddedActor != null)
                 AddedActor();
         }
 
-        private void ChangeModeButton_Pressed(object sender, System.EventArgs e)
+        private void OnChangeModeButtonPressed(object sender, System.EventArgs e)
         {
             if (ChangedMode != null)
                 ChangedMode();

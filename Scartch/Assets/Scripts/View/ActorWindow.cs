@@ -69,8 +69,8 @@ namespace View
             UpdateFields();
 
             // Events are linked
-            modelChooser.ModelChosen += ModelChooser_ModelChosen;
-            seChooser.ChosenScriptingElement += SeChooser_ChosenScriptingElement;
+            modelChooser.ModelChosen += OnModelChooserModelChosen;
+            seChooser.ChosenScriptingElement += OnSeChooserChosenScriptingElement;
             nameBox.TextChanged += OnNameChanged;
             posXBox.TextChanged += OnPositionXChanged;
             posYBox.TextChanged += OnPositionYChanged;
@@ -80,73 +80,73 @@ namespace View
             rotZBox.TextChanged += OnRotationZChanged;
             scaleBox.TextChanged += OnScaleChanged;
             volBox.TextChanged += OnVolumeChanged;
-            msgBox.TextChanged += OnMessageChanged;
-            msgShowHideBtn.Pressed += OnMessageChanged;
-            modelBtn.Pressed += ModelBtn_Pressed;
-            hideSEBtn.Pressed += HideSEBtn_Pressed;
-            locVarBtn.Pressed += LocVarBtn_Pressed;
-            addSEBtn.Pressed += AddSEBtn_Pressed;
-            varWindow.VariableAdded += VarWindow_VariableAdded;
-            varWindow.VariableRemoved += VarWindow_VariableRemoved;
+            msgBox.TextChanged += OnInterfaceMessageChanged;
+            msgShowHideBtn.Pressed += OnInterfaceMessageChanged;
+            modelBtn.Pressed += OnModelBtnPressed;
+            hideSEBtn.Pressed += OnHideSEBtnPressed;
+            locVarBtn.Pressed += OnLocVarBtnPressed;
+            addSEBtn.Pressed += OnAddSEBtnPressed;
+            varWindow.VariableAdded += OnVarWindowVariableAdded;
+            varWindow.VariableRemoved += OnVarWindowVariableRemoved;
 
-            actor.NameChanged += Actor_NameChanged;
-            actor.Destroyed += Actor_Destroyed;
-            actor.MessageChanged += Actor_MessageChanged;
-            actor.Moved += Actor_Moved;
-            actor.ModelChanged += Actor_ModelChanged;
-            actor.ScaleChanged += Actor_ScaleChanged;
-            actor.VolumeChanged += Actor_VolumeChanged;
+            actor.NameChanged += OnActorNameChanged;
+            actor.Destroyed += OnActorDestroyed;
+            actor.MessageChanged += OnActorMessageChanged;
+            actor.Moved += OnActorMoved;
+            actor.ModelChanged += OnActorModelChanged;
+            actor.ScaleChanged += OnActorScaleChanged;
+            actor.VolumeChanged += OnActorVolumeChanged;
         }
 
-        private void Actor_NameChanged(string obj)
+        private void OnActorNameChanged(string obj)
         {
             UpdateFields();
         }
 
-        private void Actor_VolumeChanged(float obj)
+        private void OnActorVolumeChanged(float obj)
         {
             UpdateFields();
         }
 
-        private void Actor_ScaleChanged(float obj)
+        private void OnActorScaleChanged(float obj)
         {
             UpdateFields();
         }
 
-        private void Actor_ModelChanged(Model.ActorModel obj)
+        private void OnActorModelChanged(Model.ActorModel obj)
         {
             UpdateFields();
         }
 
-        private void Actor_Moved(Vector3 arg1, Vector3 arg2)
+        private void OnActorMoved(Vector3 arg1, Vector3 arg2)
         {
             UpdateFields();
         }
 
-        private void Actor_MessageChanged(bool arg1, string arg2)
+        private void OnActorMessageChanged(bool arg1, string arg2)
         {
             UpdateFields();
         }
 
-        private void VarWindow_VariableRemoved(int obj)
+        private void OnVarWindowVariableRemoved(int obj)
         {
             if (VariableRemoved != null)
                 VariableRemoved(obj);
         }
 
-        private void VarWindow_VariableAdded(VariableEntry ent)
+        private void OnVarWindowVariableAdded(VariableEntry ent)
         {
             if (VariableAdded != null)
                 VariableAdded(ent);
         }
 
-        private void SeChooser_ChosenScriptingElement(Scripting.ScriptingElement obj)
+        private void OnSeChooserChosenScriptingElement(Scripting.ScriptingElement obj)
         {
             if (ScriptingElementAdded != null)
                 ScriptingElementAdded(obj);
         }
 
-        private void OnMessageChanged(object sender, EventArgs e)
+        private void OnInterfaceMessageChanged(object sender, EventArgs e)
         {
             if (sender.Equals(msgShowHideBtn))
             {
@@ -251,8 +251,8 @@ namespace View
             base.OnDestroy();
 
             // Events are unlinked
-            modelChooser.ModelChosen -= ModelChooser_ModelChosen;
-            seChooser.ChosenScriptingElement -= SeChooser_ChosenScriptingElement;
+            modelChooser.ModelChosen -= OnModelChooserModelChosen;
+            seChooser.ChosenScriptingElement -= OnSeChooserChosenScriptingElement;
             nameBox.TextChanged -= OnNameChanged;
             posXBox.TextChanged -= OnPositionXChanged;
             posYBox.TextChanged -= OnPositionYChanged;
@@ -262,21 +262,21 @@ namespace View
             rotZBox.TextChanged -= OnRotationZChanged;
             scaleBox.TextChanged -= OnScaleChanged;
             volBox.TextChanged -= OnVolumeChanged;
-            msgBox.TextChanged -= OnMessageChanged;
-            msgShowHideBtn.Pressed -= OnMessageChanged;
-            modelBtn.Pressed -= ModelBtn_Pressed;
-            hideSEBtn.Pressed -= HideSEBtn_Pressed;
-            locVarBtn.Pressed -= LocVarBtn_Pressed;
-            addSEBtn.Pressed -= AddSEBtn_Pressed;
-            varWindow.VariableAdded -= VarWindow_VariableAdded;
-            varWindow.VariableRemoved -= VarWindow_VariableRemoved;
-            actor.NameChanged -= Actor_NameChanged;
-            actor.Destroyed -= Actor_Destroyed;
-            actor.MessageChanged -= Actor_MessageChanged;
-            actor.Moved -= Actor_Moved;
-            actor.ModelChanged -= Actor_ModelChanged;
-            actor.ScaleChanged -= Actor_ScaleChanged;
-            actor.VolumeChanged -= Actor_VolumeChanged;
+            msgBox.TextChanged -= OnInterfaceMessageChanged;
+            msgShowHideBtn.Pressed -= OnInterfaceMessageChanged;
+            modelBtn.Pressed -= OnModelBtnPressed;
+            hideSEBtn.Pressed -= OnHideSEBtnPressed;
+            locVarBtn.Pressed -= OnLocVarBtnPressed;
+            addSEBtn.Pressed -= OnAddSEBtnPressed;
+            varWindow.VariableAdded -= OnVarWindowVariableAdded;
+            varWindow.VariableRemoved -= OnVarWindowVariableRemoved;
+            actor.NameChanged -= OnActorNameChanged;
+            actor.Destroyed -= OnActorDestroyed;
+            actor.MessageChanged -= OnActorMessageChanged;
+            actor.Moved -= OnActorMoved;
+            actor.ModelChanged -= OnActorModelChanged;
+            actor.ScaleChanged -= OnActorScaleChanged;
+            actor.VolumeChanged -= OnActorVolumeChanged;
 
             if (seChooser != null)
                 GameObject.Destroy(seChooser.gameObject);
@@ -286,30 +286,30 @@ namespace View
                 GameObject.Destroy(modelChooser.gameObject);
         }
 
-        private void Actor_Destroyed()
+        private void OnActorDestroyed()
         {
             Destroy(this.gameObject);
         }
 
-        private void AddSEBtn_Pressed(object sender, EventArgs e)
+        private void OnAddSEBtnPressed(object sender, EventArgs e)
         {
             seChooser.Open();
             seChooser.transform.SetParent(null);
         }
 
-        private void LocVarBtn_Pressed(object sender, EventArgs e)
+        private void OnLocVarBtnPressed(object sender, EventArgs e)
         {
             varWindow.Open();
             varWindow.transform.SetParent(null);
         }
 
-        private void HideSEBtn_Pressed(object sender, EventArgs e)
+        private void OnHideSEBtnPressed(object sender, EventArgs e)
         {
             if (ChangedScriptingElementVisibility != null)
                 ChangedScriptingElementVisibility(false);
         }
 
-        private void ModelBtn_Pressed(object sender, EventArgs e)
+        private void OnModelBtnPressed(object sender, EventArgs e)
         {
             modelChooser.Open();
             modelChooser.transform.SetParent(null);
@@ -321,7 +321,7 @@ namespace View
                 NameChanged(nameBox.Text);
         }
 
-        private void ModelChooser_ModelChosen(Model.ActorModel obj)
+        private void OnModelChooserModelChosen(Model.ActorModel obj)
         {
             if (ModelChanged != null)
                 ModelChanged(obj);

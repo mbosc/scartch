@@ -53,11 +53,11 @@ namespace View.Resources
             set
             {
                 length = Math.Max(2, value);
-                AggiustaLunghezza();
+                UpdateLength();
             }
         }
 
-        private void AggiustaLunghezza()
+        private void UpdateLength()
         {
             //posiziona correttamente
             head.transform.localEulerAngles = ScartchResourceManager.instance.headRotation;

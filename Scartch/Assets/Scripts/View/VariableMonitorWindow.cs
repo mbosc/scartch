@@ -17,21 +17,21 @@ namespace View
                 if (variable != null)
                 {
                     // Unsubscribe
-                    variable.NameChanged -= Variable_NameChanged;
-                    variable.TypeChanged -= Variable_TypeChanged;
-                    variable.ValueChanged -= Variable_ValueChanged;
-                    variable.Destroyed -= Variable_Destroyed;
-                    variable.Owner.NameChanged -= Owner_NameChanged;
+                    variable.NameChanged -= OnVariableNameChanged;
+                    variable.TypeChanged -= OnVariableTypeChanged;
+                    variable.ValueChanged -= OnVariableValueChanged;
+                    variable.Destroyed -= OnVariableDestroyed;
+                    variable.Owner.NameChanged -= OnOwnerNameChanged;
                 }
                 variable = value;
                 if (variable != null)
                 {
                     // Subscribe
-                    variable.NameChanged += Variable_NameChanged;
-                    variable.TypeChanged += Variable_TypeChanged;
-                    variable.ValueChanged += Variable_ValueChanged;
-                    variable.Destroyed += Variable_Destroyed;
-                    variable.Owner.NameChanged += Owner_NameChanged;
+                    variable.NameChanged += OnVariableNameChanged;
+                    variable.TypeChanged += OnVariableTypeChanged;
+                    variable.ValueChanged += OnVariableValueChanged;
+                    variable.Destroyed += OnVariableDestroyed;
+                    variable.Owner.NameChanged += OnOwnerNameChanged;
 
                     this.value.text = variable.Value;
                     scope.text = "Scope: <color=red>" + (variable.Owner == null ? "global</color>" : ("local</color> to <color=green>" + variable.Owner.Name + "</color>"));
@@ -41,28 +41,28 @@ namespace View
             }
         }
 
-        private void Owner_NameChanged(string obj)
+        private void OnOwnerNameChanged(string obj)
         {
             scope.text = "Scope: <color=red>" + (variable.Owner == null ? "global</color>" : ("local</color> to <color=green>" + variable.Owner.Name + "</color>"));
         }
 
-        private void Variable_Destroyed()
+        private void OnVariableDestroyed()
         {
             Close();
             Destroy(this.gameObject);
         }
 
-        private void Variable_ValueChanged(string obj)
+        private void OnVariableValueChanged(string obj)
         {
             value.text = obj;
         }
 
-        private void Variable_TypeChanged(Model.RefType obj)
+        private void OnVariableTypeChanged(Model.RefType obj)
         {
             type.text = "Type: <color=red>" + Model.RefTypeHelper.Name(obj) +"</color>";
         }
 
-        private void Variable_NameChanged(string obj)
+        private void OnVariableNameChanged(string obj)
         {
             vName.text = obj;
         }
@@ -73,11 +73,11 @@ namespace View
             if (variable != null)
             {
                 // Unsubscribe
-                variable.NameChanged -= Variable_NameChanged;
-                variable.TypeChanged -= Variable_TypeChanged;
-                variable.ValueChanged -= Variable_ValueChanged;
-                variable.Destroyed -= Variable_Destroyed;
-                variable.Owner.NameChanged -= Owner_NameChanged;
+                variable.NameChanged -= OnVariableNameChanged;
+                variable.TypeChanged -= OnVariableTypeChanged;
+                variable.ValueChanged -= OnVariableValueChanged;
+                variable.Destroyed -= OnVariableDestroyed;
+                variable.Owner.NameChanged -= OnOwnerNameChanged;
             }
         }
 

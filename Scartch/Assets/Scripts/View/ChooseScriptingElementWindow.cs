@@ -109,6 +109,15 @@ namespace View
             Filter = ScriptingType.movement;
         }
 
+        public override void Close()
+        {
+            base.Close();
+            bookmarks.ForEach(x => x.Pressed -= OnBookmarkPressed);
+            voices.ForEach(x => x.Pressed -= OnVoicePressed);
+            nextBtn.Pressed -= OnNextPressed;
+            prevBtn.Pressed -= OnPrevPressed;
+        }
+
         private void OnPrevPressed(object sender, System.EventArgs e)
         {
             Page--;

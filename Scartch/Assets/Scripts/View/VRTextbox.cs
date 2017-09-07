@@ -15,20 +15,6 @@ namespace View
             public UnityEngine.UI.Text outputText;
             private Model.RefType type;
             public event EventHandler TextChanged;
-            private Material Basemat
-            {
-                get
-                {
-                    return ScartchResourceManager.instance.textBoxNotHighlighted;
-                }
-            }
-            private Material Focusmat
-            {
-                get
-                {
-                    return ScartchResourceManager.instance.textBoxHighlighted;
-                }
-            }
 
             public Model.RefType Type
             {
@@ -38,12 +24,12 @@ namespace View
 
             public void Focus()
             {
-                bodyRenderer.material = Focusmat;
+                bodyRenderer.material = ScartchResourceManager.instance.textBoxHighlighted;
             }
 
             public void LostFocus()
             {
-                bodyRenderer.material = Basemat;
+                bodyRenderer.material = ScartchResourceManager.instance.textBoxNotHighlighted;
             }
 
             private bool inited = false;
@@ -84,13 +70,8 @@ namespace View
                                 TextChanged(this, EventArgs.Empty);
                         }
                         else
-                            AlertIncompatibleType();
+                            ScartchResourceManager.instance.lastRayCaster.Alert("Please insert a " + Model.RefTypeHelper.Name(type) + " value.");
                 }
-            }
-
-            private void AlertIncompatibleType()
-            {
-                ScartchResourceManager.instance.lastRayCaster.Alert("Please insert a " + Model.RefTypeHelper.Name(type) + " value.");
             }
         }
     }
