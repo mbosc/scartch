@@ -107,7 +107,7 @@ namespace NewtonVR.Example
 
                     if (Hand.Inputs[NVRButtons.Trigger].PressDown)
                     {
-                        //Debug.Log(this.gameObject.name + " pointed at " + hitInfo.collider.gameObject.name + " (state " + state + ", RayHittable " + (hitInfo.collider.gameObject.GetComponentInParent<View.Resources.RayHittable>() != null ? "yes" : "no") + ")");
+                        Debug.Log(this.gameObject.name + " pointed at " + hitInfo.collider.gameObject.name + " (state " + state + ", RayHittable " + (hitInfo.collider.gameObject.GetComponentInParent<View.Resources.RayHittable>() != null ? "yes" : "no") + ")");
                         if (hitInfo.collider.gameObject.GetComponentInParent<View.Resources.RayHittable>() != null)
                             if (state == 1)
                             {

@@ -109,9 +109,9 @@ namespace View
             Filter = ScriptingType.movement;
         }
 
-        public override void Close()
+        protected override void OnDestroy()
         {
-            base.Close();
+            base.OnDestroy();
             bookmarks.ForEach(x => x.Pressed -= OnBookmarkPressed);
             voices.ForEach(x => x.Pressed -= OnVoicePressed);
             nextBtn.Pressed -= OnNextPressed;

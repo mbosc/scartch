@@ -15,7 +15,10 @@ namespace View
             public override void HitByBlueRay()
             {
                 if (!availableInPlayMode && Controller.EnvironmentController.Instance.InPlayMode)
+                {
+                    DebugAudioSource.instance.PlayDebug();
                     return;
+                }
                 if (Pressed != null)
                     Pressed(this, EventArgs.Empty);
             }
