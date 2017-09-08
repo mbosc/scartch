@@ -20,5 +20,6 @@
 + Architettura dell'ambiente di sviluppo
 + Interfaccia grafica
 + Demo
+	+ Ricorsione
 + Conclusioni
 	+ Possibilità di sviluppo ulteriore
