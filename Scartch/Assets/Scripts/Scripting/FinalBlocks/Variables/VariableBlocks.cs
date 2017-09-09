@@ -58,6 +58,7 @@ namespace Scripting
             try
             {
                 (ReferenceList[0] as VariableReference).Variable.Value = ReferenceList[1].FloatEval.ToStdStr();
+                Debug.Log("Variable " + (ReferenceList[0] as VariableReference).Variable.Name + " set to " + (ReferenceList[0] as VariableReference).Variable.Value);
             }
             catch (NullReferenceException)
             {
@@ -118,6 +119,7 @@ namespace Scripting
             try
             {
                 (ReferenceList[0] as VariableReference).Variable.Value = (ReferenceList[0].FloatEval + ReferenceList[1].FloatEval).ToStdStr();
+                Debug.Log("Variable " + (ReferenceList[0] as VariableReference).Variable.Name + " set to " + (ReferenceList[0] as VariableReference).Variable.Value);
             }
             catch (NullReferenceException)
             {

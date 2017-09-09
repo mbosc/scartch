@@ -126,7 +126,7 @@ public class DebugBehaviour : MonoBehaviour {
         yield return new WaitForSeconds(0.5f);
         seWindow.Close();
         #endregion
-
+        #region Mount_Pieces
         //mount them
         yield return new WaitForSeconds(0.5f);
 
@@ -174,8 +174,8 @@ public class DebugBehaviour : MonoBehaviour {
         slot(mult, 1).Filler = acc[1];
         set.SnapNext(brow2);
         slot(brow2, 0).Filler = fact[2];
-
-
+        #endregion
+        Controller.EnvironmentController.Instance.ChangeModeEv();
     }
 
     private IEnumerator WaitAndLaunch()

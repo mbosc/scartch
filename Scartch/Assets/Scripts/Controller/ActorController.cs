@@ -187,8 +187,8 @@ namespace Controller
             GameObject gameObject = null;
             if (obj is DoubleMouthBlock)
             {
-                text = (string) obj.GetType().GetField("description", BindingFlags.Public | BindingFlags.Static).GetValue(null);
-                secondText = (string) obj.GetType().GetField("secondDescription", BindingFlags.Public | BindingFlags.Static).GetValue(null);
+                text = (string)obj.GetType().GetField("description", BindingFlags.Public | BindingFlags.Static).GetValue(null);
+                secondText = (string)obj.GetType().GetField("secondDescription", BindingFlags.Public | BindingFlags.Static).GetValue(null);
                 gameObject = ScartchResourceManager.instance.doubleMouthBlockViewer;
             }
             else if (obj is MouthBlock)
@@ -201,10 +201,11 @@ namespace Controller
                 gameObject = ScartchResourceManager.instance.hatViewer;
             ScriptingElementViewer viewer = GameObject.Instantiate(gameObject).GetComponent<ScriptingElementViewer>();
             string ignorelist = "";
-            if (obj is LTExpression)
-                ignorelist = "<";
-            if (obj is GTExpression)
-                ignorelist = ">";
+            if (obj is LTExpression || obj is GTExpression)
+            {
+                ignorelist = "<>";
+                (viewer as ReferenceViewer).Ignorelist = ignorelist;
+            }
             Scripting.ScriptingElement.GenerateViewersFromText(ref text, viewer.gameObject, out refl, out optl, ignorelist);
             viewer.GetType().GetProperty("Text").SetValue(viewer, text, null);
             if (obj is DoubleMouthBlock)

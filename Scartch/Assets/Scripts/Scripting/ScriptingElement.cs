@@ -215,6 +215,7 @@ namespace Scripting
                 throw new Exception("Illegal status!");
             text = outString;
             refViewers = rvw;
+            Debug.Log(rvw.Count + " references counted");
             options = opts;
         }
         public static string refOpeningChars = "<([", refClosingChars = ">)]";

@@ -127,6 +127,12 @@ namespace View
 
         }
 
+        private string ignorelist = "";
+        public string Ignorelist
+        {
+            set { ignorelist = value; }
+        }
+
         public void UpdateLength(int num, int val)
         {
             Debug.Log("Reference " + num + " becomes long " + val);
@@ -141,7 +147,7 @@ namespace View
             {
                 if (!closing)
                 {
-                    if (ScriptingElement.refOpeningChars.Contains(text[i]))
+                    if (ScriptingElement.refOpeningChars.Contains(text[i]) && !ignorelist.Contains(text[i]))
                     {
                         if (num != refCounter)
                         {
@@ -163,7 +169,7 @@ namespace View
                             delta = i;
                         }
                     }
-                    if (ScriptingElement.optOpeningChars.Contains(text[i]))
+                    if (ScriptingElement.optOpeningChars.Contains(text[i]) && !ignorelist.Contains(text[i]))
                     {
                         if (moving)
                         {
