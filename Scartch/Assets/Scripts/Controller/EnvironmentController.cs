@@ -4,6 +4,7 @@ using System;
 using Model;
 using UnityEngine;
 using View;
+using Scripting;
 
 namespace Controller
 {
@@ -14,13 +15,13 @@ namespace Controller
         private EnvironmentViewer viewer;
         public event Action<bool> ModeChanged;
         public event Action InitiatingPlayMode;
-        public event Action<string> BroadcastMessage;
+        public event Action<Broadcaster, string> BroadcastMessage;
         public List<Variable> globalVariables;
 
-        public void Broadcast(string message)
+        public void Broadcast(Broadcaster source, string message)
         {
             if (BroadcastMessage != null)
-                BroadcastMessage(message);
+                BroadcastMessage(source, message);
         }
 
         private EnvironmentController(EnvironmentViewer viewer)

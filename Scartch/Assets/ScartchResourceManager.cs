@@ -61,6 +61,7 @@ public class ScartchResourceManager : MonoBehaviour
             new WaitSecondsBlock(null, null, null, null, true),
             new PauseExecutionBlock(null, null, null, null, true),
             new BroadcastBlock(null, null, null, null, true),
+            new BroadcastAndWaitBlock(null, null, null, null, true),
             new ReceivedMessageHat(null, null, null, null, true),
             new StopPlayModeBlock(null, null, null, null, true)
         };
