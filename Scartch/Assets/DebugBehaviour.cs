@@ -67,15 +67,13 @@ public class DebugBehaviour : MonoBehaviour {
         actorWindow.addSEBtn.HitByBlueRay();
         var seWindow = GameObject.Find("NewSelector(Clone)").GetComponent<View.ChooseScriptingElementWindow>();
 
-        BlockViewer say1, say2, set, incre, brow1, brow2;
-        DoubleMouthBlockViewer ife1, ife2;
-        HatViewer onmess, onplay;
-        ReferenceViewer mult, minusone, lt, eq;
-        List<ReferenceViewer> count, acc, fact, zero;
+        BlockViewer say, set, incre;
+        MouthBlockViewer whileb;
+        HatViewer onplay;
+        ReferenceViewer mult, minusone, gt, zero;
+        List<ReferenceViewer> count, acc;
         count = new List<ReferenceViewer>();
         acc = new List<ReferenceViewer>();
-        fact = new List<ReferenceViewer>();
-        zero = new List<ReferenceViewer>();
 
         Action<int> setPage = (num) => { seWindow.transform.GetChild(0).GetChild(0).GetChild(num).GetComponent<VRButton>().HitByBlueRay(); };
         Func<int, ScriptingElementViewer> selectVoice = (num) => { seWindow.transform.GetChild(0).GetChild(2).GetChild(num).GetComponent<VRButton>().HitByBlueRay(); return Controller.ActorController.lastSpawned; };
@@ -84,29 +82,19 @@ public class DebugBehaviour : MonoBehaviour {
         yield return new WaitForSeconds(0.5f);
         setPage(1);
 
-        say1 = selectVoice(0) as BlockViewer;
-        say2 = selectVoice(0) as BlockViewer;
+        say = selectVoice(0) as BlockViewer;
 
         yield return new WaitForSeconds(0.5f);
         setPage(3);
 
-        ife1 = selectVoice(4) as DoubleMouthBlockViewer;
-        ife2 = selectVoice(4) as DoubleMouthBlockViewer;
+        whileb = selectVoice(1) as MouthBlockViewer;
         onplay = selectVoice(7) as HatViewer;
-
-        yield return new WaitForSeconds(0.5f);
-        nextPage();
-
-        brow1 = selectVoice(2) as BlockViewer;
-        brow2 = selectVoice(2) as BlockViewer;
-        onmess = selectVoice(3) as HatViewer;
 
         yield return new WaitForSeconds(0.5f);
         setPage(5);
 
         mult = selectVoice(2) as ReferenceViewer;
-        lt = selectVoice(5) as ReferenceViewer;
-        eq = selectVoice(8) as ReferenceViewer;
+        gt = selectVoice(4) as ReferenceViewer;
 
         yield return new WaitForSeconds(0.5f);
         setPage(6);
@@ -118,10 +106,8 @@ public class DebugBehaviour : MonoBehaviour {
         {
             count.Add(selectVoice(5) as ReferenceViewer);
             acc.Add(selectVoice(4) as ReferenceViewer);
-            fact.Add(selectVoice(7) as ReferenceViewer);
-            zero.Add(selectVoice(6) as ReferenceViewer);
         });
-        count.Add(selectVoice(5) as ReferenceViewer);
+        zero = selectVoice(6) as ReferenceViewer;
         minusone = selectVoice(8) as ReferenceViewer;
         yield return new WaitForSeconds(0.5f);
         seWindow.Close();
@@ -148,32 +134,21 @@ public class DebugBehaviour : MonoBehaviour {
             return res;
         };
 
-        onplay.SnapNext(brow1);
-        slot(brow1, 0).Filler = fact[0];
-        slot(onmess, 0).Filler = fact[1];
-
-        onmess.SnapNext(ife1);
-        slot(ife1, 0).Filler = lt;
-        slot(lt, 0).Filler = count[0];
-        slot(lt, 1).Filler = zero[0];
-        ife1.SnapUpperInnerNext(say1);
-        slot(say1, 0).Filler = zero[1];
-        ife1.SnapLowerInnerNext(ife2);
-        slot(ife2, 0).Filler = eq;
-        slot(eq, 0).Filler = count[1];
-        slot(eq, 1).Filler = zero[2];
-        ife2.SnapUpperInnerNext(say2);
-        slot(say2, 0).Filler = acc[0];
-        ife2.SnapLowerInnerNext(incre);
-        incre.SnapNext(set);
+        onplay.SnapNext(whileb);
+        slot(whileb, 0).Filler = gt;
+        slot(gt, 0).Filler = count[0];
+        slot(gt, 1).Filler = zero;
+        whileb.SnapInnerNext(set);
+        slot(set, 0).Filler = acc[0];
+        slot(set, 1).Filler = mult;
+        slot(mult, 0).Filler = count[1];
+        slot(mult, 1).Filler = acc[1];
+        set.SnapNext(incre);
         slot(incre, 0).Filler = count[2];
         slot(incre, 1).Filler = minusone;
-        slot(set, 0).Filler = acc[2];
-        slot(set, 1).Filler = mult;
-        slot(mult, 0).Filler = count[3];
-        slot(mult, 1).Filler = acc[1];
-        set.SnapNext(brow2);
-        slot(brow2, 0).Filler = fact[2];
+        whileb.SnapNext(say);
+        slot(say, 0).Filler = acc[2];
+        
         #endregion
         Controller.EnvironmentController.Instance.ChangeModeEv();
     }

@@ -89,8 +89,8 @@ MonoBehaviour:
     y: 0
     width: 443
     height: 957
-  m_MinSize: {x: 277, y: 71}
-  m_MaxSize: {x: 4002, y: 4021}
+  m_MinSize: {x: 275, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 17}
   m_Panes:
   - {fileID: 17}
@@ -280,8 +280,8 @@ MonoBehaviour:
     y: 0
     width: 797
     height: 686
-  m_MinSize: {x: 204, y: 221}
-  m_MaxSize: {x: 4004, y: 4021}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 19}
   m_Panes:
   - {fileID: 19}
@@ -422,7 +422,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 583}
     m_SelectedIDs: 40300000
     m_LastClickedID: 12352
-    m_ExpandedIDs: 0000000030260000382700005c28000062280000f0280000042b00007e2b0000a62b0000ee2d0000fa2e00007a2f00008a3000009c3000001444000000ca9a3bffffff7f
+    m_ExpandedIDs: 000000004826000050270000742800007a280000082900001c2b0000962b0000be2b0000062e0000122f0000922f0000a2300000b43000002e440000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -450,7 +450,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000030260000382700005c28000062280000f0280000042b00007e2b0000a62b0000ee2d0000fa2e00007a2f00008a3000009c30000014440000
+    m_ExpandedIDs: 000000004826000050270000742800007a280000082900001c2b0000962b0000be2b0000062e0000122f0000922f0000a2300000b43000002e440000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -568,21 +568,21 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 4447ffff5247ffffa6d2ffffb2d2ffffdefbffff00000000
+    m_ExpandedIDs: defbffff00000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: BloccoTriplo
-      m_OriginalName: BloccoTriplo
+      m_Name: 
+      m_OriginalName: 
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: -47278
+      m_UserData: 0
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 0
+      m_OriginalEventType: 11
       m_IsRenamingFilename: 0
       m_ClientGUIView: {fileID: 5}
     m_SearchString: 
@@ -623,9 +623,9 @@ MonoBehaviour:
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 8.421875, y: 28.802734, z: -10.4921875}
+    m_Target: {x: -62.296875, y: 47.304688, z: -4.9609375}
     speed: 2
-    m_Value: {x: 8.421875, y: 28.802734, z: -10.4921875}
+    m_Value: {x: -62.296875, y: 47.304688, z: -4.9609375}
   m_RenderMode: 0
   m_ValidateTrueMetals: 0
   m_SceneViewState:
@@ -640,21 +640,21 @@ MonoBehaviour:
       speed: 2
       m_Value: 0
     yGrid:
-      m_Target: 0
+      m_Target: 1
       speed: 2
-      m_Value: 0
+      m_Value: 1
     zGrid:
       m_Target: 0
       speed: 2
       m_Value: 0
   m_Rotation:
-    m_Target: {x: 0.08665631, y: 0.47822583, z: -0.04754288, w: 0.8727064}
+    m_Target: {x: 0.13775973, y: 0.3082377, z: -0.045222152, w: 0.94024163}
     speed: 2
-    m_Value: {x: 0.08665258, y: 0.47820523, z: -0.047540836, w: 0.87266886}
+    m_Value: {x: 0.13775371, y: 0.30822423, z: -0.045220174, w: 0.9402005}
   m_Size:
-    m_Target: 59.88728
+    m_Target: 94.27766
     speed: 2
-    m_Value: 59.88728
+    m_Value: 94.27766
   m_Ortho:
     m_Target: 1
     speed: 2
