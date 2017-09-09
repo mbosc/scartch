@@ -16,7 +16,7 @@ namespace View
             {
                 if (!availableInPlayMode && Controller.EnvironmentController.Instance.InPlayMode)
                 {
-                    DebugAudioSource.instance.PlayDebug();
+                    //DebugAudioSource.instance.PlayDebug();
                     return;
                 }
                 if (Pressed != null)

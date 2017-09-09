@@ -19,6 +19,9 @@ namespace Controller
         private Dictionary<ScriptingElementViewer, ScriptingElement> scriptingElementViewers;
         private List<VariableController> localVariables;
 
+        //DEBUG ONLY
+        public static ScriptingElementViewer lastSpawned;
+
         public ActorController(Actor actor, ActorViewer viewer, ActorWindow window) : this(actor, viewer, window, new Dictionary<ScriptingElementViewer, ScriptingElement>(), new List<VariableController>())
         {
         }
@@ -197,7 +200,12 @@ namespace Controller
             else if (obj is Hat)
                 gameObject = ScartchResourceManager.instance.hatViewer;
             ScriptingElementViewer viewer = GameObject.Instantiate(gameObject).GetComponent<ScriptingElementViewer>();
-            Scripting.ScriptingElement.GenerateViewersFromText(ref text, viewer.gameObject, out refl, out optl);
+            string ignorelist = "";
+            if (obj is LTExpression)
+                ignorelist = "<";
+            if (obj is GTExpression)
+                ignorelist = ">";
+            Scripting.ScriptingElement.GenerateViewersFromText(ref text, viewer.gameObject, out refl, out optl, ignorelist);
             viewer.GetType().GetProperty("Text").SetValue(viewer, text, null);
             if (obj is DoubleMouthBlock)
                 viewer.GetType().GetProperty("SecText").SetValue(viewer, secondText, null);
@@ -205,9 +213,11 @@ namespace Controller
             if (obj is VariableReference)
                 (elem as VariableReference).Variable = (obj as VariableReference).Variable;
             viewer.Init(elem);
-            scriptingElementViewers.Add(viewer.GetComponent<ScriptingElementViewer>(), elem);
-
+            scriptingElementViewers.Add(viewer, elem);
             viewer.Deleted += OnScriptingElementDeleted;
+
+            //DEBUG ONLY
+            lastSpawned = viewer;
         }
 
         private void OnActorWindowScaleChanged(float obj)

@@ -121,7 +121,7 @@ namespace Scripting
                 Destroyed();
         }
 
-        public static void GenerateViewersFromText(ref string text, GameObject parent, out List<ReferenceSlotViewer> refViewers, out List<Option> options)
+        public static void GenerateViewersFromText(ref string text, GameObject parent, out List<ReferenceSlotViewer> refViewers, out List<Option> options, string ignorelist = "")
         {
             var rvw = new List<ReferenceSlotViewer>();
             var opts = new List<Option>();
@@ -138,7 +138,7 @@ namespace Scripting
             {
                 if (!closing)
                 {
-                    if (refOpeningChars.Contains(text[i]))
+                    if (refOpeningChars.Contains(text[i]) && !ignorelist.Contains(text[i]))
                     {
                         closing = true;
                         charToClose = refClosingChars[refOpeningChars.IndexOf(text[i])];
@@ -153,7 +153,7 @@ namespace Scripting
                         refPF.Type = (RefType)refOpeningChars.IndexOf(text[i]);
 
                     }
-                    else if (optOpeningChars.Contains(text[i]))
+                    else if (optOpeningChars.Contains(text[i]) && !ignorelist.Contains(text[i]))
                     {
                         workingOnOpt = true;
                         closing = true;
@@ -168,12 +168,12 @@ namespace Scripting
                 {
                     if (workingOnOpt)
                     {
-                        if (text[i] == '|')
+                        if (text[i] == '|' && !ignorelist.Contains(text[i]))
                         {
                             currentStringList.Add(currentString.Trim());
                             currentString = "";
                         }
-                        else if (text[i] == charToClose)
+                        else if (text[i] == charToClose && !ignorelist.Contains(text[i]))
                         {
                             currentStringList.Add(currentString.Trim());
                             currentString = "";
@@ -200,7 +200,7 @@ namespace Scripting
                             currentString += text[i];
                         }
                     }
-                    else if (closing && text[i] == charToClose)
+                    else if (closing && text[i] == charToClose && !ignorelist.Contains(text[i]))
                     {
                         closing = false;
                         rvw.Add(refPF);
