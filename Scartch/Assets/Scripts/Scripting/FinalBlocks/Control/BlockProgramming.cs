@@ -27,8 +27,21 @@ namespace Scripting
         {
             if (ReferenceList[0].BoolEval)
             {
-                Flux.current.CurrentBlock = InnerNext;
-                Flux.current.Callbacks += ScheduleNextFlux;
+                Flux nextFlux = new Flux(this)
+                {
+                    CurrentBlock = InnerNext
+                };
+                Action disposableCallback = null;
+                var cur = Flux.current;
+                disposableCallback = () =>
+                {
+                    nextFlux.Callbacks -= disposableCallback;
+                    ScheduleNextFlux(cur, Next);
+                };
+                nextFlux.Callbacks += disposableCallback;
+                ExecutionController.Instance.AddFlux(nextFlux);
+                Flux.current.CurrentBlock = new PureWaitBlock();
+                Debug.Log("  Flux initiated by " + Flux.current.initiator + " rescheduled with " + Flux.current.CurrentBlock);
             }
             else
             {
@@ -36,14 +49,10 @@ namespace Scripting
             }
         }
 
-        private void ScheduleNextFlux()
+        private void ScheduleNextFlux(Flux targetFlux, Block targetNext)
         {
-            Flux.current.Callbacks -= ScheduleNextFlux;
-            Flux nextFlux = new Flux(this)
-            {
-                CurrentBlock = Next
-            };
-            ExecutionController.Instance.AddFlux(nextFlux);
+            Debug.Log("     Flux initiated by " + targetFlux.initiator + " rescheduled starting with " + Next);
+            targetFlux.CurrentBlock = targetNext;
         }
     }
 
@@ -67,8 +76,16 @@ namespace Scripting
         {
             if (ReferenceList[0].BoolEval)
             {
-                Flux.current.CurrentBlock = InnerNext;
-                Flux.current.Callbacks += ScheduleNextFlux;
+                Flux nextFlux = new Flux(this)
+                {
+                    CurrentBlock = InnerNext
+                };
+                Action disposableCallback = null;
+                var cur = Flux.current;
+                disposableCallback = () => { nextFlux.Callbacks -= disposableCallback; ScheduleNextFlux(cur, Next); };
+                nextFlux.Callbacks += disposableCallback;
+                ExecutionController.Instance.AddFlux(nextFlux);
+                Flux.current.CurrentBlock = new PureWaitBlock();
             }
             else
             {
@@ -76,20 +93,23 @@ namespace Scripting
             }
         }
 
-        private void ScheduleNextFlux()
+        private void ScheduleNextFlux(Flux targetFlux, Block targetNext)
         {
-            Flux.current.Callbacks -= ScheduleNextFlux;
-            Flux nextFlux = new Flux(this);
             if (ReferenceList[0].BoolEval)
             {
-                nextFlux.CurrentBlock = InnerNext;
-                nextFlux.Callbacks += ScheduleNextFlux;
+                Flux nextFlux = new Flux(this)
+                {
+                    CurrentBlock = InnerNext
+                };
+                Action disposableCallback = null;
+                disposableCallback = () => { nextFlux.Callbacks -= disposableCallback; ScheduleNextFlux(targetFlux, targetNext); };
+                nextFlux.Callbacks += disposableCallback;
+                ExecutionController.Instance.AddFlux(nextFlux);
             }
             else
             {
-                nextFlux.CurrentBlock = Next;
+                targetFlux.CurrentBlock = targetNext;
             }
-            ExecutionController.Instance.AddFlux(nextFlux);
         }
     }
 
@@ -111,21 +131,33 @@ namespace Scripting
 
         public override void Execute()
         {
-            Flux.current.CurrentBlock = InnerNext;
-            Flux.current.Callbacks += ScheduleNextFlux;
-            
+
+            Flux nextFlux = new Flux(this)
+            {
+                CurrentBlock = InnerNext
+            };
+            Action disposableCallback = null;
+            disposableCallback = () => { nextFlux.Callbacks -= disposableCallback; ScheduleNextFlux(); };
+            nextFlux.Callbacks += disposableCallback;
+            ExecutionController.Instance.AddFlux(nextFlux);
+            Flux.current.CurrentBlock = null;
+            Debug.Log("  Flux initiated by " + Flux.current.initiator + " rescheduled with " + Flux.current.CurrentBlock);
         }
 
+
+        //OK, A POSTO!
         private void ScheduleNextFlux()
         {
-            Flux.current.Callbacks -= ScheduleNextFlux;
-
-            Flux nextFlux = new Flux(this);
-
-            nextFlux.CurrentBlock = InnerNext;
-            nextFlux.Callbacks += ScheduleNextFlux;
-
+            Debug.Log("     New flux scheduled starting with " + InnerNext);
+            Flux nextFlux = new Flux(this)
+            {
+                CurrentBlock = InnerNext
+            };
+            Action disposableCallback = null;
+            disposableCallback = () => { nextFlux.Callbacks -= disposableCallback; ScheduleNextFlux(); };
+            nextFlux.Callbacks += disposableCallback;
             ExecutionController.Instance.AddFlux(nextFlux);
+
         }
     }
 
@@ -149,10 +181,18 @@ namespace Scripting
         public override void Execute()
         {
             count = Mathf.RoundToInt(ReferenceList[0].FloatEval);
-            if (count-- <= 0)
+            if (count-- > 0)
             {
-                Flux.current.CurrentBlock = InnerNext;
-                Flux.current.Callbacks += ScheduleNextFlux;
+                Flux nextFlux = new Flux(this)
+                {
+                    CurrentBlock = InnerNext
+                };
+                Action disposableCallback = null;
+                var cur = Flux.current;
+                disposableCallback = () => { nextFlux.Callbacks -= disposableCallback; ScheduleNextFlux(cur, Next); };
+                nextFlux.Callbacks += disposableCallback;
+                ExecutionController.Instance.AddFlux(nextFlux);
+                Flux.current.CurrentBlock = new PureWaitBlock();
             }
             else
             {
@@ -160,20 +200,23 @@ namespace Scripting
             }
         }
 
-        private void ScheduleNextFlux()
+        private void ScheduleNextFlux(Flux targetFlux, Block targetNext)
         {
-            Flux.current.Callbacks -= ScheduleNextFlux;
-            Flux nextFlux = new Flux(this);
-            if (count-- <= 0)
+            if (count-- > 0)
             {
-                nextFlux.CurrentBlock = InnerNext;
-                nextFlux.Callbacks += ScheduleNextFlux;
+                Flux nextFlux = new Flux(this)
+                {
+                    CurrentBlock = InnerNext
+                };
+                Action disposableCallback = null;
+                disposableCallback = () => { nextFlux.Callbacks -= disposableCallback; ScheduleNextFlux(targetFlux, targetNext); };
+                nextFlux.Callbacks += disposableCallback;
+                ExecutionController.Instance.AddFlux(nextFlux);
             }
             else
             {
-                nextFlux.CurrentBlock = Next;
+                targetFlux.CurrentBlock = targetNext;
             }
-            ExecutionController.Instance.AddFlux(nextFlux);
         }
     }
 
@@ -184,7 +227,7 @@ namespace Scripting
         }
 
         public static string description = "If <  >";
-        
+
         public override string Description
         {
             get
@@ -199,24 +242,70 @@ namespace Scripting
         {
             if (ReferenceList[0].BoolEval)
             {
-                Flux.current.CurrentBlock = UpperInnerNext;
-                Flux.current.Callbacks += ScheduleNextFlux;
+                Flux nextFlux = new Flux(this)
+                {
+                    CurrentBlock = UpperInnerNext
+                };
+                Action disposableCallback = null;
+                var cur = Flux.current;
+                disposableCallback = () => 
+                {
+                    nextFlux.Callbacks -= disposableCallback;
+                    ScheduleNextFlux(cur, Next);
+                };
+                nextFlux.Callbacks += disposableCallback;
+                ExecutionController.Instance.AddFlux(nextFlux);
+                Flux.current.CurrentBlock = new PureWaitBlock();
+                Debug.Log("  Flux initiated by " + Flux.current.initiator + " rescheduled with " + Flux.current.CurrentBlock);
             }
             else
             {
-                Flux.current.CurrentBlock = LowerInnerNext;
-                Flux.current.Callbacks += ScheduleNextFlux;
+                Flux nextFlux = new Flux(this)
+                {
+                    CurrentBlock = LowerInnerNext
+                };
+                Action disposableCallback = null;
+                var cur = Flux.current;
+                disposableCallback = () => 
+                {
+                    nextFlux.Callbacks -= disposableCallback;
+                    ScheduleNextFlux(cur, Next);
+                };
+                nextFlux.Callbacks += disposableCallback;
+                ExecutionController.Instance.AddFlux(nextFlux);
+                Flux.current.CurrentBlock = new PureWaitBlock();
+                Debug.Log("  Flux initiated by " + Flux.current.initiator + " rescheduled with " + Flux.current.CurrentBlock);
             }
         }
 
-        private void ScheduleNextFlux()
+        private void ScheduleNextFlux(Flux targetFlux, Block targetNext)
         {
-            Flux.current.Callbacks -= ScheduleNextFlux;
-            Flux nextFlux = new Flux(this)
+            Debug.Log("     Flux initiated by " + targetFlux.initiator + " rescheduled starting with " + Next);
+            targetFlux.CurrentBlock = targetNext;
+        }
+    }
+
+    public class PureWaitBlock : MouthBlock
+    {
+        public PureWaitBlock() : base(null, null, ScriptingType.control, null, null, true)
+        {
+        }
+
+        public static string description = "NA";
+
+        public override string Description
+        {
+            get
             {
-                CurrentBlock = Next
-            };
-            ExecutionController.Instance.AddFlux(nextFlux);
+                return description;
+            }
+        }
+
+        public override void Execute()
+        {
+
+            Flux.current.CurrentBlock = this;
+
         }
     }
 
@@ -240,8 +329,16 @@ namespace Scripting
         {
             if (!ReferenceList[0].BoolEval)
             {
-                Flux.current.CurrentBlock = InnerNext;
-                Flux.current.Callbacks += ScheduleNextFlux;
+                Flux nextFlux = new Flux(this)
+                {
+                    CurrentBlock = InnerNext
+                };
+                Action disposableCallback = null;
+                var cur = Flux.current;
+                disposableCallback = () => { nextFlux.Callbacks -= disposableCallback; ScheduleNextFlux(cur, Next); };
+                nextFlux.Callbacks += disposableCallback;
+                ExecutionController.Instance.AddFlux(nextFlux);
+                Flux.current.CurrentBlock = new PureWaitBlock();
             }
             else
             {
@@ -249,20 +346,23 @@ namespace Scripting
             }
         }
 
-        private void ScheduleNextFlux()
+        private void ScheduleNextFlux(Flux targetFlux, Block targetNext)
         {
-            Flux.current.Callbacks -= ScheduleNextFlux;
-            Flux nextFlux = new Flux(this);
             if (!ReferenceList[0].BoolEval)
             {
-                nextFlux.CurrentBlock = InnerNext;
-                nextFlux.Callbacks += ScheduleNextFlux;
+                Flux nextFlux = new Flux(this)
+                {
+                    CurrentBlock = InnerNext
+                };
+                Action disposableCallback = null;
+                disposableCallback = () => { nextFlux.Callbacks -= disposableCallback; ScheduleNextFlux(targetFlux, targetNext); };
+                nextFlux.Callbacks += disposableCallback;
+                ExecutionController.Instance.AddFlux(nextFlux);
             }
             else
             {
-                nextFlux.CurrentBlock = Next;
+                targetFlux.CurrentBlock = targetNext;
             }
-            ExecutionController.Instance.AddFlux(nextFlux);
         }
     }
 

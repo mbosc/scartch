@@ -29,6 +29,7 @@ namespace Controller
         public static void RegisterDevice(InputDevice device, InputViewer viewer, string qualifier)
         {
             controllers.Add(qualifier, new InputDeviceController(device, viewer));
+            EnvironmentController.Instance.InitiatingPlayMode += device.ResetButtonStatus;
         }
 
         private InputDeviceController(InputDevice device, InputViewer viewer)

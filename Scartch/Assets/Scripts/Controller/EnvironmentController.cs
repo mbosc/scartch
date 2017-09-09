@@ -37,20 +37,20 @@ namespace Controller
             ModeChanged += viewer.OnControllerModeChanged;
 
             //FAST INIT
-            AddVariable(new Variable()
-            {
-                Owner = null,
-                Name = "TRU",
-                Type = RefType.boolType,
-                Value = "TRUE"
-            });
-            AddVariable(new Variable()
-            {
-                Owner = null,
-                Name = "TEN",
-                Type = RefType.numberType,
-                Value = "10"
-            });
+            //AddVariable(new Variable()
+            //{
+            //    Owner = null,
+            //    Name = "TRU",
+            //    Type = RefType.boolType,
+            //    Value = "TRUE"
+            //});
+            //AddVariable(new Variable()
+            //{
+            //    Owner = null,
+            //    Name = "TEN",
+            //    Type = RefType.numberType,
+            //    Value = "10"
+            //});
         }
 
         public void ChangeModeEv()

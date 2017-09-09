@@ -7,7 +7,7 @@ namespace Scripting
 {
     public class ExecutionController : MonoBehaviour
     {
-        private float delay = .1f;
+        public float delay = 0.1f;
 
         public float Delay
         {
@@ -40,6 +40,7 @@ namespace Scripting
 
         public void AddFlux(Flux flux)
         {
+            Debug.Log("   Added flux initiated by " + flux.initiator + " starting with " + flux.CurrentBlock);
             fluxes.Enqueue(flux);
         }
 
@@ -47,13 +48,17 @@ namespace Scripting
         {
             var flux = fluxes.Dequeue();
             Flux.current = flux;
-            flux.CurrentBlock.Execute();
+            Debug.Log("Executing flux initiated by " + flux.initiator + "; Block " + flux.CurrentBlock);
             if (flux.CurrentBlock != null)
             {
+                flux.CurrentBlock.Execute();
                 fluxes.Enqueue(flux);
             }
             else
+            {
+                Debug.Log("   Flux initiated by " + flux.initiator + " terminates");
                 flux.EndExecution();
+            }
         }
 
         public void Execute()

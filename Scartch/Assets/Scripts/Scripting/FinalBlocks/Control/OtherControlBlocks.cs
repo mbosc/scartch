@@ -25,7 +25,7 @@ namespace Scripting
 
         public override void Execute()
         {
-            Debug.Log("Broadcasting " + ReferenceList[0].StringEval);
+            //Debug.Log("Broadcasting " + ReferenceList[0].StringEval);
             Controller.EnvironmentController.Instance.Broadcast(this, ReferenceList[0].StringEval);
             Flux.current.CurrentBlock = Next;
         }
@@ -35,7 +35,7 @@ namespace Scripting
         public void Ack(object source)
         {
             refCounter++;
-            Debug.Log("Received ACK " + refCounter);
+            //Debug.Log("Received ACK " + refCounter);
         }
 
         public void Bye(object s)

@@ -13,7 +13,7 @@ namespace Scripting
             this.initiator = initiator;
         }
 
-        private ScriptingElement initiator;
+        public ScriptingElement initiator;
 
         private bool executing;
 

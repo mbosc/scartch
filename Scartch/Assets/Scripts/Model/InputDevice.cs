@@ -1,11 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Model
 {
     public class InputDevice
     {
+        public void ResetButtonStatus()
+        {
+            buttons.Keys.ToList().ForEach(n => SetButtonPressed(n, false));
+        }
+
         private Vector3 position;
         private Dictionary<int, bool> buttons;
         public Vector3 Position
