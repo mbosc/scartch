@@ -86,9 +86,9 @@ namespace NewtonVR
         {
             if (Application.isPlaying == false) //try and enable vr if we're in the editor so we can get hmd present
             {
-                if (VRSettings.enabled == false)
+                if (UnityEngine.XR.XRSettings.enabled == false)
                 {
-                    VRSettings.enabled = true;
+                    UnityEngine.XR.XRSettings.enabled = true;
                 }
 
                 if (Display == null)
