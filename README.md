@@ -15,3 +15,7 @@ This project is shared under the [MIT License](https://en.wikipedia.org/wiki/MIT
 + **Pdf/Pptx Presentation files** describing the project. The original is in Italian, I translated it quickly with Office 365's impressive built-in automatic translator.
 
 + **MaterialePresentazione/**: images, pdfs and other files that I used for my presentation (also includes a StarUML diagram for the whole thing).
+
+## Videos ##
+
+You can find demo videos showing how ScARtch works [here](https://www.youtube.com/watch?v=3RVP2pm3tRE&list=PLcXXJlO91aGE2gXN3eb4uL39etlY0Cb5c)
