@@ -18,4 +18,4 @@ This project is shared under the [MIT License](https://en.wikipedia.org/wiki/MIT
 
 ## Videos ##
 
-You can find demo videos showing how ScARtch works [here](https://www.youtube.com/watch?v=3RVP2pm3tRE&list=PLcXXJlO91aGE2gXN3eb4uL39etlY0Cb5c)
+You can find demo videos showing how ScARtch works [here](https://www.youtube.com/watch?v=3RVP2pm3tRE&list=PLcXXJlO91aGE2gXN3eb4uL39etlY0Cb5c).
