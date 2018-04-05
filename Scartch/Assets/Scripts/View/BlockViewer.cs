@@ -311,9 +311,10 @@ namespace View
         {
             var min = float.PositiveInfinity;
             BlockAttachPoint result = null;
-
+            Debug.Log("Looking for nearest");
             var compatibleBlocks = FindObjectsOfType<BlockAttachPoint>().ToList().Where(x => !attachPoints.Contains(x) && Mathf.Cos(Mathf.PI / 180 * Vector3.Angle(this.transform.up, x.transform.up)) > 0 &&
                 Mathf.Abs(Vector3.Angle(-this.transform.up, (x.transform.position - this.transform.position).normalized)) > 90 && x.Free);
+            compatibleBlocks.ToList().ForEach(x => Debug.Log("Compatible: " + x));
             compatibleBlocks.ToList().ForEach(x => { if (Vector3.Distance(this.transform.position, x.transform.position) < min) { result = x; min = Vector3.Distance(this.transform.position, x.transform.position); } });
             if (min < ScartchResourceManager.instance.blockSnapThreshold * this.transform.localScale.x)
                 return result;
