@@ -2,7 +2,7 @@
 
 My submission for the project activity linked to [professor Denti](https://www.unibo.it/sitoweb/enrico.denti)'s [Computational Models And Languages](http://www.engineeringarchitecture.unibo.it/en/programmes/course-unit-catalogue/course-unit/2017/385374) course at Unibo.  
 
-![just a little gif](https://bitbucket.org/mbosc/scartch/raw/master/mount.gif)
+![just a little gif](https://github.com/mbosc/scartch/blob/master/mount.gif?raw=true)
 
 Scartch is a **VR educational visual programming environment** inspired by [MIT's Scratch](https://scratch.mit.edu/) and designed to combine a simple visual programming language with an intuitive natural interface.  
 
